@@ -1,10 +1,12 @@
-import React from "react";
+import { Fragment } from "react/jsx-runtime";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { CheckingAuth } from "../auth/components/CheckingAuth";
-import { LoginPage } from "../auth/pages/LoginPage";
-import { RegisterPage } from "../auth/pages/RegisterPage";
-import { HeroesRoutes } from "../heroes/routes/HeroesRoutes";
+
+import { CheckingAuth } from "../auth/components/CheckingAuth/CheckingAuth";
+import { LoginPage } from "../auth/pages/LoginPage/LoginPage";
+import { RegisterPage } from "../auth/pages/RegisterPage/RegisterPage";
+
 import { useCheckAuth } from "../hooks/useCheckAuth";
+import { HeroesRoutes } from "../heroes/routes/HeroesRoutes";
 
 export const AppRouter = (): JSX.Element => {
   const logged = useCheckAuth();
@@ -14,18 +16,16 @@ export const AppRouter = (): JSX.Element => {
   return (
     <Routes>
       {logged === "authenticated" ? (
-        <>
-          <Route path="/*" element={<HeroesRoutes></HeroesRoutes>}></Route>
-        </>
+        <Route path="/*" element={<HeroesRoutes></HeroesRoutes>}></Route>
       ) : (
-        <>
+        <Fragment>
           <Route path="login" element={<LoginPage></LoginPage>}></Route>
 
           <Route
             path="register"
             element={<RegisterPage></RegisterPage>}
           ></Route>
-        </>
+        </Fragment>
       )}
       <Route path="/*" element={<Navigate to="/login"></Navigate>} />
     </Routes>

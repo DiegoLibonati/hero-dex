@@ -1,94 +1,110 @@
-import React from "react";
-import { useEffect } from "react";
-import { useReducer } from "react";
-import { useLocation } from "react-router-dom";
+import { useContext, useReducer } from "react";
+
+import {
+  AuthState,
+  User,
+  UserLogin,
+  UserLoginWithoutUsername,
+  AuthContext as AuthContextT,
+} from "../../entities/entities";
+
+import { AuthContext } from "./AuthContext";
+import { authReducer } from "./authReducer";
+
 import {
   loginWithEmailPassword,
   logoutFirebase,
   registerUserWithEmail,
   signInWithGoogle,
 } from "../../firebase/providers";
-import { types } from "../types/types";
-import { AuthContext } from "./AuthContext";
-import { authReducer } from "./authReducer";
-import { ActionPayloadAuth, AuthState } from "../../entities/entities";
 
-export const AuthProvider = ({ children }) => {
-  const [authState, dispatch] = useReducer(authReducer, {
-    logged: "checking",
-    formSubmited: false,
-    alert: false,
-    uid: "",
-    email: "",
-    displayName: "",
-    photoURL: "",
-    errorMessage: "",
-  });
+const initialState: AuthState = {
+  logged: "checking",
+  uid: "",
+  email: "",
+  displayName: "",
+  photoURL: "",
+  errorMessage: "",
+};
 
-  const {
-    logged,
-    formSubmited,
-    alert,
-    uid,
-    email,
-    displayName,
-    photoURL,
-    errorMessage,
-  } = authState as AuthState;
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [authState, dispatch] = useReducer(authReducer, initialState);
 
-  const location = useLocation();
-
-  const login = (payload: ActionPayloadAuth["payload"]): void => {
-    dispatch({ type: types.login, payload: payload });
+  const login = (payload: User): void => {
+    dispatch({ type: "AUTH_LOGIN", payload: payload });
   };
 
-  const logout = (): void => {
-    dispatch({ type: types.logout });
+  const logout = (errorMessage: string = ""): void => {
+    dispatch({ type: "AUTH_LOGOUT", payload: { errorMessage: errorMessage } });
   };
 
   const checkingAuthentication = (status: string): void => {
-    dispatch({ type: types.checkingCredentials, payload: status });
+    dispatch({ type: "CHECKING_CREDENTIALS", payload: status });
+  };
+
+  const clearErrorMessage = (): void => {
+    dispatch({ type: "CLEAR_ERROR_MESSAGE" });
   };
 
   const startGoogleSignIn = async (status: string): Promise<void> => {
-    dispatch({ type: types.checkingCredentials, payload: status });
+    dispatch({ type: "CHECKING_CREDENTIALS", payload: status });
 
     const result = await signInWithGoogle();
 
-    if (!result.ok) return logout();
+    if (!result.ok) return logout(result.errorMessage);
 
-    login(result);
+    const user: User = {
+      uid: result.uid,
+      displayName: result.displayName,
+      email: result.email,
+      photoURL: result.photoURL,
+    };
+
+    login(user);
   };
 
   const startCreatingUserWithEmail = async (
     status: string,
-    {
-      email,
-      password,
-      username,
-    }: { email: string; password: string; username: string }
+    userLogin: UserLogin
   ): Promise<void> => {
-    dispatch({ type: types.checkingCredentials, payload: status });
+    const { email, password, username } = userLogin;
+
+    dispatch({ type: "CHECKING_CREDENTIALS", payload: status });
 
     const result = await registerUserWithEmail(email, password, username);
 
-    if (!result.ok) return logout();
+    if (!result.ok) return logout(result.errorMessage);
 
-    login(result);
+    const user: User = {
+      uid: result.uid,
+      displayName: result.displayName,
+      email: result.email,
+      photoURL: result.photoURL,
+    };
+
+    login(user);
   };
 
   const startLoginWithEmailPassword = async (
     status: string,
-    email: string,
-    password: string
+    userLogin: UserLoginWithoutUsername
   ): Promise<void> => {
-    dispatch({ type: types.checkingCredentials, payload: status });
+    const { email, password } = userLogin;
+
+    dispatch({ type: "CHECKING_CREDENTIALS", payload: status });
 
     const result = await loginWithEmailPassword(email, password);
 
-    if (!result.ok) return logout();
+    if (!result.ok) return logout(result.errorMessage);
 
-    login(result);
+    const user: User = {
+      uid: result.uid,
+      displayName: result.displayName,
+      email: result.email,
+      photoURL: result.photoURL,
+    };
+
+    login(user);
   };
 
   const startLogOutWithButton = async (): Promise<void> => {
@@ -96,42 +112,25 @@ export const AuthProvider = ({ children }) => {
     logout();
   };
 
-  const setFormSubmited = (bl: boolean): void => {
-    dispatch({ type: types.setFormSubmited, payload: bl });
-  };
-
-  const setAlert = (bl: boolean): void => {
-    dispatch({ type: types.setAlert, payload: bl });
-  };
-
-  useEffect(() => {
-    setFormSubmited(false);
-    setAlert(false);
-  }, [location]);
-
   return (
     <AuthContext.Provider
       value={{
-        logged,
-        formSubmited,
-        alert,
-        uid,
-        email,
-        displayName,
-        photoURL,
-        errorMessage,
-        setFormSubmited,
-        setAlert,
-        checkingAuthentication,
-        startGoogleSignIn,
-        login,
-        logout,
-        startCreatingUserWithEmail,
-        startLoginWithEmailPassword,
-        startLogOutWithButton,
+        authState: authState,
+        checkingAuthentication: checkingAuthentication,
+        startGoogleSignIn: startGoogleSignIn,
+        login: login,
+        logout: logout,
+        startCreatingUserWithEmail: startCreatingUserWithEmail,
+        startLoginWithEmailPassword: startLoginWithEmailPassword,
+        startLogOutWithButton: startLogOutWithButton,
+        clearErrorMessage: clearErrorMessage,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuthContext = (): AuthContextT => {
+  return useContext(AuthContext)!;
 };

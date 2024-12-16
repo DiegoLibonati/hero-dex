@@ -1,16 +1,23 @@
 import { useState } from "react";
-import { UseForm } from "../entities/entities";
+
+export type UseForm<T> = {
+  formState: T;
+  onInputChange: React.ChangeEventHandler<HTMLInputElement>;
+  onResetForm: () => void;
+};
 
 export const useForm = <T,>(initialForm: T): UseForm<T> => {
   const [formState, setFormState] = useState(initialForm);
 
-  const onInputChange = ({ target }) => {
+  const onInputChange: React.ChangeEventHandler<HTMLInputElement> = ({
+    target,
+  }) => {
     const { name, value } = target;
-
-    setFormState({
-      ...formState,
+    
+    setFormState((state) => ({
+      ...state,
       [name]: value,
-    });
+    }));
   };
 
   const onResetForm = () => {
@@ -18,8 +25,8 @@ export const useForm = <T,>(initialForm: T): UseForm<T> => {
   };
 
   return {
-    formState,
-    onInputChange,
-    onResetForm,
+    formState: formState,
+    onInputChange: onInputChange,
+    onResetForm: onResetForm,
   };
 };

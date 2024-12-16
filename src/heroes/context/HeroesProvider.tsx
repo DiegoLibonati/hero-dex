@@ -1,72 +1,56 @@
-import React from "react";
-import { useReducer } from "react";
-import { useFetch } from "../../hooks/useFetch";
-import { types } from "../types/types";
+import { useReducer, useContext, useEffect } from "react";
+
+import {
+  HeroesState,
+  HeroesContext as HeroesContextT,
+  Hero,
+} from "../../entities/entities";
+
 import { HeroesContext } from "./HeroesContext";
 import { heroesReducer } from "./heroesReducer";
-import { getAllPublishers } from "../helpers/getAllPublishers";
-import { getHeroesByName } from "../helpers/getHeroesByName";
-import { useMemo } from "react";
-import { getHeroById } from "../helpers/getHeroById";
+import { useFetch } from "../../hooks/useFetch";
 
-const initialState = {
+const initialState: HeroesState = {
   heroes: [],
-  loading: true,
-  actualPublisher: "ALL",
-  nameSearch: "",
-  heroId: null,
+  heroesCopy: [],
+  publishers: [],
 };
 
-export const HeroesProvider = ({ children }) => {
+export const HeroesProvider = ({ children }: { children: React.ReactNode }) => {
   const [heroesState, dispatch] = useReducer(heroesReducer, initialState);
 
-  const { heroes, loading, actualPublisher, nameSearch, heroId } = heroesState;
+  const { data, loading } = useFetch<Hero>("/superhero-api/api/all.json");
 
-  const dataArray = useFetch(
-    "https://akabab.github.io/superhero-api/api/all.json",
-    dispatch,
-    actualPublisher
-  );
-
-  const publishers = useMemo(() => {
-    return getAllPublishers(dataArray);
-  }, [dataArray]);
-
-  const searchResults = useMemo(() => {
-    return getHeroesByName(nameSearch, dataArray);
-  }, [nameSearch]);
-
-  const searchHeroId = useMemo(() => {
-    return getHeroById(heroId, dataArray);
-  }, [heroId, dataArray]);
-
-  const handlePublisher = (publish: string): void => {
-    dispatch({ type: types.actualPublisher, payload: publish });
+  const handleSetHeroes = (heroes: Hero[]): void => {
+    dispatch({ type: "SET_HEROES", payload: heroes });
   };
 
-  const handleSearchPage = (name: string): void => {
-    dispatch({ type: types.name, payload: name });
+  const handleSetPublisher = (publisher: string): void => {
+    dispatch({ type: "SET_PUBLISHER", payload: publisher });
   };
 
-  const handleHeroId = (id: number): void => {
-    dispatch({ type: types.heroId, payload: id });
+  const handleSearchHeroes = (search: string) => {
+    dispatch({ type: "SET_HEROES_BY_NAME", payload: search });
   };
+
+  useEffect(() => {
+    handleSetHeroes(data);
+  }, [data]);
 
   return (
     <HeroesContext.Provider
       value={{
-        heroes,
-        searchResults,
-        searchHeroId,
-        loading,
-        publishers,
-        actualPublisher,
-        handlePublisher,
-        handleSearchPage,
-        handleHeroId,
+        heroesState: heroesState,
+        loading: loading,
+        handleSetPublisher: handleSetPublisher,
+        handleSearchHeroes: handleSearchHeroes,
       }}
     >
       {children}
     </HeroesContext.Provider>
   );
+};
+
+export const useHeroesContext = (): HeroesContextT => {
+  return useContext(HeroesContext)!;
 };

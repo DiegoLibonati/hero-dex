@@ -1,32 +1,36 @@
-import { HeroesState } from "../../entities/entities";
-import { types } from "../types/types";
+import { HeroesState, HeroesPayloadReducer } from "../../entities/entities";
 
-export const heroesReducer = (state: HeroesState, action) => {
+import { getAllPublishers } from "../helpers/getAllPublishers";
+import { getHeroesByName } from "../helpers/getHeroesByName";
+import { getHeroesByPublishers } from "../helpers/getHeroesByPublishers";
+
+export const heroesReducer = (
+  state: HeroesState,
+  action: HeroesPayloadReducer
+) => {
   switch (action.type) {
-    case types.fetch:
+    case "SET_HEROES":
+      const heroes = action.payload;
+
       return {
         ...state,
-        heroes: action.payload,
-        loading: false,
+        heroes: heroes,
+        heroesCopy: heroes,
+        publishers: getAllPublishers(heroes),
       };
 
-    case types.actualPublisher:
+    case "SET_PUBLISHER":
+      const publisher = action.payload;
+
       return {
         ...state,
-        actualPublisher: action.payload,
+        heroes: getHeroesByPublishers(publisher, state.heroesCopy),
       };
 
-    case types.name:
-      return {
-        ...state,
-        nameSearch: action.payload,
-      };
+    case "SET_HEROES_BY_NAME":
+      const heroName = action.payload;
 
-    case types.heroId:
-      return {
-        ...state,
-        heroId: action.payload,
-      };
+      return { ...state, heroes: getHeroesByName(heroName, state.heroesCopy) };
 
     default:
       return state;

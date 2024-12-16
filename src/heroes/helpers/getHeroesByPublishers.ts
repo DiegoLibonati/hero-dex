@@ -1,17 +1,16 @@
 import { Hero } from "../../entities/entities";
 
-export const getHeroesByPublishers = (publisher: string, arr: Hero[]): Hero[] => {
-  if (publisher === "ALL" || publisher === "") {
-    return arr;
-  } else {
-    const finalArray = arr.filter(
-      (hero) => hero.biography.publisher === publisher
-    );
+export const getHeroesByPublishers = (
+  publisher: string,
+  heroes: Hero[]
+): Hero[] => {
+  const publisherLower = publisher.toLowerCase();
 
-    if (finalArray) {
-      return finalArray;
-    } else {
-      throw new Error(`${publisher} is not a valid publisher`);
-    }
-  }
+  if (publisherLower === "all" || !publisherLower) return heroes;
+
+  return heroes.filter((hero) => {
+    if (!hero.biography.publisher) return;
+
+    return hero.biography.publisher.toLowerCase() === publisherLower;
+  });
 };

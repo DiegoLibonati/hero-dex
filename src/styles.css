@@ -23,6 +23,12 @@ main {
   padding-top: 5rem;
 }
 
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
 ::-webkit-scrollbar {
   width: 1em;
 }

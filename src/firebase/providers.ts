@@ -1,3 +1,4 @@
+import { FirebaseError } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -5,8 +6,14 @@ import {
   signInWithPopup,
   updateProfile,
 } from "firebase/auth";
+
+import {
+  LoginWithEmailPassword,
+  RegisterUserWithEmail,
+  SignInWithGoogle,
+} from "../entities/entities";
+
 import { FirebaseAuth } from "./config";
-import { LoginWithEmailPassword, RegisterUserWithEmail, SignInWithGoogle } from "../entities/entities";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -14,20 +21,27 @@ export const signInWithGoogle = async (): Promise<SignInWithGoogle> => {
   try {
     const result = await signInWithPopup(FirebaseAuth, googleProvider);
     const { displayName, photoURL, uid, email } = result.user;
+
     return {
       ok: true,
-      displayName,
-      email,
-      photoURL,
-      uid,
+      displayName: displayName!,
+      email: email!,
+      photoURL: photoURL!,
+      uid: uid,
     };
-  } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+  } catch (error: unknown) {
+    if (error instanceof FirebaseError) {
+      return {
+        ok: false,
+        errorCode: error.code,
+        errorMessage: error.message,
+      };
+    }
+
     return {
       ok: false,
-      errorCode,
-      errorMessage,
+      errorCode: "unknown_error",
+      errorMessage: "An unknown error occurred.",
     };
   }
 };
@@ -38,7 +52,7 @@ export const registerUserWithEmail = async (
   username: string
 ): Promise<RegisterUserWithEmail> => {
   try {
-    const resp = await createUserWithEmailAndPassword(
+    const result = await createUserWithEmailAndPassword(
       FirebaseAuth,
       email,
       password
@@ -46,22 +60,28 @@ export const registerUserWithEmail = async (
 
     await updateProfile(FirebaseAuth.currentUser!, { displayName: username });
 
-    const { uid, photoURL, displayName } = resp.user;
+    const { uid, photoURL, displayName } = result.user;
 
     return {
       ok: true,
-      displayName,
-      email,
-      photoURL,
-      uid,
+      displayName: displayName!,
+      email: email!,
+      photoURL: photoURL!,
+      uid: uid!,
     };
-  } catch (error) {
-    const errorCode = error.errorCode;
-    const errorMessage = error.errorMessage;
+  } catch (error: unknown) {
+    if (error instanceof FirebaseError) {
+      return {
+        ok: false,
+        errorCode: error.code,
+        errorMessage: error.message,
+      };
+    }
+
     return {
       ok: false,
-      errorCode,
-      errorMessage,
+      errorCode: "unknown_error",
+      errorMessage: "An unknown error occurred.",
     };
   }
 };
@@ -71,26 +91,33 @@ export const loginWithEmailPassword = async (
   password: string
 ): Promise<LoginWithEmailPassword> => {
   try {
-    const resp = await signInWithEmailAndPassword(
+    const result = await signInWithEmailAndPassword(
       FirebaseAuth,
       email,
       password
     );
-    const { uid, photoURL, displayName } = resp.user;
+    const { uid, photoURL, displayName } = result.user;
+
     return {
       ok: true,
-      displayName,
-      email,
-      photoURL,
-      uid,
+      displayName: displayName!,
+      email: email,
+      photoURL: photoURL!,
+      uid: uid!,
     };
   } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+    if (error instanceof FirebaseError) {
+      return {
+        ok: false,
+        errorCode: error.code,
+        errorMessage: error.message,
+      };
+    }
+
     return {
       ok: false,
-      errorCode,
-      errorMessage,
+      errorCode: "unknown_error",
+      errorMessage: "An unknown error occurred.",
     };
   }
 };

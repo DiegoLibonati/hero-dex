@@ -1,9 +1,8 @@
-import { AuthState } from "../../entities/entities";
-import { types } from "../types/types";
+import { AuthPayloadReducer, AuthState } from "../../entities/entities";
 
-export const authReducer = (state: AuthState, action) => {
+export const authReducer = (state: AuthState, action: AuthPayloadReducer) => {
   switch (action.type) {
-    case types.login:
+    case "AUTH_LOGIN":
       return {
         ...state,
         logged: "authenticated",
@@ -11,36 +10,26 @@ export const authReducer = (state: AuthState, action) => {
         displayName: action.payload.displayName,
         photoURL: action.payload.photoURL,
         email: action.payload.email,
-        errorMessage: action.payload.errorMessage,
       };
-
-    case types.logout:
+    case "AUTH_LOGOUT":
       return {
         ...state,
         logged: "not-authenticated",
-        uid: null,
-        displayName: null,
-        photoURL: null,
-        email: null,
-        errorMessage: action.payload?.errorMessage,
+        uid: "",
+        displayName: "",
+        photoURL: "",
+        email: "",
+        errorMessage: action.payload.errorMessage,
       };
-
-    case types.setFormSubmited:
-      return {
-        ...state,
-        formSubmited: action.payload,
-      };
-
-    case types.setAlert:
-      return {
-        ...state,
-        alert: action.payload,
-      };
-
-    case types.checkingCredentials:
+    case "CHECKING_CREDENTIALS":
       return {
         ...state,
         logged: action.payload,
+      };
+    case "CLEAR_ERROR_MESSAGE":
+      return {
+        ...state,
+        errorMessage: "",
       };
     default:
       return state;

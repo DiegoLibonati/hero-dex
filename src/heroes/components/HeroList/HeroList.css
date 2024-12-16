@@ -1,0 +1,36 @@
+.section_cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column wrap;
+  width: 100%;
+  height: auto;
+  padding: 1rem;
+}
+
+.cards_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.button-show-more-heroes {
+  padding: 1rem;
+  background: #f93239;
+  border-radius: 1rem;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.button-show-more-heroes:hover {
+  opacity: 0.8;
+}
+
+.button-show-more-heroes:active {
+  transform: scale(0.8);
+}

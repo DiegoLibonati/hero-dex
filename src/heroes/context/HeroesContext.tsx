@@ -1,4 +1,5 @@
 import { createContext } from "react";
-import { HeroesContextT } from "../../entities/entities";
+
+import { HeroesContext as HeroesContextT } from "../../entities/entities";
 
 export const HeroesContext = createContext<HeroesContextT | null>(null);

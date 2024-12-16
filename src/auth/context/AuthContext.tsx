@@ -1,4 +1,5 @@
 import { createContext } from "react";
-import { AuthContextT } from "../../entities/entities";
+
+import { AuthContext as AuthContextT } from "../../entities/entities";
 
 export const AuthContext = createContext<AuthContextT | null>(null);

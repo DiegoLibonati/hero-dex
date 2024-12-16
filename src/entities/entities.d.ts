@@ -1,134 +1,11 @@
-import React from "react";
-
 // TYPES
-
-export type AuthContextT = {
-  logged: string;
-  formSubmited: boolean;
-  alert: boolean;
-  uid: string;
-  email: string;
-  displayName: string;
-  photoURL: string;
-  errorMessage: string;
-  setFormSubmited: (bl: boolean) => void;
-  setAlert: (bl: boolean) => void;
-  checkingAuthentication: (status: string) => void;
-  startGoogleSignIn: (status: string) => Promise<void>;
-  login: (payload: ActionPayloadAuth["payload"]) => void;
-  logout: () => void;
-  startCreatingUserWithEmail: (
-    status: string,
-    {
-      email,
-      password,
-      username,
-    }: { email: string; password: string; username: string }
-  ) => Promise<void>;
-  startLoginWithEmailPassword: (
-    status: string,
-    email: string,
-    password: string
-  ) => Promise<void>;
-  startLogOutWithButton: () => Promise<void>;
-};
-
-export type AuthState = {
-  logged: string;
-  formSubmited: boolean;
-  alert: boolean;
-  uid: string;
-  email: string;
-  displayName: string;
-  photoURL: string;
-  errorMessage: string;
-};
-
-export type ActionPayloadAuth = {
-  type: string;
-  payload:
-    | AuthState
-    | SignInWithGoogle
-    | RegisterUserWithEmail
-    | LoginWithEmailPassword;
-};
-
-export type FormDataAuth = {
-  email: string;
-  password: string;
-  username?: string;
-};
-
-export type UseForm<T> = {
-  formState: T;
-  onInputChange: React.ChangeEventHandler<HTMLInputElement>;
-  onResetForm: () => void;
-};
-
-export type SignInWithGoogle =
-  | {
-      ok: boolean;
-      displayName: string | null;
-      email: string | null;
-      photoURL: string | null;
-      uid: string;
-    }
-  | {
-      ok: boolean;
-      errorCode: string;
-      errorMessage: string;
-    };
-
-export type RegisterUserWithEmail =
-  | {
-      ok: boolean;
-      displayName: string | null;
-      email: string | null;
-      photoURL: string | null;
-      uid: string;
-    }
-  | {
-      ok: boolean;
-      errorCode: string;
-      errorMessage: string;
-    };
-
-export type LoginWithEmailPassword =
-  | {
-      ok: boolean;
-      displayName: string | null;
-      email: string | null;
-      photoURL: string | null;
-      uid: string;
-    }
-  | {
-      ok: boolean;
-      errorCode: string;
-      errorMessage: string;
-    };
-
-export type UseCounter = {
-  counter: number;
-  increment: (value: number) => void;
-  decrement: (value: number) => void;
-  reset: () => void;
-  setCounter: React.Dispatch<React.SetStateAction<number>>;
-};
-
-export type UsePagination<T> = {
-  currentItems: T[];
-  pages: number[];
-  renderPageNumbers: (JSX.Element | null)[];
-  pageDecrementBtn: JSX.Element;
-  pageIncrementBtn: JSX.Element;
-  handleNextPage: () => void;
-  handlePrevPage: () => void;
-};
 
 export type Hero = {
   id: number;
   name: string;
   images: {
+    xs: string;
+    sm: string;
     md: string;
     lg: string;
   };
@@ -168,51 +45,97 @@ export type Hero = {
   };
 };
 
+export type Config = {
+  apiUrl: string;
+  firebase: {
+    apiKey: string;
+    authDomain: string;
+    projectId: string;
+    storageBucket: string;
+    messagingSenderId: string;
+    appId: string;
+  };
+};
+
+export type FormDataAuth = {
+  email: string;
+  password: string;
+  username?: string;
+};
+
+export type User = {
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL: string;
+};
+
+export type UserLogin = { email: string; password: string; username: string };
+export type UserLoginWithoutUsername = Omit<UserLogin, "username">;
+
+export type AuthContext = {
+  authState: AuthState;
+  login: (payload: User) => void;
+  logout: () => void;
+  checkingAuthentication: (status: string) => void;
+  startGoogleSignIn: (status: string) => Promise<void>;
+  startCreatingUserWithEmail: (
+    status: string,
+    userLogin: UserLogin
+  ) => Promise<void>;
+  startLoginWithEmailPassword: (
+    status: string,
+    userLogin: UserLoginWithoutUsername
+  ) => Promise<void>;
+  startLogOutWithButton: () => Promise<void>;
+  clearErrorMessage: () => void;
+};
+
+export type AuthState = {
+  logged: string;
+  errorMessage: string;
+} & User;
+
+export type AuthPayloadReducer =
+  | { type: "AUTH_LOGOUT"; payload: { errorMessage: string } }
+  | { type: "AUTH_LOGIN"; payload: User }
+  | { type: "CHECKING_CREDENTIALS"; payload: string }
+  | { type: "CLEAR_ERROR_MESSAGE" };
+
 export type HeroesState = {
   heroes: Hero[];
-  loading: boolean;
-  actualPublisher: string;
-  nameSearch: string;
-  heroId: number;
-};
-
-export type HeroesContextT = {
-  heroes: Hero[];
+  heroesCopy: Hero[];
   publishers: string[];
-  loading: boolean;
-  actualPublisher: string;
-  searchResults: Hero[];
-  searchHeroId: Hero;
-  handlePublisher: (publish: string) => void;
-  handleSearchPage: (name: string) => void;
-  handleHeroId: (id: number) => void;
 };
 
-// INTERFACES
+export type HeroesContext = {
+  heroesState: HeroesState;
+  loading: boolean;
+  handleSetPublisher: (publisher: string) => void;
+  handleSearchHeroes: (search: string) => void;
+  // handleHeroId: (id: number) => void;
+};
 
-export interface HeroCardProps {
-  id: number;
-  name: string;
-  images: {
-    lg: string;
-  };
-  slug: string;
-  biography: {
-    fullName: string;
-    publisher: string;
-  };
-}
+export type HeroesPayloadReducer =
+  | { type: "SET_HEROES"; payload: Hero[] }
+  | { type: "SET_PUBLISHER"; payload: string }
+  | { type: "SET_HEROES_BY_NAME"; payload: string };
 
-export interface HeroListProps {
-  publisher: Hero[];
-}
+// Firebase
+type FirebaseOkTrue = {
+  ok: true;
+  displayName: string;
+  email: string;
+  photoURL: string;
+  uid: string;
+};
 
-export interface PaginationProps {
-  renderPageNumbers: (JSX.Element | null)[];
-  pageDecrementBtn: JSX.Element;
-  pageIncrementBtn: JSX.Element;
-  pages: number[];
-  currentPage: number;
-  handleNextPage: () => void;
-  handlePrevPage: () => void;
-}
+type FirebaseOkFalse = {
+  ok: false;
+  errorCode: string;
+  errorMessage: string;
+};
+
+export type SignInWithGoogle = FirebaseOkTrue | FirebaseOkFalse;
+export type RegisterUserWithEmail = FirebaseOkTrue | FirebaseOkFalse;
+export type LoginWithEmailPassword = FirebaseOkTrue | FirebaseOkFalse;

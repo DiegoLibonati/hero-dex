@@ -1,30 +1,36 @@
-import React from "react";
 import { useEffect, useState } from "react";
-import { getHeroesByPublishers } from "../heroes/helpers/getHeroesByPublishers";
-import { types } from "../heroes/types/types";
-import { Hero } from "../entities/entities";
+import axios from "axios";
 
-export const useFetch = (
-  url: string,
-  dispatch: React.Dispatch<{ type: string; payload: Hero[] }>,
-  publisher: string
-): Hero[] | never => {
-  const [dataArray, setDataArray] = useState<Hero[] | never>([]);
+type UseFetch<T> = {
+  data: T[];
+  loading: boolean;
+};
 
-  const getFetch = async () => {
-    const resp = await fetch(url);
-    const data = await resp.json();
+export const useFetch = <T,>(url: string): UseFetch<T> => {
+  const [arr, setArr] = useState<T[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-    const filter = getHeroesByPublishers(publisher, data);
+  const get = async () => {
+    const resp = await axios.get(url);
+    const data = await resp.data;
 
-    dispatch({ type: types.fetch, payload: filter });
-
-    setDataArray(data);
+    setArr(data);
+    setLoading(false);
   };
 
   useEffect(() => {
-    getFetch();
-  }, [publisher]);
+    setLoading(true);
 
-  return dataArray;
+    if (!url) return setLoading(false);
+
+    get();
+  }, [url]);
+
+  return {
+    data: arr,
+    loading: loading,
+  };
 };
+
+// const filter = getHeroesByPublishers(publisher, data);
+// dispatch({ type: types.fetch, payload: filter });

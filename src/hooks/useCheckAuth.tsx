@@ -1,26 +1,27 @@
+import { useEffect } from "react";
+
 import { onAuthStateChanged } from "firebase/auth";
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../auth/context/AuthContext";
 import { FirebaseAuth } from "../firebase/config";
 
+import { useAuthContext } from "../auth/context/AuthProvider";
+
 export const useCheckAuth = (): string => {
-  const authContext = useContext(AuthContext);
+  const { authState, login, logout } = useAuthContext();
 
   useEffect(() => {
     onAuthStateChanged(FirebaseAuth, async (user) => {
-      if (!user) return authContext?.logout();
+      if (!user) return logout();
 
       const { uid, email, displayName, photoURL } = user;
 
-      authContext?.login({
-        ok: true,
+      login({
         uid: uid,
-        email: email,
-        displayName: displayName,
-        photoURL: photoURL,
+        email: email!,
+        displayName: displayName!,
+        photoURL: photoURL!,
       });
     });
   }, []);
 
-  return authContext?.logged as string;
+  return authState.logged as string;
 };
