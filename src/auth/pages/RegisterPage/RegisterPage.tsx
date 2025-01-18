@@ -35,15 +35,15 @@ export const RegisterPage = (): JSX.Element => {
   };
 
   return (
-    <section className="register_container">
-      <article className="register_container_img">
+    <section className="register__page">
+      <article className="register__img">
         <img
           src="https://i.pinimg.com/originals/96/b0/83/96b083f5f824d2b8b342047b66832276.gif"
           alt="gif"
         ></img>
       </article>
 
-      <form onSubmit={onSubmit} className="register_container_form">
+      <form onSubmit={onSubmit} className="form__register">
         <h2>You are one step away from being a superhero.</h2>
         <input
           type="text"
@@ -68,7 +68,7 @@ export const RegisterPage = (): JSX.Element => {
           value={formState.password}
           onChange={onInputChange}
         ></input>
-        <button className="register-button" aria-label="register" type="submit">
+        <button className="register__submit" aria-label="register" type="submit">
           Register
         </button>
       </form>

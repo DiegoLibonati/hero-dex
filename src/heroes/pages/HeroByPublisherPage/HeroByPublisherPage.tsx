@@ -33,8 +33,8 @@ export const HeroByPublisherPage = (): JSX.Element => {
 
   return (
     <Fragment>
-      <section className="index_container">
-        <form className="index_container_form">
+      <section className="index__page">
+        <form className="form__index">
           <h2>SELECT YOUR FAVORITE PUBLISHER</h2>
           <select
             onChange={(e) => handleSelectOption(e)}

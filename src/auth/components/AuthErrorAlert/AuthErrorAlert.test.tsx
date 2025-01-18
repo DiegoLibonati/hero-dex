@@ -6,16 +6,11 @@ import { AuthErrorAlert } from "./AuthErrorAlert";
 
 import { AuthProvider, useAuthContext } from "../../context/AuthProvider";
 
-import { getMockAuthState } from "../../../tests/jest.setup";
+import { getMockAuthState } from "../../../tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;
 };
-
-jest.mock("../../context/AuthProvider", () => ({
-  ...jest.requireActual("../../context/AuthProvider"),
-  useAuthContext: jest.fn(),
-}));
 
 const renderComponent = (): RenderComponent => {
   const { container } = render(
@@ -29,80 +24,87 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-describe("When there is an error message.", () => {
-  const mockAuthState = getMockAuthState({
-    uid: "1234",
-    displayName: "pepe",
-    email: "qwe@gmail.com",
-    errorMessage: "12345",
-    logged: "yes",
-    photoURL: "www.google.com",
-  });
-  const mockClearErrorMessage = jest.fn();
+jest.mock("../../context/AuthProvider", () => ({
+  ...jest.requireActual("../../context/AuthProvider"),
+  useAuthContext: jest.fn(),
+}));
 
-  beforeEach(() => {
-    (useAuthContext as jest.Mock).mockReturnValue({
-      authState: mockAuthState,
-      clearErrorMessage: mockClearErrorMessage,
+describe("AuthErrorAlert.tsx", () => {
+  describe("When there is an error message.", () => {
+    const mockAuthState = getMockAuthState({
+      uid: "1234",
+      displayName: "pepe",
+      email: "qwe@gmail.com",
+      errorMessage: "12345",
+      logged: "yes",
+      photoURL: "www.google.com",
+    });
+    const mockClearErrorMessage = jest.fn();
+
+    beforeEach(() => {
+      (useAuthContext as jest.Mock).mockReturnValue({
+        authState: mockAuthState,
+        clearErrorMessage: mockClearErrorMessage,
+      });
+    });
+
+    test("It must render the alert.", () => {
+      const { container } = renderComponent();
+
+      const alert = container.querySelector(".alert__login");
+
+      expect(alert).toBeInTheDocument();
+      expect(alert).toHaveClass("alert__login--open");
+      expect(alert).toHaveTextContent(mockAuthState.errorMessage);
+    });
+
+    test("It should hide the alert after 2 seconds.", () => {
+      jest.useFakeTimers();
+
+      const { container } = renderComponent();
+
+      const alert = container.querySelector(".alert__login");
+
+      expect(alert).toBeInTheDocument();
+      expect(alert).toHaveClass("alert__login--open");
+      expect(alert).toHaveTextContent(mockAuthState.errorMessage);
+
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
+
+      expect(mockClearErrorMessage).toHaveBeenCalledTimes(1);
+
+      jest.useRealTimers();
     });
   });
 
-  test("It must render the alert.", () => {
-    const { container } = renderComponent();
+  describe("When there is NO error message.", () => {
+    const mockAuthState = getMockAuthState({
+      uid: "1234",
+      displayName: "pepe",
+      email: "qwe@gmail.com",
+      errorMessage: "",
+      logged: "yes",
+      photoURL: "www.google.com",
+    });
+    const mockClearErrorMessage = jest.fn();
 
-    const alert = container.querySelector(".alert-login");
-
-    expect(alert).toBeInTheDocument();
-    expect(alert).toHaveClass("alert-open");
-    expect(alert).toHaveTextContent(mockAuthState.errorMessage);
-  });
-
-  test("It should hide the alert after 2 seconds.", () => {
-    jest.useFakeTimers();
-
-    const { container } = renderComponent();
-
-    const alert = container.querySelector(".alert-login");
-
-    expect(alert).toBeInTheDocument();
-    expect(alert).toHaveClass("alert-open");
-    expect(alert).toHaveTextContent(mockAuthState.errorMessage);
-
-    act(() => {
-      jest.advanceTimersByTime(2000);
+    beforeEach(() => {
+      (useAuthContext as jest.Mock).mockReturnValue({
+        authState: mockAuthState,
+        clearErrorMessage: mockClearErrorMessage,
+      });
     });
 
-    expect(mockClearErrorMessage).toHaveBeenCalledTimes(1);
+    test("It must render the alert.", () => {
+      const { container } = renderComponent();
 
-    jest.useRealTimers();
-  });
-});
+      const alert = container.querySelector(".alert__login");
 
-describe("When there is NO error message.", () => {
-  const mockAuthState = getMockAuthState({
-    uid: "1234",
-    displayName: "pepe",
-    email: "qwe@gmail.com",
-    errorMessage: "",
-    logged: "yes",
-    photoURL: "www.google.com",
-  });
-  const mockClearErrorMessage = jest.fn();
-
-  beforeEach(() => {
-    (useAuthContext as jest.Mock).mockReturnValue({
-      authState: mockAuthState,
-      clearErrorMessage: mockClearErrorMessage,
+      expect(alert).toBeInTheDocument();
+      expect(alert).not.toHaveClass("alert__login--open");
+      expect(alert).toBeEmptyDOMElement();
     });
-  });
-
-  test("It must render the alert.", () => {
-    const { container } = renderComponent();
-
-    const alert = container.querySelector(".alert-login");
-
-    expect(alert).toBeInTheDocument();
-    expect(alert).not.toHaveClass("alert-open");
-    expect(alert).toBeEmptyDOMElement();
   });
 });

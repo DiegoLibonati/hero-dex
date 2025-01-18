@@ -54,29 +54,33 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-test("It must render the image, the name, the slug, the publisher, the full name and the link to know more about the hero.", () => {
-  const { props } = renderComponent();
+describe("HeroCard.tsx", () => {
+  describe("General Tests.", () => {
+    test("It must render the image, the name, the slug, the publisher, the full name and the link to know more about the hero.", () => {
+      const { props } = renderComponent();
 
-  const card = screen.getByRole("listitem");
-  const img = screen.getByRole("img");
-  const name = screen.getByRole("heading", { name: props.name });
-  const slug = screen.getByRole("heading", { name: props.slug });
-  const publisher = screen.getByRole("heading", {
-    name: props.biography.publisher,
-  });
-  const fullName = screen.getByRole("heading", {
-    name: props.biography.fullName,
-  });
-  const linkLearnMore = screen.getByRole("link", { name: /learn more/i });
+      const card = screen.getByRole("listitem");
+      const img = screen.getByRole("img");
+      const name = screen.getByRole("heading", { name: props.name });
+      const slug = screen.getByRole("heading", { name: props.slug });
+      const publisher = screen.getByRole("heading", {
+        name: props.biography.publisher,
+      });
+      const fullName = screen.getByRole("heading", {
+        name: props.biography.fullName,
+      });
+      const linkLearnMore = screen.getByRole("link", { name: /learn more/i });
 
-  expect(card).toBeInTheDocument();
-  expect(card).toHaveClass("card_container animate__animated animate__fadeIn");
-  expect(img).toBeInTheDocument();
-  expect(img).toHaveAttribute("src", props.images.lg);
-  expect(img).toHaveAttribute("alt", props.name);
-  expect(name).toBeInTheDocument();
-  expect(slug).toBeInTheDocument();
-  expect(publisher).toBeInTheDocument();
-  expect(fullName).toBeInTheDocument();
-  expect(linkLearnMore).toBeInTheDocument();
+      expect(card).toBeInTheDocument();
+      expect(card).toHaveClass("card animate__animated animate__fadeIn");
+      expect(img).toBeInTheDocument();
+      expect(img).toHaveAttribute("src", props.images.lg);
+      expect(img).toHaveAttribute("alt", props.name);
+      expect(name).toBeInTheDocument();
+      expect(slug).toBeInTheDocument();
+      expect(publisher).toBeInTheDocument();
+      expect(fullName).toBeInTheDocument();
+      expect(linkLearnMore).toBeInTheDocument();
+    });
+  });
 });

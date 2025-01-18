@@ -1,16 +1,16 @@
-.alert-login {
+.alert__login {
   margin: 1rem;
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #fff;
+  background-color: var(--white-color);
   padding: 1rem;
   border-radius: 1rem;
   font-size: 2rem;
   opacity: 0;
 }
 
-.alert-open {
+.alert__login--open {
   opacity: 1;
   transition: all;
 }

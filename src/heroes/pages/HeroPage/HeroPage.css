@@ -1,4 +1,4 @@
-.hero_container {
+.hero__page {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,15 +8,15 @@
   position: relative;
 }
 
-.img-background {
+.hero__background {
   position: fixed;
   width: 100%;
   height: 100%;
   bottom: 0;
-  filter: blur(3px);
+  filter: blur(0.3rem);
 }
 
-.hero_container_information {
+.hero__information {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,18 +27,18 @@
   padding: 1rem;
 }
 
-.hero_container_information h3 {
+.hero__information h3 {
   font-size: 4rem;
   text-wrap: initial;
   text-align: center;
-  color: #fff;
+  color: var(--white-color);
 }
 
-.hero_container_information b {
+.hero__information b {
   font-size: 3rem;
 }
 
-.hero_container_information_list {
+.hero__list {
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -48,32 +48,32 @@
   list-style: none;
   margin: 0;
   padding: 0.5rem;
-  background-color: #0000009b;
+  background-color: rgba(var(--black-int-color), 0.608);
   border-radius: 1rem;
 }
 
-.hero_container_information_list li {
+.hero__list li {
   font-size: 2.5rem;
-  color: #fff;
+  color: var(--white-color);
 }
 
-.hero_container_information_list li p {
+.hero__list li p {
   font-size: 2rem;
   padding-left: 5rem;
 }
 
-.hero_container_information button {
+.hero__information button {
   margin: 5rem 5rem 0 0;
   align-self: flex-end;
   padding: 1rem;
-  color: #fff;
+  color: var(--white-color);
   border-radius: 1rem;
-  background: #f93239;
+  background: var(--primary-color);
   border: none;
   font-size: 2rem;
 }
 
-.img-list {
+.hero__img {
   top: 0;
   right: 0;
   position: absolute;
@@ -85,7 +85,7 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .img-list {
+  .hero__img {
     width: 50rem;
     height: 50rem;
     border-radius: 1rem;

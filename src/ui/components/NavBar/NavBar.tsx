@@ -12,7 +12,7 @@ export const NavBar = (): JSX.Element => {
   const { authState, startLogOutWithButton } = useAuthContext();
 
   const isActive = ({ isActive }: { isActive: boolean }): string =>
-    `nav-item nav-link ${isActive ? "active" : ""}`;
+    `nav__item nav__link ${isActive ? "active" : ""}`;
 
   const handleClickManageSidebar = (): void => {
     setSidebar(!sidebar);
@@ -23,8 +23,8 @@ export const NavBar = (): JSX.Element => {
   };
 
   return (
-    <header className="header_container">
-      <div className="header_container_logo">
+    <header className="header">
+      <div className="header__logo">
         <Link to="/" aria-label="go to home by title">
           HeroesApp
         </Link>
@@ -40,10 +40,10 @@ export const NavBar = (): JSX.Element => {
 
       <nav
         className={
-          sidebar ? "header_container_nav sidebar-open" : "header_container_nav"
+          sidebar ? "header__nav sidebar--open" : "header__nav"
         }
       >
-        <ul className="header_container_nav_list">
+        <ul className="header__list">
           <li>
             <NavLink
               className={isActive}

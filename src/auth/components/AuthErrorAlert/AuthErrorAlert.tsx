@@ -18,7 +18,7 @@ export const AuthErrorAlert = (): JSX.Element => {
   }, [authState?.errorMessage]);
 
   return (
-    <div className={`alert-login ${authState?.errorMessage && "alert-open"}`}>
+    <div className={`alert__login ${authState?.errorMessage && "alert__login--open"}`}>
       {authState?.errorMessage}
     </div>
   );

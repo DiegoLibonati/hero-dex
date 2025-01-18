@@ -26,12 +26,12 @@ export const HeroCard = ({
   const { fullName, publisher } = biography;
 
   return (
-    <li className="card_container animate__animated animate__fadeIn">
-      <div className="card_container_header">
+    <li className="card animate__animated animate__fadeIn">
+      <div className="card__header">
         <img src={lg} alt={name}></img>
       </div>
 
-      <div className="card_container_information">
+      <div className="card__information">
         <h2>{name}</h2>
         <h3>{slug}</h3>
         <h4>{publisher}</h4>
@@ -39,7 +39,7 @@ export const HeroCard = ({
 
         <Link
           to={`/hero/${id}`}
-          className="button-card"
+          className="card__btn"
           aria-label="learn more"
         >
           LEARN MORE

@@ -51,15 +51,15 @@ export const LoginPage = (): JSX.Element => {
   };
 
   return (
-    <section className="login_container">
-      <article className="login_container_img">
+    <section className="login__page">
+      <article className="login__img">
         <img
           src="https://c.tenor.com/3Im54mMMkiUAAAAC/the-flash-running.gif"
           alt="gif"
         ></img>
       </article>
 
-      <form onSubmit={onLogin} className="login_container_form">
+      <form onSubmit={onLogin} className="form__login">
         <h2>Hello, do you want to be a superhero?</h2>
         <input
           type="text"
@@ -77,7 +77,7 @@ export const LoginPage = (): JSX.Element => {
         ></input>
         <button
           type="submit"
-          className="login-button"
+          className="login__submit"
           disabled={isChecking}
           aria-label="simple login"
         >
@@ -86,7 +86,7 @@ export const LoginPage = (): JSX.Element => {
         {!isChecking && (
           <Link
             to="/register"
-            className="login-button"
+            className="login__submit"
             aria-label="go to register page"
           >
             Register
@@ -94,7 +94,7 @@ export const LoginPage = (): JSX.Element => {
         )}
         <button
           type="button"
-          className="login-button"
+          className="login__submit"
           aria-label="login with google"
           onClick={onGoogleSignIn}
           disabled={isChecking}

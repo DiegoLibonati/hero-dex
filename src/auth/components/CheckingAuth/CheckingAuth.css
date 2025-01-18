@@ -1,16 +1,16 @@
-.loading-checking-auth {
+.loader__auth-checking {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f93239;
+  background-color: var(--primary-color);
   width: 100%;
   height: 100vh;
 }
 
-.loading-checking-auth img {
+.loader__auth-checking img {
   width: 25rem;
   height: 25rem;
   object-fit: cover;
-  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+  box-shadow: rgba(var(--black-int-color), 0.45) 0 2.5rem 2rem -2rem;
   border-radius: 1rem;
 }

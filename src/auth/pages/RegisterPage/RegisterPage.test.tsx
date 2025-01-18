@@ -9,19 +9,6 @@ type RenderComponent = {
   container: HTMLElement;
 };
 
-jest.mock("../../context/AuthProvider", () => ({
-  ...jest.requireActual("../../context/AuthProvider"),
-  useAuthContext: jest.fn(),
-}));
-
-const mockStartCreatingUserWithEmail = jest.fn();
-
-beforeEach(() => {
-  (useAuthContext as jest.Mock).mockReturnValue({
-    startCreatingUserWithEmail: mockStartCreatingUserWithEmail,
-  });
-});
-
 const renderComponent = (): RenderComponent => {
   const { container } = render(
     <AuthProvider>
@@ -34,76 +21,101 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-test("It must render the image next to the register.", () => {
-  renderComponent();
+jest.mock("../../context/AuthProvider", () => ({
+  ...jest.requireActual("../../context/AuthProvider"),
+  useAuthContext: jest.fn(),
+}));
 
-  const img = screen.getByRole("img");
+describe("RegisterPage.tsx", () => {
+  describe("General Tests.", () => {
+    const mockStartCreatingUserWithEmail = jest.fn();
 
-  expect(img).toBeInTheDocument();
-  expect(img).toHaveAttribute(
-    "src",
-    "https://i.pinimg.com/originals/96/b0/83/96b083f5f824d2b8b342047b66832276.gif"
-  );
-  expect(img).toHaveAttribute("alt", "gif");
-});
+    beforeEach(() => {
+      (useAuthContext as jest.Mock).mockReturnValue({
+        startCreatingUserWithEmail: mockStartCreatingUserWithEmail,
+      });
+    });
 
-test("It must render the title of the form, the email entry, the password entry and username entry. You must also render the register button.", () => {
-  renderComponent();
+    test("It must render the image next to the register.", () => {
+      renderComponent();
 
-  const headingForm = screen.getByRole("heading", {
-    name: /you are one step away from being a superhero./i,
-  });
-  const inputUsername = screen.getByPlaceholderText("Enter one username...");
-  const inputEmail = screen.getByPlaceholderText("Enter one email...");
-  const inputPassword = screen.getByPlaceholderText("Enter one password...");
-  const btnRegister = screen.getByRole("button", { name: /register/i });
+      const img = screen.getByRole("img");
 
-  expect(headingForm).toBeInTheDocument();
-  expect(inputUsername).toBeInTheDocument();
-  expect(inputEmail).toBeInTheDocument();
-  expect(inputPassword).toBeInTheDocument();
-  expect(btnRegister).toBeInTheDocument();
-});
+      expect(img).toBeInTheDocument();
+      expect(img).toHaveAttribute(
+        "src",
+        "https://i.pinimg.com/originals/96/b0/83/96b083f5f824d2b8b342047b66832276.gif"
+      );
+      expect(img).toHaveAttribute("alt", "gif");
+    });
 
-test("It must run the startCreatingUserWithEmail function with the correct parameters when Register is clicked. Additionally, the inputs must have valid content.", async () => {
-  const username = "pepiño";
-  const email = "pepe@gmail.com";
-  const password = "pepe";
+    test("It must render the title of the form, the email entry, the password entry and username entry. You must also render the register button.", () => {
+      renderComponent();
 
-  renderComponent();
+      const headingForm = screen.getByRole("heading", {
+        name: /you are one step away from being a superhero./i,
+      });
+      const inputUsername = screen.getByPlaceholderText(
+        "Enter one username..."
+      );
+      const inputEmail = screen.getByPlaceholderText("Enter one email...");
+      const inputPassword = screen.getByPlaceholderText(
+        "Enter one password..."
+      );
+      const btnRegister = screen.getByRole("button", { name: /register/i });
 
-  const inputUsername = screen.getByPlaceholderText("Enter one username...");
-  const inputEmail = screen.getByPlaceholderText("Enter one email...");
-  const inputPassword = screen.getByPlaceholderText("Enter one password...");
-  const btnRegister = screen.getByRole("button", { name: /register/i });
+      expect(headingForm).toBeInTheDocument();
+      expect(inputUsername).toBeInTheDocument();
+      expect(inputEmail).toBeInTheDocument();
+      expect(inputPassword).toBeInTheDocument();
+      expect(btnRegister).toBeInTheDocument();
+    });
 
-  expect(inputUsername).toBeInTheDocument();
-  expect(inputEmail).toBeInTheDocument();
-  expect(inputPassword).toBeInTheDocument();
-  expect(btnRegister).toBeInTheDocument();
+    test("It must run the startCreatingUserWithEmail function with the correct parameters when Register is clicked. Additionally, the inputs must have valid content.", async () => {
+      const username = "pepiño";
+      const email = "pepe@gmail.com";
+      const password = "pepe";
 
-  await user.clear(inputUsername);
-  await user.click(inputUsername);
-  await user.keyboard(username);
+      renderComponent();
 
-  await user.clear(inputEmail);
-  await user.click(inputEmail);
-  await user.keyboard(email);
+      const inputUsername = screen.getByPlaceholderText(
+        "Enter one username..."
+      );
+      const inputEmail = screen.getByPlaceholderText("Enter one email...");
+      const inputPassword = screen.getByPlaceholderText(
+        "Enter one password..."
+      );
+      const btnRegister = screen.getByRole("button", { name: /register/i });
 
-  await user.clear(inputPassword);
-  await user.click(inputPassword);
-  await user.keyboard(password);
+      expect(inputUsername).toBeInTheDocument();
+      expect(inputEmail).toBeInTheDocument();
+      expect(inputPassword).toBeInTheDocument();
+      expect(btnRegister).toBeInTheDocument();
 
-  expect(inputUsername).toHaveValue(username);
-  expect(inputEmail).toHaveValue(email);
-  expect(inputPassword).toHaveValue(password);
+      await user.clear(inputUsername);
+      await user.click(inputUsername);
+      await user.keyboard(username);
 
-  await user.click(btnRegister);
+      await user.clear(inputEmail);
+      await user.click(inputEmail);
+      await user.keyboard(email);
 
-  expect(mockStartCreatingUserWithEmail).toHaveBeenCalledTimes(1);
-  expect(mockStartCreatingUserWithEmail).toHaveBeenCalledWith("checking", {
-    email: email,
-    password: password,
-    username: username,
+      await user.clear(inputPassword);
+      await user.click(inputPassword);
+      await user.keyboard(password);
+
+      expect(inputUsername).toHaveValue(username);
+      expect(inputEmail).toHaveValue(email);
+      expect(inputPassword).toHaveValue(password);
+
+      await user.click(btnRegister);
+
+      expect(mockStartCreatingUserWithEmail).toHaveBeenCalledTimes(1);
+      expect(mockStartCreatingUserWithEmail).toHaveBeenCalledWith("checking", {
+        email: email,
+        password: password,
+        username: username,
+      });
+    });
   });
 });

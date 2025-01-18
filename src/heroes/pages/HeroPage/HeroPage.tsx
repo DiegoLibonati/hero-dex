@@ -24,16 +24,16 @@ export const HeroPage = (): JSX.Element => {
   if (!hero && heroesState.heroesCopy.length) navigate("/index");
 
   return (
-    <section className="hero_container">
+    <section className="hero__page">
       <img
-        className="img-background animate__animated animate__fadeIn"
+        className="hero__background animate__animated animate__fadeIn"
         src={hero?.images.lg}
         alt={hero?.name}
       ></img>
 
-      <article className="hero_container_information">
+      <article className="hero__information">
         <h3>{hero?.name}</h3>
-        <ul className="hero_container_information_list">
+        <ul className="hero__list">
           <li>
             <b>Slug: </b>
             {hero?.slug}
@@ -84,7 +84,7 @@ export const HeroPage = (): JSX.Element => {
           <img
             src={hero?.images.md}
             alt={hero?.name}
-            className="img-list animate__animated animate__fadeIn"
+            className="hero__img animate__animated animate__fadeIn"
           />
         </ul>
 

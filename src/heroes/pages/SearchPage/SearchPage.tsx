@@ -36,10 +36,10 @@ export const SearchPage = (): JSX.Element => {
   };
 
   return (
-    <section className="search_container">
+    <section className="search__page">
       <h1>Search your favorite HERO</h1>
 
-      <form onSubmit={onSearchSubmit} className="search_container_form">
+      <form onSubmit={onSearchSubmit} className="form__search">
         <input
           type="text"
           placeholder="Search a hero"
@@ -54,18 +54,18 @@ export const SearchPage = (): JSX.Element => {
         </button>
       </form>
 
-      <article className="search_container_list">
+      <article className="search__list">
         <h4>Results</h4>
 
         <div
-          className="search_container_searchhero"
+          className="search__text-search"
           style={{ display: q === "" ? "" : "none" }}
         >
           Search a hero
         </div>
 
         {heroesState.heroes.length === 0 && q !== "" && (
-          <div className="search_container_nohero">
+          <div className="search__text-not-found">
             No hero with <b>{q}</b>
           </div>
         )}

@@ -1,9 +1,13 @@
 import { getAllPublishers } from "./getAllPublishers";
 
-import { HEROES_MOCK } from "../../tests/jest.setup";
+import { mockHeroes } from "../../tests/jest.constants";
 
-test("It must return all of the publishers without repeating.", () => {
-  const publishers = getAllPublishers(HEROES_MOCK);
+describe("getAllPublishers.ts", () => {
+  describe("General Tests.", () => {
+    test("It must return all of the publishers without repeating.", () => {
+      const publishers = getAllPublishers(mockHeroes);
 
-  expect(publishers).toHaveLength(3);
+      expect(publishers).toHaveLength(3);
+    });
+  });
 });
