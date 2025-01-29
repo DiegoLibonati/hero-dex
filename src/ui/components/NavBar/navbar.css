@@ -1,4 +1,4 @@
-.header {
+.header-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,7 +12,7 @@
   padding: 0.5rem;
 }
 
-.header__logo {
+.header-wrapper__logo {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -21,19 +21,19 @@
   height: 100%;
 }
 
-.header__logo a {
+.header-wrapper__logo-title {
   text-decoration: none;
   font-size: 2.5rem;
   color: var(--white-color);
 }
 
-#bars {
+.header-wrapper__logo-btn-manage-icon {
   font-size: 2.5rem;
   color: var(--white-color);
   cursor: pointer;
 }
 
-.header__nav {
+.header-wrapper__nav {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -44,12 +44,12 @@
   transition: width 1s;
 }
 
-.sidebar--open {
+.header-wrapper__nav--open {
   width: 75%;
   transition: width 1s;
 }
 
-.header__list {
+.header-wrapper__nav-list {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -60,7 +60,7 @@
   padding: 0;
 }
 
-.header__list li {
+.header-wrapper__nav-list-item {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -69,19 +69,19 @@
   height: 30rem;
 }
 
-.header__list li a {
+.header-wrapper__nav-list-item-link {
   text-decoration: none;
   font-size: 3rem;
   color: var(--white-color);
 }
 
-.header__list li h2 {
+.header-wrapper__nav-list-item-username {
   font-size: 5rem;
   color: var(--white-color);
   text-align: center;
 }
 
-.header__list li button {
+.header-wrapper__nav-list-item-btn-logout {
   background: none;
   border: 0.1rem solid var(--white-color);
   padding: 1rem;
@@ -92,7 +92,7 @@
 }
 
 @media only screen and (min-width: 1024px) {
-  .sidebar--open {
+  .header-wrapper__nav--open {
     width: 50%;
   }
 }

@@ -1,4 +1,4 @@
-.loader__auth-checking {
+.loader-auth-checking {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,7 +7,7 @@
   height: 100vh;
 }
 
-.loader__auth-checking img {
+.loader-auth-checking__img {
   width: 25rem;
   height: 25rem;
   object-fit: cover;

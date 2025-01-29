@@ -84,7 +84,7 @@ describe("HeroByPublisherPage.tsx", () => {
       const { container } = renderComponent();
 
       const loader = container.querySelector(
-        ".loader__wrapper"
+        ".loader-wrapper"
       ) as HTMLDivElement;
 
       expect(loader).toBeInTheDocument();

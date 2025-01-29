@@ -1,4 +1,4 @@
-.alert__login {
+.alert-login {
   margin: 1rem;
   position: absolute;
   top: 0;
@@ -10,7 +10,7 @@
   opacity: 0;
 }
 
-.alert__login--open {
+.alert-login--open {
   opacity: 1;
   transition: all;
 }

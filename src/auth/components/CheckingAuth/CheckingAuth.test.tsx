@@ -23,7 +23,7 @@ describe("CheckingAuth.tsx", () => {
       const parentImg = img.parentElement as HTMLDivElement;
 
       expect(parentImg).toBeInTheDocument();
-      expect(parentImg).toHaveClass("loader__auth-checking");
+      expect(parentImg).toHaveClass("loader-auth-checking");
       expect(img).toBeInTheDocument();
       expect(img).toHaveAttribute(
         "src",

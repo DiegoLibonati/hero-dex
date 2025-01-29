@@ -26,7 +26,7 @@ export const HeroList = ({ heroes, quantity }: HeroListProps): JSX.Element => {
   }, [heroes]);
 
   return (
-    <section className="cards__wrapper">
+    <section className="cards-wrapper">
       <ul className="cards">
         {heroesSliced.map((hero) => (
           <HeroCard
@@ -48,7 +48,7 @@ export const HeroList = ({ heroes, quantity }: HeroListProps): JSX.Element => {
           type="button"
           onClick={handleShowMoreHeroes}
           aria-label="show more heroes"
-          className="btn__show-more"
+          className="cards-wrapper__btn-show-more"
         >
           Show More
         </button>

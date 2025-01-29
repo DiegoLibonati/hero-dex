@@ -33,16 +33,25 @@ export const HeroByPublisherPage = (): JSX.Element => {
 
   return (
     <Fragment>
-      <section className="index__page">
-        <form className="form__index">
-          <h2>SELECT YOUR FAVORITE PUBLISHER</h2>
+      <section className="index-page">
+        <form className="index-page__form">
+          <h2 className="index-page__form-title">
+            SELECT YOUR FAVORITE PUBLISHER
+          </h2>
           <select
             onChange={(e) => handleSelectOption(e)}
             value={selectPublisher}
+            className="index-page__form-select"
           >
-            <option value="ALL">All</option>
+            <option value="ALL" className="index-page__form-select-option">
+              All
+            </option>
             {heroesState.publishers.map((publisher) => (
-              <option key={publisher} value={publisher}>
+              <option
+                key={publisher}
+                value={publisher}
+                className="index-page__form-select-option"
+              >
                 {publisher}
               </option>
             ))}

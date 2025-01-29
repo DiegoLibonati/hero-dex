@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { useAuthContext } from "../../context/AuthProvider";
 
-import "./autherroralert.css";
+import "./AuthErrorAlert.css";
 
 export const AuthErrorAlert = (): JSX.Element => {
   const { authState, clearErrorMessage } = useAuthContext();
@@ -18,7 +18,11 @@ export const AuthErrorAlert = (): JSX.Element => {
   }, [authState?.errorMessage]);
 
   return (
-    <div className={`alert__login ${authState?.errorMessage && "alert__login--open"}`}>
+    <div
+      className={`alert-login ${
+        authState?.errorMessage && "alert-login--open"
+      }`}
+    >
       {authState?.errorMessage}
     </div>
   );

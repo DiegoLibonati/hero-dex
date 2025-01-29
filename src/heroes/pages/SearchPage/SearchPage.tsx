@@ -36,37 +36,42 @@ export const SearchPage = (): JSX.Element => {
   };
 
   return (
-    <section className="search__page">
-      <h1>Search your favorite HERO</h1>
+    <section className="search-page">
+      <h1 className="search-page__title">Search your favorite HERO</h1>
 
-      <form onSubmit={onSearchSubmit} className="form__search">
+      <form onSubmit={onSearchSubmit} className="search-page__form">
         <input
           type="text"
           placeholder="Search a hero"
           name="searchText"
           autoComplete="off"
+          className="search-page__form-input"
           value={formState.searchText}
           onChange={onInputChange}
         />
 
-        <button type="submit" aria-label="search">
+        <button
+          type="submit"
+          aria-label="search"
+          className="search-page__form-submit"
+        >
           Search
         </button>
       </form>
 
-      <article className="search__list">
-        <h4>Results</h4>
+      <article className="search-page__list">
+        <h4 className="search-page__list-label">Results</h4>
 
         <div
-          className="search__text-search"
+          className="search-page__list-search"
           style={{ display: q === "" ? "" : "none" }}
         >
           Search a hero
         </div>
 
         {heroesState.heroes.length === 0 && q !== "" && (
-          <div className="search__text-not-found">
-            No hero with <b>{q}</b>
+          <div className="search-page__list-not-found">
+            No hero with <b className="search-page__list-query">{q}</b>
           </div>
         )}
 

@@ -5,7 +5,7 @@ import { FormDataAuth } from "../../../entities/entities";
 import { useAuthContext } from "../../context/AuthProvider";
 import { useForm } from "../../../hooks/useForm";
 
-import "./register.css";
+import "./RegisterPage.css";
 
 const formData: FormDataAuth = {
   email: "",
@@ -35,20 +35,24 @@ export const RegisterPage = (): JSX.Element => {
   };
 
   return (
-    <section className="register__page">
-      <article className="register__img">
+    <section className="register-page">
+      <article className="register-page__picture">
         <img
           src="https://i.pinimg.com/originals/96/b0/83/96b083f5f824d2b8b342047b66832276.gif"
           alt="gif"
+          className="register-page__picture-img"
         ></img>
       </article>
 
-      <form onSubmit={onSubmit} className="form__register">
-        <h2>You are one step away from being a superhero.</h2>
+      <form onSubmit={onSubmit} className="register-page__form">
+        <h2 className="register-page__form-title">
+          You are one step away from being a superhero.
+        </h2>
         <input
           type="text"
           placeholder={"Enter one username..."}
           name="username"
+          className="register-page__form-input"
           value={formState.username}
           onChange={onInputChange}
         ></input>
@@ -57,6 +61,7 @@ export const RegisterPage = (): JSX.Element => {
           type="text"
           placeholder={"Enter one email..."}
           name="email"
+          className="register-page__form-input"
           value={formState.email}
           onChange={onInputChange}
         ></input>
@@ -65,10 +70,15 @@ export const RegisterPage = (): JSX.Element => {
           type="password"
           placeholder={"Enter one password..."}
           name="password"
+          className="register-page__form-input"
           value={formState.password}
           onChange={onInputChange}
         ></input>
-        <button className="register__submit" aria-label="register" type="submit">
+        <button
+          className="register-page__form-submit"
+          aria-label="register"
+          type="submit"
+        >
           Register
         </button>
       </form>

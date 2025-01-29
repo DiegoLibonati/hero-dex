@@ -1,4 +1,4 @@
-.cards__wrapper {
+.cards-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,7 +19,7 @@
   padding: 0;
 }
 
-.btn__show-more {
+.cards-wrapper__btn-show-more {
   padding: 1rem;
   background: var(--primary-color);
   border-radius: 1rem;
@@ -27,10 +27,10 @@
   font-size: 1.5rem;
 }
 
-.btn__show-more:hover {
+.cards-wrapper__btn-show-more:hover {
   opacity: 0.8;
 }
 
-.btn__show-more:active {
+.cards-wrapper__btn-show-more:active {
   transform: scale(0.8);
 }

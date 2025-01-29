@@ -7,7 +7,7 @@ import { FormDataAuth } from "../../../entities/entities";
 import { useAuthContext } from "../../context/AuthProvider";
 import { useForm } from "../../../hooks/useForm";
 
-import "./login.css";
+import "./LoginPage.css";
 
 const formData: FormDataAuth = {
   email: "",
@@ -51,20 +51,24 @@ export const LoginPage = (): JSX.Element => {
   };
 
   return (
-    <section className="login__page">
-      <article className="login__img">
+    <section className="login-page">
+      <article className="login-page__picture">
         <img
           src="https://c.tenor.com/3Im54mMMkiUAAAAC/the-flash-running.gif"
           alt="gif"
+          className="login-page__picture-img"
         ></img>
       </article>
 
-      <form onSubmit={onLogin} className="form__login">
-        <h2>Hello, do you want to be a superhero?</h2>
+      <form onSubmit={onLogin} className="login-page__form">
+        <h2 className="login-page__form-title">
+          Hello, do you want to be a superhero?
+        </h2>
         <input
           type="text"
           placeholder={"Enter your email..."}
           name="email"
+          className="login-page__form-input"
           value={formState.email}
           onChange={onInputChange}
         ></input>
@@ -72,12 +76,13 @@ export const LoginPage = (): JSX.Element => {
           type="password"
           placeholder={"Enter your password..."}
           name="password"
+          className="login-page__form-input"
           value={formState.password}
           onChange={onInputChange}
         ></input>
         <button
           type="submit"
-          className="login__submit"
+          className="login-page__form-submit"
           disabled={isChecking}
           aria-label="simple login"
         >
@@ -86,7 +91,7 @@ export const LoginPage = (): JSX.Element => {
         {!isChecking && (
           <Link
             to="/register"
-            className="login__submit"
+            className="login-page__form-submit"
             aria-label="go to register page"
           >
             Register
@@ -94,7 +99,7 @@ export const LoginPage = (): JSX.Element => {
         )}
         <button
           type="button"
-          className="login__submit"
+          className="login-page__form-submit"
           aria-label="login with google"
           onClick={onGoogleSignIn}
           disabled={isChecking}

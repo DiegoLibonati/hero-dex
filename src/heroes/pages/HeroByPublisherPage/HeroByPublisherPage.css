@@ -1,4 +1,4 @@
-.index__page {
+.index-page {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,7 +8,7 @@
   width: 100%;
 }
 
-.form__index {
+.index-page__form {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,12 +18,12 @@
   margin-bottom: 1rem;
 }
 
-.form__index h2 {
+.index-page__form-title {
   font-size: 3rem;
   text-align: center;
 }
 
-.form__index select {
+.index-page__form-select {
   padding: 1rem;
   width: 26rem;
   font-size: 2rem;
@@ -33,69 +33,6 @@
   border: none;
 }
 
-.form__index select option {
+.index-page__form-select-option {
   font-size: 2rem;
-}
-
-.loader__wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 1rem;
-}
-
-.lds-ellipsis {
-  display: inline-block;
-  position: relative;
-  width: 8rem;
-  height: 8rem;
-}
-.lds-ellipsis div {
-  position: absolute;
-  top: 3.3rem;
-  width: 1.3rem;
-  height: 1.3rem;
-  border-radius: 50%;
-  background: var(--primary-color);
-  animation-timing-function: cubic-bezier(0, 1, 1, 0);
-}
-.lds-ellipsis div:nth-child(1) {
-  left: 0.8rem;
-  animation: lds-ellipsis1 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(2) {
-  left: 0.8rem;
-  animation: lds-ellipsis2 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(3) {
-  left: 3.2rem;
-  animation: lds-ellipsis2 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(4) {
-  left: 5.6rem;
-  animation: lds-ellipsis3 0.6s infinite;
-}
-@keyframes lds-ellipsis1 {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-@keyframes lds-ellipsis3 {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0);
-  }
-}
-@keyframes lds-ellipsis2 {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(2.4rem, 0);
-  }
 }

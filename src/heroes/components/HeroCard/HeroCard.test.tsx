@@ -72,7 +72,7 @@ describe("HeroCard.tsx", () => {
       const linkLearnMore = screen.getByRole("link", { name: /learn more/i });
 
       expect(card).toBeInTheDocument();
-      expect(card).toHaveClass("card animate__animated animate__fadeIn");
+      expect(card).toHaveClass("hero-card animate__animated animate__fadeIn");
       expect(img).toBeInTheDocument();
       expect(img).toHaveAttribute("src", props.images.lg);
       expect(img).toHaveAttribute("alt", props.name);

@@ -4,7 +4,7 @@ import { FaBars } from "react-icons/fa";
 
 import { useAuthContext } from "../../../auth/context/AuthProvider";
 
-import "./navbar.css";
+import "./NavBar.css";
 
 export const NavBar = (): JSX.Element => {
   const [sidebar, setSidebar] = useState<boolean>(false);
@@ -12,7 +12,9 @@ export const NavBar = (): JSX.Element => {
   const { authState, startLogOutWithButton } = useAuthContext();
 
   const isActive = ({ isActive }: { isActive: boolean }): string =>
-    `nav__item nav__link ${isActive ? "active" : ""}`;
+    `header-wrapper__nav-list-item-link ${
+      isActive ? "header-wrapper__nav-list-item-link--active" : ""
+    }`;
 
   const handleClickManageSidebar = (): void => {
     setSidebar(!sidebar);
@@ -23,28 +25,37 @@ export const NavBar = (): JSX.Element => {
   };
 
   return (
-    <header className="header">
-      <div className="header__logo">
-        <Link to="/" aria-label="go to home by title">
+    <header className="header-wrapper">
+      <div className="header-wrapper__logo">
+        <Link
+          to="/"
+          aria-label="go to home by title"
+          className="header-wrapper__logo-title"
+        >
           HeroesApp
         </Link>
         <button
           type="button"
           onClick={handleClickManageSidebar}
           aria-label="manage sidebar"
-          className="button"
+          className="header-wrapper__logo-btn-manage"
         >
-          <FaBars id="bars"></FaBars>
+          <FaBars
+            id="bars"
+            className="header-wrapper__logo-btn-manage-icon"
+          ></FaBars>
         </button>
       </div>
 
       <nav
         className={
-          sidebar ? "header__nav sidebar--open" : "header__nav"
+          sidebar
+            ? "header-wrapper__nav header-wrapper__nav--open"
+            : "header-wrapper__nav"
         }
       >
-        <ul className="header__list">
-          <li>
+        <ul className="header-wrapper__nav-list">
+          <li className="header-wrapper__nav-list-item">
             <NavLink
               className={isActive}
               to="/index"
@@ -78,9 +89,16 @@ export const NavBar = (): JSX.Element => {
             </NavLink>
           </li>
 
-          <li>
-            <h2>{authState?.displayName}</h2>
-            <button type="button" onClick={onLogout} aria-label="logout">
+          <li className="header-wrapper__nav-list-item">
+            <h2 className="header-wrapper__nav-list-item-username">
+              {authState?.displayName}
+            </h2>
+            <button
+              type="button"
+              onClick={onLogout}
+              aria-label="logout"
+              className="header-wrapper__nav-list-item-btn-logout"
+            >
               Logout
             </button>
           </li>

@@ -20,10 +20,10 @@ describe("Loader.tsx", () => {
       const { container } = renderComponent();
 
       const loaderRoot = container.querySelector(
-        ".loader__wrapper"
+        ".loader-wrapper"
       ) as HTMLDivElement;
       const loader = loaderRoot?.querySelector(
-        ".lds-ellipsis"
+        ".loader-wrapper__lds-ellipsis"
       ) as HTMLDivElement;
 
       expect(loaderRoot).toBeInTheDocument();

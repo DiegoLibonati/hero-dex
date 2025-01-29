@@ -51,10 +51,10 @@ describe("AuthErrorAlert.tsx", () => {
     test("It must render the alert.", () => {
       const { container } = renderComponent();
 
-      const alert = container.querySelector(".alert__login");
+      const alert = container.querySelector(".alert-login");
 
       expect(alert).toBeInTheDocument();
-      expect(alert).toHaveClass("alert__login--open");
+      expect(alert).toHaveClass("alert-login--open");
       expect(alert).toHaveTextContent(mockAuthState.errorMessage);
     });
 
@@ -63,10 +63,10 @@ describe("AuthErrorAlert.tsx", () => {
 
       const { container } = renderComponent();
 
-      const alert = container.querySelector(".alert__login");
+      const alert = container.querySelector(".alert-login");
 
       expect(alert).toBeInTheDocument();
-      expect(alert).toHaveClass("alert__login--open");
+      expect(alert).toHaveClass("alert-login--open");
       expect(alert).toHaveTextContent(mockAuthState.errorMessage);
 
       act(() => {
@@ -100,10 +100,10 @@ describe("AuthErrorAlert.tsx", () => {
     test("It must render the alert.", () => {
       const { container } = renderComponent();
 
-      const alert = container.querySelector(".alert__login");
+      const alert = container.querySelector(".alert-login");
 
       expect(alert).toBeInTheDocument();
-      expect(alert).not.toHaveClass("alert__login--open");
+      expect(alert).not.toHaveClass("alert-login--open");
       expect(alert).toBeEmptyDOMElement();
     });
   });

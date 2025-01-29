@@ -77,16 +77,16 @@ describe("NavBar.tsx", () => {
       });
 
       expect(nav).toBeInTheDocument();
-      expect(nav).not.toHaveClass("sidebar--open");
+      expect(nav).not.toHaveClass("header-wrapper__nav--open");
       expect(btnManageSidebar).toBeInTheDocument();
 
       await user.click(btnManageSidebar);
 
-      expect(nav).toHaveClass("sidebar--open");
+      expect(nav).toHaveClass("header-wrapper__nav--open");
 
       await user.click(btnManageSidebar);
 
-      expect(nav).not.toHaveClass("sidebar--open");
+      expect(nav).not.toHaveClass("header-wrapper__nav--open");
     });
 
     test("It must render the links and the logout button.", () => {

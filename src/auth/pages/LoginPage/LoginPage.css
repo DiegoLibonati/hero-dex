@@ -1,4 +1,4 @@
-.register__page {
+.login-page {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   width: 100%;
@@ -10,7 +10,7 @@
   background-color: var(--primary-color);
 }
 
-.register__img {
+.login-page__picture {
   width: 100%;
   height: 30rem;
   align-self: flex-end;
@@ -18,7 +18,7 @@
   border-top-left-radius: 1rem;
 }
 
-.register__img img {
+.login-page__picture-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -26,7 +26,7 @@
   border-top-left-radius: 1rem;
 }
 
-.form__register {
+.login-page__form {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -41,12 +41,12 @@
   box-shadow: rgba(var(--black-int-color), 0.45) 0 2.5rem 2rem -2rem;
 }
 
-.form__register h2 {
+.login-page__form-title {
   font-size: 2.5rem;
   text-align: center;
 }
 
-.form__register input {
+.login-page__form-input {
   width: 75%;
   padding: 1rem;
   font-size: 1.5rem;
@@ -55,9 +55,10 @@
   outline: none;
   border-bottom: 0.1rem solid var(--primary-color);
   border-radius: 1rem;
+  transition: background-color 1s, color 1s;
 }
 
-.register__submit {
+.login-page__form-submit {
   padding: 1rem;
   font-size: 1.5rem;
   width: 75%;
@@ -71,40 +72,29 @@
   color: var(--black-color);
 }
 
-.register__submit:hover {
+.login-page__form-submit:hover {
   background-color: var(--primary-color);
   color: var(--black-color);
   transition: background-color 1s;
 }
 
-input.error {
-  background-color: var(--red-color);
-  color: var(--white-color);
-  transition: background-color 1s, color 1s;
-}
-
-input.error::placeholder {
-  color: var(--white-color);
-  transition: color 1s;
-}
-
 @media only screen and (min-width: 540px) {
-  .register__img {
+  .login-page__picture {
     width: 50rem;
   }
 
-  .form__register {
+  .login-page__form {
     width: 50rem;
   }
 }
 
 @media only screen and (min-width: 1024px) {
-  .register__page {
+  .login-page {
     grid-template-columns: repeat(2, 45rem);
     justify-content: center;
   }
 
-  .register__img {
+  .login-page__picture {
     width: 100%;
     height: 50rem;
     align-self: center;
@@ -114,13 +104,13 @@ input.error::placeholder {
     box-shadow: rgba(var(--black-int-color), 0.45) 0 2.5rem 2rem -2rem;
   }
 
-  .register__img img {
+  .login-page__picture-img {
     border-radius: 0;
     border-bottom-left-radius: 1rem;
     border-top-left-radius: 1rem;
   }
 
-  .form__register {
+  .login-page__form {
     width: 100%;
     height: 50rem;
     align-self: center;
