@@ -56,7 +56,7 @@ export const LoginPage = (): JSX.Element => {
         <img
           src="https://c.tenor.com/3Im54mMMkiUAAAAC/the-flash-running.gif"
           alt="gif"
-          className="login-page__picture-img"
+          className="login-page__img"
         ></img>
       </article>
 

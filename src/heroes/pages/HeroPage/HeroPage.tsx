@@ -32,103 +32,93 @@ export const HeroPage = (): JSX.Element => {
       ></img>
 
       <article className="hero-page__information">
-        <h3 className="hero-page__information-name">{hero?.name}</h3>
-        <ul className="hero-page__information-list">
-          <li className="hero-page__information-list-item">
-            <b className="hero-page__information-list-item-title">Slug: </b>
+        <h3 className="hero-page__name">{hero?.name}</h3>
+        <ul className="hero-page__stats">
+          <li className="hero-page__stat">
+            <b className="hero-page__stat-title">Slug: </b>
             {hero?.slug}
           </li>
 
-          <li className="hero-page__information-list-item">
-            <b className="hero-page__information-list-item-title">
-              PowerStats:{" "}
-            </b>
-            <p className="hero-page__information-list-item-text">
+          <li className="hero-page__stat">
+            <b className="hero-page__stat-title">PowerStats: </b>
+            <p className="hero-page__stat-text">
               Intelligence: {hero?.powerstats.intelligence}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               Strength: {hero?.powerstats.strength}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               Speed: {hero?.powerstats.speed}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               Durability: {hero?.powerstats.durability}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               Power: {hero?.powerstats.power}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               Combat: {hero?.powerstats.combat}
             </p>
           </li>
 
-          <li className="hero-page__information-list-item">
-            <b className="hero-page__information-list-item-title">
-              Appearance:{" "}
-            </b>
-            <p className="hero-page__information-list-item-text">
+          <li className="hero-page__stat">
+            <b className="hero-page__stat-title">Appearance: </b>
+            <p className="hero-page__stat-text">
               Gender: {hero?.appearance.gender}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               Race: {hero?.appearance.race}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               Height: {hero?.appearance.height[1]}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               Weight: {hero?.appearance.weight[1]}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               Eye color: {hero?.appearance.eyeColor}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               Hair color: {hero?.appearance.hairColor}
             </p>
           </li>
 
-          <li className="hero-page__information-list-item">
-            <b className="hero-page__information-list-item-title">
-              Biography:{" "}
-            </b>
-            <p className="hero-page__information-list-item-text">
+          <li className="hero-page__stat">
+            <b className="hero-page__stat-title">Biography: </b>
+            <p className="hero-page__stat-text">
               Fullname: {hero?.biography.fullName}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               alter egos: {hero?.biography.alterEgos}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               place Of Birth: {hero?.biography.placeOfBirth}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               first Appearance: {hero?.biography.firstAppearance}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               publisher: {hero?.biography.publisher}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               alignment: {hero?.biography.alignment}
             </p>
           </li>
 
-          <li className="hero-page__information-list-item">
-            <b className="hero-page__information-list-item-title">Works: </b>
-            <p className="hero-page__information-list-item-text">
+          <li className="hero-page__stat">
+            <b className="hero-page__stat-title">Works: </b>
+            <p className="hero-page__stat-text">
               occupation: {hero?.work.occupation}
             </p>
-            <p className="hero-page__information-list-item-text">
-              base: {hero?.work.base}
-            </p>
+            <p className="hero-page__stat-text">base: {hero?.work.base}</p>
           </li>
 
-          <li className="hero-page__information-list-item">
-            <b className="hero-page__information-list-item-title">
-              Connections:{" "}
-            </b>
-            <p className="hero-page__information-list-item-text">
+          <li className="hero-page__stat">
+            <b className="hero-page__stat-title">Connections: </b>
+            <p className="hero-page__stat-text">
               group Affiliation: {hero?.connections.groupAffiliation}
             </p>
-            <p className="hero-page__information-list-item-text">
+            <p className="hero-page__stat-text">
               Relatives: {hero?.connections.relatives}
             </p>
           </li>
@@ -136,7 +126,7 @@ export const HeroPage = (): JSX.Element => {
           <img
             src={hero?.images.md}
             alt={hero?.name}
-            className="hero-page__information-list-img animate__animated animate__fadeIn"
+            className="hero-page__img animate__animated animate__fadeIn"
           />
         </ul>
 
@@ -144,7 +134,7 @@ export const HeroPage = (): JSX.Element => {
           onClick={onNavigateBack}
           aria-label="back"
           type="button"
-          className="hero-page__information-btn-back"
+          className="hero-page__btn-back"
         >
           Back...
         </button>

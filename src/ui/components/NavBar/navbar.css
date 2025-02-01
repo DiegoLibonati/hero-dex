@@ -12,7 +12,7 @@
   padding: 0.5rem;
 }
 
-.header-wrapper__logo {
+.header-wrapper__content {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -21,13 +21,13 @@
   height: 100%;
 }
 
-.header-wrapper__logo-title {
+.header-wrapper__title {
   text-decoration: none;
   font-size: 2.5rem;
   color: var(--white-color);
 }
 
-.header-wrapper__logo-btn-manage-icon {
+.header-wrapper__btn-manage-icon {
   font-size: 2.5rem;
   color: var(--white-color);
   cursor: pointer;
@@ -69,19 +69,19 @@
   height: 30rem;
 }
 
-.header-wrapper__nav-list-item-link {
+.header-wrapper__link {
   text-decoration: none;
   font-size: 3rem;
   color: var(--white-color);
 }
 
-.header-wrapper__nav-list-item-username {
+.header-wrapper__username {
   font-size: 5rem;
   color: var(--white-color);
   text-align: center;
 }
 
-.header-wrapper__nav-list-item-btn-logout {
+.header-wrapper__btn-logout {
   background: none;
   border: 0.1rem solid var(--white-color);
   padding: 1rem;

@@ -40,7 +40,7 @@ export const RegisterPage = (): JSX.Element => {
         <img
           src="https://i.pinimg.com/originals/96/b0/83/96b083f5f824d2b8b342047b66832276.gif"
           alt="gif"
-          className="register-page__picture-img"
+          className="register-page__img"
         ></img>
       </article>
 

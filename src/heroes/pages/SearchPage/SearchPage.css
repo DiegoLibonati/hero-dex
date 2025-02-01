@@ -63,15 +63,15 @@
   margin-top: 5rem;
 }
 
-.search-page__list-label {
+.search-page__default-label {
   width: 100%;
   font-size: 2.5rem;
   text-align: center;
 }
 
-.search-page__list-search,
-.search-page__list-not-found,
-.search-page__list-query {
+.search-page__search-label,
+.search-page__not-found-label,
+.search-page__query-label {
   font-size: 2rem;
   margin-top: 1rem;
   color: var(--primary-color);

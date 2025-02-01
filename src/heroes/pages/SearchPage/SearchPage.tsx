@@ -60,18 +60,18 @@ export const SearchPage = (): JSX.Element => {
       </form>
 
       <article className="search-page__list">
-        <h4 className="search-page__list-label">Results</h4>
+        <h4 className="search-page__default-label">Results</h4>
 
         <div
-          className="search-page__list-search"
+          className="search-page__search-label"
           style={{ display: q === "" ? "" : "none" }}
         >
           Search a hero
         </div>
 
         {heroesState.heroes.length === 0 && q !== "" && (
-          <div className="search-page__list-not-found">
-            No hero with <b className="search-page__list-query">{q}</b>
+          <div className="search-page__not-found-label">
+            No hero with <b className="search-page__query-label">{q}</b>
           </div>
         )}
 

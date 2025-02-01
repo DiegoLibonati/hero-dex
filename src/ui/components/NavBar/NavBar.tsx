@@ -12,8 +12,8 @@ export const NavBar = (): JSX.Element => {
   const { authState, startLogOutWithButton } = useAuthContext();
 
   const isActive = ({ isActive }: { isActive: boolean }): string =>
-    `header-wrapper__nav-list-item-link ${
-      isActive ? "header-wrapper__nav-list-item-link--active" : ""
+    `header-wrapper__link ${
+      isActive ? "header-wrapper__link--active" : ""
     }`;
 
   const handleClickManageSidebar = (): void => {
@@ -26,11 +26,11 @@ export const NavBar = (): JSX.Element => {
 
   return (
     <header className="header-wrapper">
-      <div className="header-wrapper__logo">
+      <div className="header-wrapper__content">
         <Link
           to="/"
           aria-label="go to home by title"
-          className="header-wrapper__logo-title"
+          className="header-wrapper__title"
         >
           HeroesApp
         </Link>
@@ -38,11 +38,11 @@ export const NavBar = (): JSX.Element => {
           type="button"
           onClick={handleClickManageSidebar}
           aria-label="manage sidebar"
-          className="header-wrapper__logo-btn-manage"
+          className="header-wrapper__btn-manage"
         >
           <FaBars
             id="bars"
-            className="header-wrapper__logo-btn-manage-icon"
+            className="header-wrapper__btn-manage-icon"
           ></FaBars>
         </button>
       </div>
@@ -90,14 +90,14 @@ export const NavBar = (): JSX.Element => {
           </li>
 
           <li className="header-wrapper__nav-list-item">
-            <h2 className="header-wrapper__nav-list-item-username">
+            <h2 className="header-wrapper__username">
               {authState?.displayName}
             </h2>
             <button
               type="button"
               onClick={onLogout}
               aria-label="logout"
-              className="header-wrapper__nav-list-item-btn-logout"
+              className="header-wrapper__btn-logout"
             >
               Logout
             </button>
