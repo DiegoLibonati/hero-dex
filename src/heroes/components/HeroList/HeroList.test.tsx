@@ -6,7 +6,7 @@ import { Hero } from "../../../entities/entities";
 
 import { HeroList } from "./HeroList";
 
-import { mockHeroes } from "../../../tests/jest.constants";
+import { mockHeroes } from "../../../../tests/jest.constants";
 
 type RenderComponent = {
   props: {

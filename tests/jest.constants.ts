@@ -1,4 +1,4 @@
-import { AuthState, Config, Hero } from "../entities/entities";
+import { AuthState, Config, Hero } from "../src/entities/entities";
 
 export const getMockAuthState = (authState: AuthState) => {
   return {

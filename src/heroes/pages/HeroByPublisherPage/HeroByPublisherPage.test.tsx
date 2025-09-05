@@ -11,7 +11,7 @@ import { getHeroesByPublishers } from "../../helpers/getHeroesByPublishers";
 import { getAllPublishers } from "../../helpers/getAllPublishers";
 import { HeroesProvider } from "../../context/HeroesProvider";
 
-import { mockHeroeOne, mockHeroes } from "../../../tests/jest.constants";
+import { mockHeroeOne, mockHeroes } from "../../../../tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;

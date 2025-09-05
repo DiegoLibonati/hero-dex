@@ -7,7 +7,7 @@ import { LoginPage } from "./LoginPage";
 
 import { AuthProvider, useAuthContext } from "../../context/AuthProvider";
 
-import { getMockAuthState } from "../../../tests/jest.constants";
+import { getMockAuthState } from "../../../../tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;

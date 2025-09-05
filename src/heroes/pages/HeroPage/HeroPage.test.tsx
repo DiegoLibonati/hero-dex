@@ -9,7 +9,7 @@ import { HeroPage } from "./HeroPage";
 
 import { HeroesProvider } from "../../context/HeroesProvider";
 
-import { mockHeroeTwo, mockHeroes } from "../../../tests/jest.constants";
+import { mockHeroeTwo, mockHeroes } from "../../../../tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;

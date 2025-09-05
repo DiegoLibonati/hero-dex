@@ -10,7 +10,7 @@ import { SearchPage } from "./SearchPage";
 
 import { HeroesProvider } from "../../context/HeroesProvider";
 
-import { mockHeroeOne, mockHeroes } from "../../../tests/jest.constants";
+import { mockHeroeOne, mockHeroes } from "../../../../tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;
@@ -87,7 +87,7 @@ describe("SearchPage.tsx", () => {
 
       await user.click(btnSubmit);
 
-      expect(screen.getByText(`No hero with`)).toBeInTheDocument();
+      expect(await screen.findByText(`No hero with`)).toBeInTheDocument();
     });
 
     test("It must find the heroes with the name entered.", async () => {
@@ -109,7 +109,7 @@ describe("SearchPage.tsx", () => {
 
       await user.click(btnSubmit);
 
-      expect(screen.getByRole("listitem")).toBeInTheDocument();
+      expect(await screen.findByRole("listitem")).toBeInTheDocument();
     });
   });
 });

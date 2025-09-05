@@ -10,7 +10,7 @@ import {
   useAuthContext,
 } from "../../../auth/context/AuthProvider";
 
-import { getMockAuthState } from "../../../tests/jest.constants";
+import { getMockAuthState } from "../../../../tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;
