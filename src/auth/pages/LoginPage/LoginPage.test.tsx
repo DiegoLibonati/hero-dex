@@ -1,13 +1,14 @@
+import { act } from "react";
 import { screen, render } from "@testing-library/react";
 import user from "@testing-library/user-event";
 
 import { MemoryRouter } from "react-router-dom";
 
-import { LoginPage } from "./LoginPage";
+import { LoginPage } from "@src/auth/pages/LoginPage/LoginPage";
 
-import { AuthProvider, useAuthContext } from "../../context/AuthProvider";
+import { AuthProvider, useAuthContext } from "@src/auth/context/AuthProvider";
 
-import { getMockAuthState } from "../../../../tests/jest.constants";
+import { getMockAuthState } from "@tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;
@@ -29,8 +30,8 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-jest.mock("../../context/AuthProvider", () => ({
-  ...jest.requireActual("../../context/AuthProvider"),
+jest.mock("@src/auth/context/AuthProvider", () => ({
+  ...jest.requireActual("@src/auth/context/AuthProvider"),
   useAuthContext: jest.fn(),
 }));
 
@@ -102,10 +103,11 @@ describe("LoginPage.tsx", () => {
       const btnGoogle = screen.getByRole("button", {
         name: /login with google/i,
       });
-
       expect(btnGoogle).toBeInTheDocument();
 
-      await user.click(btnGoogle);
+      await act(async () => {
+        await user.click(btnGoogle);
+      });
 
       expect(mockStartGoogleSignIn).toHaveBeenCalledTimes(1);
     });
@@ -114,10 +116,11 @@ describe("LoginPage.tsx", () => {
       renderComponent();
 
       const btnLogin = screen.getByRole("button", { name: /simple login/i });
-
       expect(btnLogin).toBeInTheDocument();
 
-      await user.click(btnLogin);
+      await act(async () => {
+        await user.click(btnLogin);
+      });
 
       expect(mockCheckingAuthentication).toHaveBeenCalledTimes(1);
       expect(mockCheckingAuthentication).toHaveBeenCalledWith(
@@ -141,23 +144,23 @@ describe("LoginPage.tsx", () => {
       expect(inputEmail).toBeInTheDocument();
       expect(inputPassword).toBeInTheDocument();
 
-      await user.clear(inputEmail);
-      await user.click(inputEmail);
-      await user.keyboard(email);
+      await act(async () => {
+        await user.clear(inputEmail);
+        await user.type(inputEmail, email);
 
-      await user.clear(inputPassword);
-      await user.click(inputPassword);
-      await user.keyboard(password);
+        await user.clear(inputPassword);
+        await user.type(inputPassword, password);
+
+        await user.click(btnLogin);
+      });
 
       expect(inputEmail).toHaveValue(email);
       expect(inputPassword).toHaveValue(password);
 
-      await user.click(btnLogin);
-
       expect(mockStartLoginWithEmailPassword).toHaveBeenCalledTimes(1);
       expect(mockStartLoginWithEmailPassword).toHaveBeenCalledWith("checking", {
-        email: email,
-        password: password,
+        email,
+        password,
       });
     });
   });

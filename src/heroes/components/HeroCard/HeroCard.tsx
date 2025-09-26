@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import "./HeroCard.css";
+import "@src/heroes/components/HeroCard/HeroCard.css";
 
 interface HeroCardProps {
   id: number;

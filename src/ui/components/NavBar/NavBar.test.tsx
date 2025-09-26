@@ -1,16 +1,12 @@
+import { act } from "react";
 import { screen, render } from "@testing-library/react";
 import user from "@testing-library/user-event";
-
 import { MemoryRouter } from "react-router-dom";
 
-import { NavBar } from "./NavBar";
+import { NavBar } from "@src/ui/components/NavBar/NavBar";
+import { AuthProvider, useAuthContext } from "@src/auth/context/AuthProvider";
 
-import {
-  AuthProvider,
-  useAuthContext,
-} from "../../../auth/context/AuthProvider";
-
-import { getMockAuthState } from "../../../../tests/jest.constants";
+import { getMockAuthState } from "@tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;
@@ -27,13 +23,11 @@ const renderComponent = (): RenderComponent => {
     </MemoryRouter>
   );
 
-  return {
-    container: container,
-  };
+  return { container };
 };
 
-jest.mock("../../../auth/context/AuthProvider", () => ({
-  ...jest.requireActual("../../../auth/context/AuthProvider"),
+jest.mock("@src/auth/context/AuthProvider", () => ({
+  ...jest.requireActual("@src/auth/context/AuthProvider"),
   useAuthContext: jest.fn(),
 }));
 
@@ -76,15 +70,17 @@ describe("NavBar.tsx", () => {
         name: /manage sidebar/i,
       });
 
-      expect(nav).toBeInTheDocument();
       expect(nav).not.toHaveClass("header-wrapper__nav--open");
-      expect(btnManageSidebar).toBeInTheDocument();
 
-      await user.click(btnManageSidebar);
+      await act(async () => {
+        await user.click(btnManageSidebar);
+      });
 
       expect(nav).toHaveClass("header-wrapper__nav--open");
 
-      await user.click(btnManageSidebar);
+      await act(async () => {
+        await user.click(btnManageSidebar);
+      });
 
       expect(nav).not.toHaveClass("header-wrapper__nav--open");
     });
@@ -124,9 +120,9 @@ describe("NavBar.tsx", () => {
 
       const btnLogout = screen.getByRole("button", { name: /logout/i });
 
-      expect(btnLogout).toBeInTheDocument();
-
-      await user.click(btnLogout);
+      await act(async () => {
+        await user.click(btnLogout);
+      });
 
       expect(mockStartLogOutWithButton).toHaveBeenCalledTimes(1);
     });

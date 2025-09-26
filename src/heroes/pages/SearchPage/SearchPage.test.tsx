@@ -1,16 +1,15 @@
+import { act } from "react";
 import { screen, render } from "@testing-library/react";
 import user from "@testing-library/user-event";
 
 import MockAdapter from "axios-mock-adapter";
-
 import axios from "axios";
 import { MemoryRouter } from "react-router-dom";
 
-import { SearchPage } from "./SearchPage";
+import { SearchPage } from "@src/heroes/pages/SearchPage/SearchPage";
+import { HeroesProvider } from "@src/heroes/context/HeroesProvider";
 
-import { HeroesProvider } from "../../context/HeroesProvider";
-
-import { mockHeroeOne, mockHeroes } from "../../../../tests/jest.constants";
+import { mockHeroeOne, mockHeroes } from "@tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;
@@ -37,7 +36,6 @@ const asyncRenderComponent = async (): Promise<RenderComponent> => {
 describe("SearchPage.tsx", () => {
   describe("General Tests.", () => {
     const mock = new MockAdapter(axios);
-
     mock.onGet("/superhero-api/api/all.json").reply(200, mockHeroes);
 
     test("It must render the page title.", async () => {
@@ -81,11 +79,11 @@ describe("SearchPage.tsx", () => {
       expect(btnSubmit).toBeInTheDocument();
       expect(messageNotFound).not.toBeInTheDocument();
 
-      await user.clear(input);
-      await user.click(input);
-      await user.keyboard(valueNotFound);
-
-      await user.click(btnSubmit);
+      await act(async () => {
+        await user.clear(input);
+        await user.type(input, valueNotFound);
+        await user.click(btnSubmit);
+      });
 
       expect(await screen.findByText(`No hero with`)).toBeInTheDocument();
     });
@@ -103,11 +101,11 @@ describe("SearchPage.tsx", () => {
       expect(btnSubmit).toBeInTheDocument();
       expect(heroCard).not.toBeInTheDocument();
 
-      await user.clear(input);
-      await user.click(input);
-      await user.keyboard(value);
-
-      await user.click(btnSubmit);
+      await act(async () => {
+        await user.clear(input);
+        await user.type(input, value);
+        await user.click(btnSubmit);
+      });
 
       expect(await screen.findByRole("listitem")).toBeInTheDocument();
     });

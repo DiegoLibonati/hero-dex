@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 
-import { useAuthContext } from "../../../auth/context/AuthProvider";
+import { useAuthContext } from "@src/auth/context/AuthProvider";
 
-import "./NavBar.css";
+import "@src/ui/components/NavBar/NavBar.css";
 
 export const NavBar = (): JSX.Element => {
   const [sidebar, setSidebar] = useState<boolean>(false);
@@ -12,9 +12,7 @@ export const NavBar = (): JSX.Element => {
   const { authState, startLogOutWithButton } = useAuthContext();
 
   const isActive = ({ isActive }: { isActive: boolean }): string =>
-    `header-wrapper__link ${
-      isActive ? "header-wrapper__link--active" : ""
-    }`;
+    `header-wrapper__link ${isActive ? "header-wrapper__link--active" : ""}`;
 
   const handleClickManageSidebar = (): void => {
     setSidebar(!sidebar);

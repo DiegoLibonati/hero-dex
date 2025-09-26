@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
-import { useAuthContext } from "../../context/AuthProvider";
+import { useAuthContext } from "@src/auth/context/AuthProvider";
 
-import "./AuthErrorAlert.css";
+import "@src/auth/components/AuthErrorAlert/AuthErrorAlert.css";
 
 export const AuthErrorAlert = (): JSX.Element => {
   const { authState, clearErrorMessage } = useAuthContext();

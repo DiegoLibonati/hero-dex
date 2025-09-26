@@ -1,6 +1,6 @@
-import { getHeroesByName } from "./getHeroesByName";
+import { getHeroesByName } from "@src/heroes/helpers/getHeroesByName";
 
-import { mockHeroeOne, mockHeroes } from "../../../tests/jest.constants";
+import { mockHeroeOne, mockHeroes } from "@tests/jest.constants";
 
 describe("getHeroesByName.ts", () => {
   describe("General Tests.", () => {

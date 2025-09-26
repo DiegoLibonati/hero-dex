@@ -2,12 +2,12 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 
-import { FormDataAuth } from "../../../entities/entities";
+import { FormDataAuth } from "@src/entities/entities";
 
-import { useAuthContext } from "../../context/AuthProvider";
-import { useForm } from "../../../hooks/useForm";
+import { useAuthContext } from "@src/auth/context/AuthProvider";
+import { useForm } from "@src/hooks/useForm";
 
-import "./LoginPage.css";
+import "@src/auth/pages/LoginPage/LoginPage.css";
 
 const formData: FormDataAuth = {
   email: "",

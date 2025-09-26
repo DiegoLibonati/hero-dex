@@ -1,11 +1,11 @@
 import React from "react";
 
-import { FormDataAuth } from "../../../entities/entities";
+import { FormDataAuth } from "@src/entities/entities";
 
-import { useAuthContext } from "../../context/AuthProvider";
-import { useForm } from "../../../hooks/useForm";
+import { useAuthContext } from "@src/auth/context/AuthProvider";
+import { useForm } from "@src/hooks/useForm";
 
-import "./RegisterPage.css";
+import "@src/auth/pages/RegisterPage/RegisterPage.css";
 
 const formData: FormDataAuth = {
   email: "",

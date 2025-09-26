@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-import { Hero } from "../../../entities/entities";
+import { Hero } from "@src/entities/entities";
 
-import { HeroCard } from "./../HeroCard/HeroCard";
+import { HeroCard } from "@src/heroes/components/HeroCard/HeroCard";
 
-import "./HeroList.css";
+import "@src/heroes/components/HeroList/HeroList.css";
 
 interface HeroListProps {
   heroes: Hero[];

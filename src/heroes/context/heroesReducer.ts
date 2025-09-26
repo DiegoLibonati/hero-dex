@@ -1,8 +1,8 @@
-import { HeroesState, HeroesPayloadReducer } from "../../entities/entities";
+import { HeroesState, HeroesPayloadReducer } from "@src/entities/entities";
 
-import { getAllPublishers } from "../helpers/getAllPublishers";
-import { getHeroesByName } from "../helpers/getHeroesByName";
-import { getHeroesByPublishers } from "../helpers/getHeroesByPublishers";
+import { getAllPublishers } from "@src/heroes/helpers/getAllPublishers";
+import { getHeroesByName } from "@src/heroes/helpers/getHeroesByName";
+import { getHeroesByPublishers } from "@src/heroes/helpers/getHeroesByPublishers";
 
 export const heroesReducer = (
   state: HeroesState,

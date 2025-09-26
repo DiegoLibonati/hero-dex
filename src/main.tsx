@@ -1,9 +1,9 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
-import { HeroesApp } from "./HeroesApp";
+import { HeroesApp } from "@src/HeroesApp";
 
-import "./index.css";
+import "@src/index.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <BrowserRouter>

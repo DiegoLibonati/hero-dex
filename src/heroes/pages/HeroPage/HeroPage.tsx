@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { useHeroesContext } from "../../context/HeroesProvider";
-import { getHeroById } from "../../helpers/getHeroById";
+import { useHeroesContext } from "@src/heroes/context/HeroesProvider";
+import { getHeroById } from "@src/heroes/helpers/getHeroById";
 
-import "./HeroPage.css";
+import "@src/heroes/pages/HeroPage/HeroPage.css";
 
 export const HeroPage = (): JSX.Element => {
   const { heroesState } = useHeroesContext();

@@ -5,11 +5,11 @@ import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 
-import { HeroPage } from "./HeroPage";
+import { HeroPage } from "@src/heroes/pages/HeroPage/HeroPage";
 
-import { HeroesProvider } from "../../context/HeroesProvider";
+import { HeroesProvider } from "@src/heroes/context/HeroesProvider";
 
-import { mockHeroeTwo, mockHeroes } from "../../../../tests/jest.constants";
+import { mockHeroeTwo, mockHeroes } from "@tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;
@@ -48,6 +48,10 @@ describe("HeroPage.tsx", () => {
     const mock = new MockAdapter(axios);
 
     mock.onGet("/superhero-api/api/all.json").reply(200, mockHeroes);
+
+    afterAll(() => {
+      mock.restore();
+    });
 
     test("It must render the hero images.", async () => {
       await asyncRenderComponent();

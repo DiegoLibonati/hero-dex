@@ -1,6 +1,6 @@
-import { getAllPublishers } from "./getAllPublishers";
+import { getAllPublishers } from "@src/heroes/helpers/getAllPublishers";
 
-import { mockHeroes } from "../../../tests/jest.constants";
+import { mockHeroes } from "@tests/jest.constants";
 
 describe("getAllPublishers.ts", () => {
   describe("General Tests.", () => {

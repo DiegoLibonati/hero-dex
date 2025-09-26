@@ -1,4 +1,4 @@
-import { AuthPayloadReducer, AuthState } from "../../entities/entities";
+import { AuthPayloadReducer, AuthState } from "@src/entities/entities";
 
 export const authReducer = (state: AuthState, action: AuthPayloadReducer) => {
   switch (action.type) {

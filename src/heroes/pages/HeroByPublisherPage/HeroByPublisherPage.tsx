@@ -2,12 +2,12 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 
-import { HeroList } from "../../components/HeroList/HeroList";
-import { Loader } from "../../../ui/components/Loader/Loader";
+import { HeroList } from "@src/heroes/components/HeroList/HeroList";
+import { Loader } from "@src/ui/components/Loader/Loader";
 
-import { useHeroesContext } from "../../context/HeroesProvider";
+import { useHeroesContext } from "@src/heroes/context/HeroesProvider";
 
-import "./HeroByPublisherPage.css";
+import "@src/heroes/pages/HeroByPublisherPage/HeroByPublisherPage.css";
 
 export const HeroByPublisherPage = (): JSX.Element => {
   const [selectPublisher, setSelectPublisher] = useState("ALL");

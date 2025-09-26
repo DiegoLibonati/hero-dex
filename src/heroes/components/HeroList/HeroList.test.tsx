@@ -2,11 +2,11 @@ import { screen, render } from "@testing-library/react";
 
 import { MemoryRouter } from "react-router-dom";
 
-import { Hero } from "../../../entities/entities";
+import { Hero } from "@src/entities/entities";
 
-import { HeroList } from "./HeroList";
+import { HeroList } from "@src/heroes/components/HeroList/HeroList";
 
-import { mockHeroes } from "../../../../tests/jest.constants";
+import { mockHeroes } from "@tests/jest.constants";
 
 type RenderComponent = {
   props: {

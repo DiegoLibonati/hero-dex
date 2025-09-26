@@ -1,12 +1,12 @@
 import { Fragment } from "react/jsx-runtime";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import { CheckingAuth } from "../auth/components/CheckingAuth/CheckingAuth";
-import { LoginPage } from "../auth/pages/LoginPage/LoginPage";
-import { RegisterPage } from "../auth/pages/RegisterPage/RegisterPage";
+import { CheckingAuth } from "@src/auth/components/CheckingAuth/CheckingAuth";
+import { LoginPage } from "@src/auth/pages/LoginPage/LoginPage";
+import { RegisterPage } from "@src/auth/pages/RegisterPage/RegisterPage";
 
-import { useCheckAuth } from "../hooks/useCheckAuth";
-import { HeroesRoutes } from "../heroes/routes/HeroesRoutes";
+import { useCheckAuth } from "@src/hooks/useCheckAuth";
+import { HeroesRoutes } from "@src/heroes/routes/HeroesRoutes";
 
 export const AppRouter = (): JSX.Element => {
   const logged = useCheckAuth();

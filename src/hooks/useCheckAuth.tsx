@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
 import { onAuthStateChanged } from "firebase/auth";
-import { FirebaseAuth } from "../firebase/config";
+import { FirebaseAuth } from "@src/firebase/config";
 
-import { useAuthContext } from "../auth/context/AuthProvider";
+import { useAuthContext } from "@src/auth/context/AuthProvider";
 
 export const useCheckAuth = (): string => {
   const { authState, login, logout } = useAuthContext();

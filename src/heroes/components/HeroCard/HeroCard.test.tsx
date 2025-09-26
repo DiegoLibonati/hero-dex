@@ -2,7 +2,7 @@ import { screen, render } from "@testing-library/react";
 
 import { MemoryRouter } from "react-router-dom";
 
-import { HeroCard } from "./HeroCard";
+import { HeroCard } from "@src/heroes/components/HeroCard/HeroCard";
 
 type RenderComponent = {
   props: {

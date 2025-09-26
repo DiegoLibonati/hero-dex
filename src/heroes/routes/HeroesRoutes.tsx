@@ -1,13 +1,13 @@
 import { Fragment } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 
-import { NavBar } from "../../ui/components/NavBar/NavBar";
+import { NavBar } from "@src/ui/components/NavBar/NavBar";
 
-import { SearchPage } from "../pages/SearchPage/SearchPage";
-import { HeroPage } from "../pages/HeroPage/HeroPage";
-import { HeroByPublisherPage } from "../pages/HeroByPublisherPage/HeroByPublisherPage";
+import { SearchPage } from "@src/heroes/pages/SearchPage/SearchPage";
+import { HeroPage } from "@src/heroes/pages/HeroPage/HeroPage";
+import { HeroByPublisherPage } from "@src/heroes/pages/HeroByPublisherPage/HeroByPublisherPage";
 
-import { HeroesProvider } from "../context/HeroesProvider";
+import { HeroesProvider } from "@src/heroes/context/HeroesProvider";
 
 export const HeroesRoutes = (): JSX.Element => {
   return (

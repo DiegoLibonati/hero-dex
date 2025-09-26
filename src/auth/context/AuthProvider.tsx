@@ -6,17 +6,17 @@ import {
   UserLogin,
   UserLoginWithoutUsername,
   AuthContext as AuthContextT,
-} from "../../entities/entities";
+} from "@src/entities/entities";
 
-import { AuthContext } from "./AuthContext";
-import { authReducer } from "./authReducer";
+import { AuthContext } from "@src/auth/context/AuthContext";
+import { authReducer } from "@src/auth/context/authReducer";
 
 import {
   loginWithEmailPassword,
   logoutFirebase,
   registerUserWithEmail,
   signInWithGoogle,
-} from "../../firebase/providers";
+} from "@src/firebase/providers";
 
 const initialState: AuthState = {
   logged: "checking",

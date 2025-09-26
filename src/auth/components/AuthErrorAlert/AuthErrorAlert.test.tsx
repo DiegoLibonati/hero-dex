@@ -2,11 +2,11 @@ import { render } from "@testing-library/react";
 
 import { act } from "react";
 
-import { AuthErrorAlert } from "./AuthErrorAlert";
+import { AuthErrorAlert } from "@src/auth/components/AuthErrorAlert/AuthErrorAlert";
 
-import { AuthProvider, useAuthContext } from "../../context/AuthProvider";
+import { AuthProvider, useAuthContext } from "@src/auth/context/AuthProvider";
 
-import { getMockAuthState } from "../../../../tests/jest.constants";
+import { getMockAuthState } from "@tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;
@@ -24,8 +24,8 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-jest.mock("../../context/AuthProvider", () => ({
-  ...jest.requireActual("../../context/AuthProvider"),
+jest.mock("@src/auth/context/AuthProvider", () => ({
+  ...jest.requireActual("@src/auth/context/AuthProvider"),
   useAuthContext: jest.fn(),
 }));
 

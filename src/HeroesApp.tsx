@@ -1,7 +1,7 @@
-import { AuthErrorAlert } from "./auth/components/AuthErrorAlert/AuthErrorAlert";
+import { AuthErrorAlert } from "@src/auth/components/AuthErrorAlert/AuthErrorAlert";
 
-import { AppRouter } from "./router/AppRouter";
-import { AuthProvider } from "./auth/context/AuthProvider";
+import { AppRouter } from "@src/router/AppRouter";
+import { AuthProvider } from "@src/auth/context/AuthProvider";
 
 import "animate.css";
 

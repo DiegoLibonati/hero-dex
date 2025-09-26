@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 
-import { HeroCard } from "../../components/HeroCard/HeroCard";
+import { HeroCard } from "@src/heroes/components/HeroCard/HeroCard";
 
-import { useHeroesContext } from "../../context/HeroesProvider";
-import { useForm } from "../../../hooks/useForm";
+import { useHeroesContext } from "@src/heroes/context/HeroesProvider";
+import { useForm } from "@src/hooks/useForm";
 
-import "./SearchPage.css";
+import "@src/heroes/pages/SearchPage/SearchPage.css";
 
 export const SearchPage = (): JSX.Element => {
   const { heroesState, handleSearchHeroes } = useHeroesContext();
@@ -22,10 +22,12 @@ export const SearchPage = (): JSX.Element => {
   });
 
   useEffect(() => {
+    if (heroesState.heroesCopy.length === 0) return;
+
     const heroName = q as string;
 
     handleSearchHeroes(heroName);
-  }, [q]);
+  }, [q, heroesState.heroesCopy]);
 
   const onSearchSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();

@@ -4,11 +4,11 @@ import {
   HeroesState,
   HeroesContext as HeroesContextT,
   Hero,
-} from "../../entities/entities";
+} from "@src/entities/entities";
 
-import { HeroesContext } from "./HeroesContext";
-import { heroesReducer } from "./heroesReducer";
-import { useFetch } from "../../hooks/useFetch";
+import { HeroesContext } from "@src/heroes/context/HeroesContext";
+import { heroesReducer } from "@src/heroes/context/heroesReducer";
+import { useFetch } from "@src/hooks/useFetch";
 
 const initialState: HeroesState = {
   heroes: [],

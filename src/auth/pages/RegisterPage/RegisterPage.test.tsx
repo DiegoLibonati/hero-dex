@@ -1,9 +1,10 @@
-import { screen, render } from "@testing-library/react";
+import { act } from "react";
+import { screen, render, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 
-import { RegisterPage } from "./RegisterPage";
+import { RegisterPage } from "@src/auth/pages/RegisterPage/RegisterPage";
 
-import { AuthProvider, useAuthContext } from "../../context/AuthProvider";
+import { AuthProvider, useAuthContext } from "@src/auth/context/AuthProvider";
 
 type RenderComponent = {
   container: HTMLElement;
@@ -21,8 +22,8 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-jest.mock("../../context/AuthProvider", () => ({
-  ...jest.requireActual("../../context/AuthProvider"),
+jest.mock("@src/auth/context/AuthProvider", () => ({
+  ...jest.requireActual("@src/auth/context/AuthProvider"),
   useAuthContext: jest.fn(),
 }));
 
@@ -92,29 +93,30 @@ describe("RegisterPage.tsx", () => {
       expect(inputPassword).toBeInTheDocument();
       expect(btnRegister).toBeInTheDocument();
 
-      await user.clear(inputUsername);
-      await user.click(inputUsername);
-      await user.keyboard(username);
-
-      await user.clear(inputEmail);
-      await user.click(inputEmail);
-      await user.keyboard(email);
-
-      await user.clear(inputPassword);
-      await user.click(inputPassword);
-      await user.keyboard(password);
+      await act(async () => {
+        await user.type(inputUsername, username);
+        await user.type(inputEmail, email);
+        await user.type(inputPassword, password);
+      });
 
       expect(inputUsername).toHaveValue(username);
       expect(inputEmail).toHaveValue(email);
       expect(inputPassword).toHaveValue(password);
 
-      await user.click(btnRegister);
+      await act(async () => {
+        await user.click(btnRegister);
+      });
 
-      expect(mockStartCreatingUserWithEmail).toHaveBeenCalledTimes(1);
-      expect(mockStartCreatingUserWithEmail).toHaveBeenCalledWith("checking", {
-        email: email,
-        password: password,
-        username: username,
+      await waitFor(() => {
+        expect(mockStartCreatingUserWithEmail).toHaveBeenCalledTimes(1);
+        expect(mockStartCreatingUserWithEmail).toHaveBeenCalledWith(
+          "checking",
+          {
+            email,
+            password,
+            username,
+          }
+        );
       });
     });
   });

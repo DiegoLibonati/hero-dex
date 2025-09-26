@@ -1,17 +1,18 @@
-import { screen, render } from "@testing-library/react";
+import { act } from "react";
+import { screen, render, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import MockAdapter from "axios-mock-adapter";
 
 import axios from "axios";
 import { MemoryRouter } from "react-router-dom";
 
-import { HeroByPublisherPage } from "./HeroByPublisherPage";
+import { HeroByPublisherPage } from "@src/heroes/pages/HeroByPublisherPage/HeroByPublisherPage";
 
-import { getHeroesByPublishers } from "../../helpers/getHeroesByPublishers";
-import { getAllPublishers } from "../../helpers/getAllPublishers";
-import { HeroesProvider } from "../../context/HeroesProvider";
+import { getHeroesByPublishers } from "@src/heroes/helpers/getHeroesByPublishers";
+import { getAllPublishers } from "@src/heroes/helpers/getAllPublishers";
+import { HeroesProvider } from "@src/heroes/context/HeroesProvider";
 
-import { mockHeroeOne, mockHeroes } from "../../../../tests/jest.constants";
+import { mockHeroeOne, mockHeroes } from "@tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;
@@ -74,7 +75,6 @@ describe("HeroByPublisherPage.tsx", () => {
 
       expect(select).toBeInTheDocument();
       expect(select).toHaveValue("ALL");
-      // NOTE: plus one for all option.
       expect(select?.children).toHaveLength(
         getAllPublishers(mockHeroes).length + 1
       );
@@ -115,11 +115,15 @@ describe("HeroByPublisherPage.tsx", () => {
       expect(list).toBeInTheDocument();
       expect(list.children).toHaveLength(mockHeroes.length);
 
-      await user.selectOptions(select, [publisher]);
+      await act(async () => {
+        await user.selectOptions(select, [publisher]);
+      });
 
-      expect(list.children).toHaveLength(
-        getHeroesByPublishers(publisher, mockHeroes).length
-      );
+      await waitFor(() => {
+        expect(list.children).toHaveLength(
+          getHeroesByPublishers(publisher, mockHeroes).length
+        );
+      });
     });
   });
 });
