@@ -23,6 +23,7 @@ I made a web application with React JS with Firebase for user authentication sin
 2. Typescript
 3. CSS3
 4. FIREBASE
+5. Vite
 
 ## Libraries used
 
