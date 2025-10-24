@@ -1,12 +1,17 @@
-import { Fragment } from "react/jsx-runtime";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import { CheckingAuth } from "@src/auth/components/CheckingAuth/CheckingAuth";
-import { LoginPage } from "@src/auth/pages/LoginPage/LoginPage";
-import { RegisterPage } from "@src/auth/pages/RegisterPage/RegisterPage";
+import { CheckingAuth } from "@src/components/CheckingAuth/CheckingAuth";
+
+import { LoginPage } from "@src/pages/LoginPage/LoginPage";
+import { RegisterPage } from "@src/pages/RegisterPage/RegisterPage";
+import { HeroByPublisherPage } from "@src/pages/HeroByPublisherPage/HeroByPublisherPage";
+import { SearchPage } from "@src/pages/SearchPage/SearchPage";
+import { HeroPage } from "@src/pages/HeroPage/HeroPage";
+
+import { AuthRoute } from "@src/router/AuthRoute";
+import { HeroesRoute } from "@src/router/HeroesRoute";
 
 import { useCheckAuth } from "@src/hooks/useCheckAuth";
-import { HeroesRoutes } from "@src/heroes/routes/HeroesRoutes";
 
 export const AppRouter = (): JSX.Element => {
   const logged = useCheckAuth();
@@ -15,19 +20,30 @@ export const AppRouter = (): JSX.Element => {
 
   return (
     <Routes>
-      {logged === "authenticated" ? (
-        <Route path="/*" element={<HeroesRoutes></HeroesRoutes>}></Route>
-      ) : (
-        <Fragment>
-          <Route path="login" element={<LoginPage></LoginPage>}></Route>
+      <Route element={<AuthRoute />}>
+        <Route path="/auth/login" element={<LoginPage></LoginPage>}></Route>
+        <Route
+          path="/auth/register"
+          element={<RegisterPage></RegisterPage>}
+        ></Route>
+      </Route>
 
-          <Route
-            path="register"
-            element={<RegisterPage></RegisterPage>}
-          ></Route>
-        </Fragment>
-      )}
-      <Route path="/*" element={<Navigate to="/login"></Navigate>} />
+      <Route element={<HeroesRoute />}>
+        <Route
+          path="/heroes/home"
+          element={<HeroByPublisherPage></HeroByPublisherPage>}
+        ></Route>
+        <Route
+          path="/heroes/search"
+          element={<SearchPage></SearchPage>}
+        ></Route>
+        <Route
+          path="/heroes/hero/:heroId"
+          element={<HeroPage></HeroPage>}
+        ></Route>
+      </Route>
+
+      <Route path="/*" element={<Navigate to="/auth/login"></Navigate>}></Route>
     </Routes>
   );
 };

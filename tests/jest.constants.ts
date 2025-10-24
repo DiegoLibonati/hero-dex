@@ -1,4 +1,7 @@
-import { AuthState, Config, Hero } from "@src/entities/entities";
+import { Hero } from "@src/entities/app";
+import { Envs } from "@src/entities/envs";
+import { AuthState } from "@src/entities/states";
+
 
 export const getMockAuthState = (authState: AuthState) => {
   return {
@@ -11,7 +14,7 @@ export const getMockAuthState = (authState: AuthState) => {
   };
 };
 
-export const mockConfig: Config = {
+export const mockEnvs: Envs = {
   apiUrl: "YOUR API URL [OPTIONAL]",
   firebase: {
     apiKey: "YOUR API KEY FIREBASE [OPTIONAL]",

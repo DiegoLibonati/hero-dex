@@ -6,7 +6,7 @@ const config: Config = {
   extensionsToTreatAsEsm: [".ts"],
   setupFilesAfterEnv: ["<rootDir>/tests/jest.setup.ts"],
   moduleNameMapper: {
-    "\\.(css|scss)$": "<rootDir>/tests_mocks/styleMock.js",
+    "\\.(css|scss)$": "<rootDir>/tests_mocks/styleMock.ts",
     "^@src/(.*)$": "<rootDir>/src/$1",
     "^@tests/(.*)$": "<rootDir>/tests/$1",
   },

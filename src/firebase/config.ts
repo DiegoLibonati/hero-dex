@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-import { CONFIG } from "@src/constants/config";
+import envs from "@src/constants/envs";
 
-const FirebaseApp = initializeApp(CONFIG.firebase);
+const FirebaseApp = initializeApp(envs.firebase);
 export const FirebaseAuth = getAuth(FirebaseApp);
