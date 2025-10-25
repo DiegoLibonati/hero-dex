@@ -37,6 +37,6 @@ export const HeroesReducer = (state: HeroesState, action: HeroesReducerT) => {
       return { ...state, heroes: getHeroesByName(heroName, state.heroesCopy) };
 
     default:
-      return state;
+      throw new Error("Unknown action: " + (action as HeroesReducerT)?.type);
   }
 };

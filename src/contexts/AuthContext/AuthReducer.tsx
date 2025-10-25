@@ -42,6 +42,6 @@ export const AuthReducer = (state: AuthState, action: AuthReducerT) => {
         errorMessage: "",
       };
     default:
-      return state;
+      throw new Error("Unknown action: " + (action as AuthReducerT)?.type);
   }
 };
