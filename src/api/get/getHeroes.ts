@@ -1,14 +1,14 @@
-import { Hero } from "@src/entities/app";
+import { GetHeroesResponse } from "@src/entities/responses";
 
 import { heroesApi } from "@src/api/heroes";
 
-export const getHeroes = async (): Promise<Hero[]> => {
+export const getHeroes = async (): Promise<GetHeroesResponse> => {
   try {
     const response = await heroesApi.get("/api/all.json", {
       method: "GET",
     });
 
-    const data: Hero[] = await response.data;
+    const data: GetHeroesResponse = await response.data;
 
     return data;
   } catch (e) {
