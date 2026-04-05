@@ -9,7 +9,9 @@ import heroeService from "@/services/heroeService";
 
 import { mockHeroes } from "@tests/__mocks__/heroes.mock";
 
-type RenderPage = { container: HTMLElement };
+interface RenderPage {
+  container: HTMLElement;
+}
 
 const mockHeroesDispatch = jest.fn();
 
@@ -43,13 +45,17 @@ describe("HeroByPublisherPage", () => {
 
   it("should render the publisher select", async () => {
     renderPage();
-    await waitFor(() => expect(heroeService.getAll).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(heroeService.getAll).toHaveBeenCalledTimes(1);
+    });
     expect(screen.getByRole("combobox")).toBeInTheDocument();
   });
 
   it("should render publisher options populated from context state", async () => {
     renderPage();
-    await waitFor(() => expect(heroeService.getAll).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(heroeService.getAll).toHaveBeenCalledTimes(1);
+    });
     expect(screen.getByRole("option", { name: "Marvel Comics" })).toBeInTheDocument();
     expect(screen.getByRole("option", { name: "DC Comics" })).toBeInTheDocument();
   });

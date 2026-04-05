@@ -2,14 +2,16 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 
+import type { JSX } from "react";
+
 import { logoutFirebase } from "@/firebase/providers";
 
 import { useAuthContext } from "@/hooks/useAuthContext";
 
 import "@/components/NavBar/NavBar.css";
 
-const NavBar = () => {
-  const [sidebar, setSidebar] = useState<boolean>(false);
+const NavBar = (): JSX.Element => {
+  const [sidebar, setSidebar] = useState(false);
 
   const { state: authState, dispatch: authDispatch } = useAuthContext();
 
@@ -74,10 +76,12 @@ const NavBar = () => {
           </li>
 
           <li className="header-wrapper__nav-list-item">
-            <h2 className="header-wrapper__username">{authState?.displayName}</h2>
+            <h2 className="header-wrapper__username">{authState.displayName}</h2>
             <button
               type="button"
-              onClick={onLogout}
+              onClick={() => {
+                void onLogout();
+              }}
               aria-label="Log out"
               className="header-wrapper__btn-logout"
             >

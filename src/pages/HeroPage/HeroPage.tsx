@@ -1,6 +1,8 @@
 import { useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+import type { JSX } from "react";
+
 import { getHeroById } from "@/helpers/getHeroById";
 
 import { useHeroesContext } from "@/hooks/useHeroesContext";
@@ -9,7 +11,7 @@ import heroeService from "@/services/heroeService";
 
 import "@/pages/HeroPage/HeroPage.css";
 
-const HeroPage = () => {
+const HeroPage = (): JSX.Element => {
   const { state: heroesState, dispatch: heroesDispatch } = useHeroesContext();
   const { heroId } = useParams();
 
@@ -18,7 +20,7 @@ const HeroPage = () => {
     [heroId, heroesState.heroesCopy.length]
   );
 
-  const handleGetHeroes = async () => {
+  const handleGetHeroes = async (): Promise<void> => {
     const data = await heroeService.getAll();
 
     heroesDispatch({ type: "SET_HEROES", payload: data });
@@ -26,15 +28,15 @@ const HeroPage = () => {
 
   const navigate = useNavigate();
 
-  const onNavigateBack = () => {
-    navigate(-1);
+  const onNavigateBack = (): void => {
+    void navigate(-1);
   };
 
   useEffect(() => {
-    handleGetHeroes();
+    void handleGetHeroes();
   }, []);
 
-  if (!hero && heroesState.heroesCopy.length) navigate("/index");
+  if (!hero && heroesState.heroesCopy.length) void navigate("/home");
 
   return (
     <main>

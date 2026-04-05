@@ -1,5 +1,5 @@
-import { AuthReducer as AuthReducerT } from "@/types/reducers";
-import { AuthState } from "@/types/states";
+import type { AuthReducer as AuthReducerT } from "@/types/reducers";
+import type { AuthState } from "@/types/states";
 
 export const AuthReducer = (state: AuthState, action: AuthReducerT): AuthState => {
   switch (action.type) {
@@ -33,6 +33,6 @@ export const AuthReducer = (state: AuthState, action: AuthReducerT): AuthState =
         errorMessage: "",
       };
     default:
-      throw new Error("Unknown action: " + (action as AuthReducerT)?.type);
+      throw new Error("Unknown action: " + (action as AuthReducerT).type);
   }
 };

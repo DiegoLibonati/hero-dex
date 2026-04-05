@@ -10,7 +10,7 @@ const heroeService = {
       const request = await apiHeroes.get("/api/all.json", {
         method: "GET",
       });
-      return request.data;
+      return request.data as Hero[];
     } catch (e) {
       if (axios.isAxiosError(e)) {
         throw new Error(`HTTP error! status: ${e.response?.status} - ${e.message}`);

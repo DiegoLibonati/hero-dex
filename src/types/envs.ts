@@ -1,4 +1,4 @@
-export type Envs = {
+export interface Envs {
   apiUrl: string;
   firebase: {
     apiKey: string;
@@ -8,4 +8,4 @@ export type Envs = {
     messagingSenderId: string;
     appId: string;
   };
-};
+}

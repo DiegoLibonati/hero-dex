@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 
+import type { JSX } from "react";
+
 import { useAuthContext } from "@/hooks/useAuthContext";
 
 import "@/components/AuthErrorAlert/AuthErrorAlert.css";
 
-const AuthErrorAlert = () => {
+const AuthErrorAlert = (): JSX.Element => {
   const { state: authState, dispatch: authDispatch } = useAuthContext();
 
   useEffect(() => {
@@ -14,12 +16,14 @@ const AuthErrorAlert = () => {
       authDispatch({ type: "CLEAR_ERROR_MESSAGE" });
     }, 2000);
 
-    return () => clearTimeout(timeout);
-  }, [authState?.errorMessage]);
+    return (): void => {
+      clearTimeout(timeout);
+    };
+  }, [authState.errorMessage]);
 
   return (
-    <div className={`alert-login ${authState?.errorMessage && "alert-login--open"}`}>
-      {authState?.errorMessage}
+    <div className={`alert-login ${authState.errorMessage && "alert-login--open"}`}>
+      {authState.errorMessage}
     </div>
   );
 };

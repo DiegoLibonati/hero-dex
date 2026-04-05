@@ -1,5 +1,5 @@
-export type FormDataAuth = {
+export interface FormDataAuth {
   email: string;
   password: string;
   username?: string;
-};
+}

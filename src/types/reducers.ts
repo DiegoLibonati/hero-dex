@@ -1,4 +1,4 @@
-import { Hero, User } from "@/types/app";
+import type { Hero, User } from "@/types/app";
 
 export type AuthReducer =
   | { type: "AUTH_LOGOUT"; payload: { errorMessage: string } }

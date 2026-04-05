@@ -2,8 +2,9 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 
-import { User } from "@/types/app";
-import { FormDataAuth } from "@/types/forms";
+import type { JSX } from "react";
+import type { User } from "@/types/app";
+import type { FormDataAuth } from "@/types/forms";
 
 import { loginWithEmailPassword, signInWithGoogle } from "@/firebase/providers";
 
@@ -17,18 +18,18 @@ const formData: FormDataAuth = {
   password: "",
 };
 
-const LoginPage = () => {
+const LoginPage = (): JSX.Element => {
   const { state: authState, dispatch: authDispatch } = useAuthContext();
 
-  const { formState, onInputChange, onResetForm } = useForm<FormDataAuth>(formData);
+  const { formState, onInputChange, onResetForm } = useForm(formData);
 
   const isChecking = useMemo(() => {
-    if (authState?.logged === "checking") return true;
+    if (authState.logged === "checking") return true;
 
     return false;
-  }, [authState?.logged]);
+  }, [authState.logged]);
 
-  const onLogin: React.FormEventHandler<HTMLFormElement> = async (e) => {
+  const onLogin = async (e: React.SubmitEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     if (!formState.email || !formState.password) {
@@ -44,11 +45,13 @@ const LoginPage = () => {
 
     const result = await loginWithEmailPassword(formState.email, formState.password);
 
-    if (!result.ok)
-      return authDispatch({
+    if (!result.ok) {
+      authDispatch({
         type: "AUTH_LOGOUT",
         payload: { errorMessage: result.errorMessage },
       });
+      return;
+    }
 
     const user: User = {
       uid: result.uid,
@@ -65,11 +68,13 @@ const LoginPage = () => {
 
     const result = await signInWithGoogle();
 
-    if (!result.ok)
-      return authDispatch({
+    if (!result.ok) {
+      authDispatch({
         type: "AUTH_LOGOUT",
         payload: { errorMessage: result.errorMessage },
       });
+      return;
+    }
 
     const user: User = {
       uid: result.uid,
@@ -92,7 +97,12 @@ const LoginPage = () => {
           ></img>
         </article>
 
-        <form onSubmit={onLogin} className="login-page__form">
+        <form
+          onSubmit={(e) => {
+            void onLogin(e);
+          }}
+          className="login-page__form"
+        >
           <h2 className="login-page__form-title">Hello, do you want to be a superhero?</h2>
           <input
             type="text"
@@ -131,7 +141,9 @@ const LoginPage = () => {
             type="button"
             className="login-page__form-submit"
             aria-label="Sign in with Google"
-            onClick={onGoogleSignIn}
+            onClick={() => {
+              void onGoogleSignIn();
+            }}
             disabled={isChecking}
           >
             <FaGoogle></FaGoogle>

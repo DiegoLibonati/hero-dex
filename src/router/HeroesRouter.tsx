@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
+import type { JSX } from "react";
+
 import CheckingAuth from "@/components/CheckingAuth/CheckingAuth";
 
 import LoginPage from "@/pages/LoginPage/LoginPage";
@@ -13,7 +15,7 @@ import { PrivateRoute } from "@/router/PrivateRoute";
 
 import { useCheckAuth } from "@/hooks/useCheckAuth";
 
-export const HeroesRouter = () => {
+export const HeroesRouter = (): JSX.Element => {
   const logged = useCheckAuth();
 
   if (logged === "checking") return <CheckingAuth></CheckingAuth>;

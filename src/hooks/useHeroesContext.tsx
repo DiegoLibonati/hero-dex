@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { UseHeroesContext } from "@/types/hooks";
+import type { UseHeroesContext } from "@/types/hooks";
 
 import { HeroesContext } from "@/contexts/HeroesContext/HeroesContext";
 

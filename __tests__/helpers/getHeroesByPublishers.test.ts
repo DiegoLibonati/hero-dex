@@ -14,7 +14,9 @@ describe("getHeroesByPublishers", () => {
   it("should filter heroes by publisher (case-insensitive)", () => {
     const result = getHeroesByPublishers("marvel comics", mockHeroes);
     expect(result).toHaveLength(2);
-    result.forEach((hero) => expect(hero.biography.publisher).toBe("Marvel Comics"));
+    result.forEach((hero) => {
+      expect(hero.biography.publisher).toBe("Marvel Comics");
+    });
   });
 
   it("should return an empty array for an unknown publisher", () => {

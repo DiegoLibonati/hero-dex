@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 
-import { HeroCardProps } from "@/types/props";
+import type { JSX } from "react";
+import type { HeroCardProps } from "@/types/props";
 
 import "@/components/HeroCard/HeroCard.css";
 
-const HeroCard = ({ id, name, images, slug, biography }: HeroCardProps) => {
+const HeroCard = ({ id, name, images, slug, biography }: HeroCardProps): JSX.Element => {
   const { lg } = images;
   const { fullName, publisher } = biography;
 

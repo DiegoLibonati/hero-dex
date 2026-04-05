@@ -1,4 +1,4 @@
-import { Hero } from "@/types/app";
+import type { Hero } from "@/types/app";
 
 import { getAllPublishers } from "@/helpers/getAllPublishers";
 

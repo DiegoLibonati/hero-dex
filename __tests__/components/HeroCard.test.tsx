@@ -1,13 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
-import { HeroCardProps } from "@/types/props";
+import type { HeroCardProps } from "@/types/props";
 
 import HeroCard from "@/components/HeroCard/HeroCard";
 
 import { mockHeroeOne } from "@tests/__mocks__/heroes.mock";
 
-type RenderComponent = { container: HTMLElement; props: HeroCardProps };
+interface RenderComponent {
+  container: HTMLElement;
+  props: HeroCardProps;
+}
 
 const renderComponent = (overrides?: Partial<HeroCardProps>): RenderComponent => {
   const props: HeroCardProps = {

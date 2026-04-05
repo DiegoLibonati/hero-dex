@@ -1,6 +1,6 @@
-import { Hero } from "@/types/app";
+import type { Hero } from "@/types/app";
 
-export const getHeroesByName = (name: string = "", heroes: Hero[]): Hero[] => {
+export const getHeroesByName = (name = "", heroes: Hero[]): Hero[] => {
   name = name.toLowerCase().trim();
 
   if (!name) return [];

@@ -1,4 +1,4 @@
-export type Hero = {
+export interface Hero {
   id: number;
   name: string;
   images: {
@@ -41,14 +41,18 @@ export type Hero = {
     groupAffiliation: string;
     relatives: string;
   };
-};
+}
 
-export type User = {
+export interface User {
   uid: string;
   email: string;
   displayName: string;
   photoURL: string;
-};
+}
 
-export type UserLogin = { email: string; password: string; username: string };
+export interface UserLogin {
+  email: string;
+  password: string;
+  username: string;
+}
 export type UserLoginWithoutUsername = Omit<UserLogin, "username">;

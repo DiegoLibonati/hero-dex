@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 
+import type { JSX } from "react";
+
 import HeroCard from "@/components/HeroCard/HeroCard";
 
 import { useHeroesContext } from "@/hooks/useHeroesContext";
@@ -11,7 +13,7 @@ import heroeService from "@/services/heroeService";
 
 import "@/pages/SearchPage/SearchPage.css";
 
-const SearchPage = () => {
+const SearchPage = (): JSX.Element => {
   const { state: heroesState, dispatch: heroesDispatch } = useHeroesContext();
 
   const navigate = useNavigate();
@@ -19,19 +21,19 @@ const SearchPage = () => {
 
   const { q = "" } = queryString.parse(location.search);
 
-  const { formState, onInputChange } = useForm<{ searchText: string }>({
+  const { formState, onInputChange } = useForm({
     searchText: q as string,
   });
 
-  const onSearchSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const onSearchSubmit: React.SubmitEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     const heroName = formState.searchText.trim();
 
-    navigate(`?q=${heroName}`);
+    void navigate(`?q=${heroName}`);
   };
 
-  const handleGetHeroes = async () => {
+  const handleGetHeroes = async (): Promise<void> => {
     const heroName = q as string;
 
     const data = await heroeService.getAll();
@@ -47,7 +49,7 @@ const SearchPage = () => {
   }, [q]);
 
   useEffect(() => {
-    handleGetHeroes();
+    void handleGetHeroes();
   }, []);
 
   return (

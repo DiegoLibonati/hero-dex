@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 
+import type { JSX } from "react";
+
 import HeroList from "@/components/HeroList/HeroList";
 import Loader from "@/components/Loader/Loader";
 
@@ -11,9 +13,9 @@ import heroeService from "@/services/heroeService";
 
 import "@/pages/HeroByPublisherPage/HeroByPublisherPage.css";
 
-const HeroByPublisherPage = () => {
+const HeroByPublisherPage = (): JSX.Element => {
   const [selectPublisher, setSelectPublisher] = useState("ALL");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
   const { state: heroesState, dispatch: heroesDispatch } = useHeroesContext();
 
@@ -21,7 +23,7 @@ const HeroByPublisherPage = () => {
   const location = useLocation();
   const { q = "" } = queryString.parse(location.search);
 
-  const handleGetHeroes = async () => {
+  const handleGetHeroes = async (): Promise<void> => {
     const queryParam = q as string;
 
     setLoading(true);
@@ -42,11 +44,11 @@ const HeroByPublisherPage = () => {
   }, [q]);
 
   useEffect(() => {
-    handleGetHeroes();
+    void handleGetHeroes();
   }, []);
 
   const handleSelectOption: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-    navigate(`?q=${e.target.value}`);
+    void navigate(`?q=${e.target.value}`);
   };
 
   return (
@@ -55,7 +57,9 @@ const HeroByPublisherPage = () => {
         <form className="index-page__form">
           <h2 className="index-page__form-title">SELECT YOUR FAVORITE PUBLISHER</h2>
           <select
-            onChange={(e) => handleSelectOption(e)}
+            onChange={(e) => {
+              handleSelectOption(e);
+            }}
             value={selectPublisher}
             className="index-page__form-select"
           >

@@ -2,7 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 
-import { Hero } from "@/types/app";
+import type { Hero } from "@/types/app";
 
 import SearchPage from "@/pages/SearchPage/SearchPage";
 
@@ -12,7 +12,9 @@ import heroeService from "@/services/heroeService";
 
 import { mockHeroes, mockHeroeOne } from "@tests/__mocks__/heroes.mock";
 
-type RenderPage = { container: HTMLElement };
+interface RenderPage {
+  container: HTMLElement;
+}
 
 const mockHeroesDispatch = jest.fn();
 

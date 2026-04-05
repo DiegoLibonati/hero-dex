@@ -1,12 +1,12 @@
-import { AuthState, HeroesState } from "@/types/states";
-import { AuthReducer, HeroesReducer } from "@/types/reducers";
+import type { AuthState, HeroesState } from "@/types/states";
+import type { AuthReducer, HeroesReducer } from "@/types/reducers";
 
-export type AuthContext = {
+export interface AuthContext {
   state: AuthState;
   dispatch: React.Dispatch<AuthReducer>;
-};
+}
 
-export type HeroesContext = {
+export interface HeroesContext {
   state: HeroesState;
   dispatch: React.Dispatch<HeroesReducer>;
-};
+}

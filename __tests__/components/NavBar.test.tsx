@@ -8,11 +8,15 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 
 import { logoutFirebase } from "@/firebase/providers";
 
+interface RenderComponent {
+  container: HTMLElement;
+}
+
 const mockDispatch = jest.fn();
 
 jest.mock("@/hooks/useAuthContext");
 
-const renderComponent = () => {
+const renderComponent = (): RenderComponent => {
   (useAuthContext as jest.Mock).mockReturnValue({
     state: {
       logged: "authenticated",

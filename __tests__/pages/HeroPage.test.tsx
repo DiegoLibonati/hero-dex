@@ -9,7 +9,9 @@ import heroeService from "@/services/heroeService";
 
 import { mockHeroes, mockHeroeOne } from "@tests/__mocks__/heroes.mock";
 
-type RenderPage = { container: HTMLElement };
+interface RenderPage {
+  container: HTMLElement;
+}
 
 const mockHeroesDispatch = jest.fn();
 
@@ -52,7 +54,9 @@ describe("HeroPage", () => {
 
   it("should render the back button", async () => {
     renderPage("1");
-    await waitFor(() => expect(heroeService.getAll).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(heroeService.getAll).toHaveBeenCalledTimes(1);
+    });
     expect(screen.getByRole("button", { name: /go back to previous page/i })).toBeInTheDocument();
   });
 

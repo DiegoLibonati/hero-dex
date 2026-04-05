@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { UseForm } from "@/types/hooks";
+import type { UseForm } from "@/types/hooks";
 
 export const useForm = <T,>(initialForm: T): UseForm<T> => {
   const [formState, setFormState] = useState(initialForm);
@@ -14,7 +14,7 @@ export const useForm = <T,>(initialForm: T): UseForm<T> => {
     }));
   };
 
-  const onResetForm = () => {
+  const onResetForm = (): void => {
     setFormState(initialForm);
   };
 

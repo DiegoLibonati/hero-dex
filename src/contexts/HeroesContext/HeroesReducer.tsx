@@ -1,5 +1,5 @@
-import { HeroesReducer as HeroesReducerT } from "@/types/reducers";
-import { HeroesState } from "@/types/states";
+import type { HeroesReducer as HeroesReducerT } from "@/types/reducers";
+import type { HeroesState } from "@/types/states";
 
 import { getAllPublishers } from "@/helpers/getAllPublishers";
 import { getHeroesByName } from "@/helpers/getHeroesByName";
@@ -25,6 +25,6 @@ export const HeroesReducer = (state: HeroesState, action: HeroesReducerT): Heroe
       return { ...state, heroes: getHeroesByName(action.payload, state.heroesCopy) };
 
     default:
-      throw new Error("Unknown action: " + (action as HeroesReducerT)?.type);
+      throw new Error("Unknown action: " + (action as HeroesReducerT).type);
   }
 };

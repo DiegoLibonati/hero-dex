@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { UseAuthContext } from "@/types/hooks";
+import type { UseAuthContext } from "@/types/hooks";
 
 import { AuthContext } from "@/contexts/AuthContext/AuthContext";
 

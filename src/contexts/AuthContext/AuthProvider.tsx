@@ -1,11 +1,12 @@
 import { useReducer } from "react";
 
-import { AuthProviderProps } from "@/types/props";
+import type { JSX } from "react";
+import type { AuthProviderProps } from "@/types/props";
 
 import { AuthContext } from "@/contexts/AuthContext/AuthContext";
 import { AuthReducer } from "@/contexts/AuthContext/AuthReducer";
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const [state, dispatch] = useReducer(AuthReducer, {
     logged: "checking",
     uid: "",

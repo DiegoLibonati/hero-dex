@@ -8,7 +8,9 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 
 import { loginWithEmailPassword, signInWithGoogle } from "@/firebase/providers";
 
-type RenderPage = { container: HTMLElement };
+interface RenderPage {
+  container: HTMLElement;
+}
 
 const mockDispatch = jest.fn();
 

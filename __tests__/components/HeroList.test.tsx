@@ -2,13 +2,16 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 
-import { HeroListProps } from "@/types/props";
+import type { HeroListProps } from "@/types/props";
 
 import HeroList from "@/components/HeroList/HeroList";
 
 import { mockHeroes } from "@tests/__mocks__/heroes.mock";
 
-type RenderComponent = { container: HTMLElement; props: HeroListProps };
+interface RenderComponent {
+  container: HTMLElement;
+  props: HeroListProps;
+}
 
 const renderComponent = (overrides?: Partial<HeroListProps>): RenderComponent => {
   const props: HeroListProps = {

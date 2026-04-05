@@ -1,11 +1,12 @@
 import { useReducer } from "react";
 
-import { HeroesProviderProps } from "@/types/props";
+import type { JSX } from "react";
+import type { HeroesProviderProps } from "@/types/props";
 
 import { HeroesContext } from "@/contexts/HeroesContext/HeroesContext";
 import { HeroesReducer } from "@/contexts/HeroesContext/HeroesReducer";
 
-export const HeroesProvider = ({ children }: HeroesProviderProps) => {
+export const HeroesProvider = ({ children }: HeroesProviderProps): JSX.Element => {
   const [state, dispatch] = useReducer(HeroesReducer, {
     heroes: [],
     heroesCopy: [],

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 
-import { Hero } from "@/types/app";
-import { HeroListProps } from "@/types/props";
+import type { JSX } from "react";
+import type { Hero } from "@/types/app";
+import type { HeroListProps } from "@/types/props";
 
 import HeroCard from "@/components/HeroCard/HeroCard";
 
 import "@/components/HeroList/HeroList.css";
 
-const HeroList = ({ heroes, quantity }: HeroListProps) => {
+const HeroList = ({ heroes, quantity }: HeroListProps): JSX.Element => {
   const [heroesSliced, setHeroesSliced] = useState<Hero[]>([]);
 
   const handleShowMoreHeroes = (): void => {

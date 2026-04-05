@@ -4,11 +4,15 @@ import AuthErrorAlert from "@/components/AuthErrorAlert/AuthErrorAlert";
 
 import { useAuthContext } from "@/hooks/useAuthContext";
 
+interface RenderComponent {
+  container: HTMLElement;
+}
+
 const mockDispatch = jest.fn();
 
 jest.mock("@/hooks/useAuthContext");
 
-const renderComponent = (errorMessage = "") => {
+const renderComponent = (errorMessage = ""): RenderComponent => {
   (useAuthContext as jest.Mock).mockReturnValue({
     state: {
       logged: "not-authenticated",

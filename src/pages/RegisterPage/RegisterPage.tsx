@@ -1,7 +1,8 @@
 import React from "react";
 
-import { User } from "@/types/app";
-import { FormDataAuth } from "@/types/forms";
+import type { JSX } from "react";
+import type { User } from "@/types/app";
+import type { FormDataAuth } from "@/types/forms";
 
 import { registerUserWithEmail } from "@/firebase/providers";
 
@@ -16,12 +17,12 @@ const formData: FormDataAuth = {
   password: "",
 };
 
-const RegisterPage = () => {
+const RegisterPage = (): JSX.Element => {
   const { dispatch: authDispatch } = useAuthContext();
 
-  const { formState, onInputChange, onResetForm } = useForm<FormDataAuth>(formData);
+  const { formState, onInputChange, onResetForm } = useForm(formData);
 
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+  const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     if (!formState.email || !formState.password || !formState.username) {
@@ -37,11 +38,13 @@ const RegisterPage = () => {
       formState.username
     );
 
-    if (!result.ok)
-      return authDispatch({
+    if (!result.ok) {
+      authDispatch({
         type: "AUTH_LOGOUT",
         payload: { errorMessage: result.errorMessage },
       });
+      return;
+    }
 
     const user: User = {
       uid: result.uid,
@@ -64,7 +67,12 @@ const RegisterPage = () => {
           ></img>
         </article>
 
-        <form onSubmit={onSubmit} className="register-page__form">
+        <form
+          onSubmit={(e) => {
+            void onSubmit(e);
+          }}
+          className="register-page__form"
+        >
           <h2 className="register-page__form-title">
             You are one step away from being a superhero.
           </h2>
