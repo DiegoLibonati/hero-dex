@@ -114,7 +114,7 @@ const LoginPage = () => {
             type="submit"
             className="login-page__form-submit"
             disabled={isChecking}
-            aria-label="simple login"
+            aria-label="Sign in with email and password"
           >
             Login
           </button>
@@ -122,7 +122,7 @@ const LoginPage = () => {
             <Link
               to="/register"
               className="login-page__form-submit"
-              aria-label="go to register page"
+              aria-label="Go to registration page"
             >
               Register
             </Link>
@@ -130,7 +130,7 @@ const LoginPage = () => {
           <button
             type="button"
             className="login-page__form-submit"
-            aria-label="login with google"
+            aria-label="Sign in with Google"
             onClick={onGoogleSignIn}
             disabled={isChecking}
           >

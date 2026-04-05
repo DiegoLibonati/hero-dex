@@ -94,7 +94,7 @@ const RegisterPage = () => {
             value={formState.password}
             onChange={onInputChange}
           ></input>
-          <button className="register-page__form-submit" aria-label="register" type="submit">
+          <button className="register-page__form-submit" aria-label="Create account" type="submit">
             Register
           </button>
         </form>

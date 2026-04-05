@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   flex-flow: column wrap;
-  padding: 1rem;
+  padding: 0.625rem;
   height: 100%;
   width: 100%;
 }
@@ -15,18 +15,18 @@
   flex-flow: column wrap;
   width: 100%;
   height: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 0.625rem;
 }
 
 .index-page__form-title {
-  font-size: 3rem;
+  font-size: 1.875rem;
   text-align: center;
 }
 
 .index-page__form-select {
-  padding: 1rem;
-  width: 26rem;
-  font-size: 2rem;
+  padding: 0.625rem;
+  width: 16.25rem;
+  font-size: 1.25rem;
   background-color: var(--color-primary);
   color: var(--color-white);
   outline: none;
@@ -34,5 +34,5 @@
 }
 
 .index-page__form-select-option {
-  font-size: 2rem;
+  font-size: 1.25rem;
 }

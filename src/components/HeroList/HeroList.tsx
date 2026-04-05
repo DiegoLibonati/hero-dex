@@ -43,7 +43,7 @@ const HeroList = ({ heroes, quantity }: HeroListProps) => {
         <button
           type="button"
           onClick={handleShowMoreHeroes}
-          aria-label="show more heroes"
+          aria-label="Load more heroes"
           className="cards-wrapper__btn-show-more"
         >
           Show More

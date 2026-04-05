@@ -20,7 +20,11 @@ const HeroCard = ({ id, name, images, slug, biography }: HeroCardProps) => {
         <h4 className="hero-card__publisher">{publisher}</h4>
         <h5 className="hero-card__fullname">{fullName}</h5>
 
-        <Link to={`/hero/${id}`} className="hero-card__btn-learn-more" aria-label="learn more">
+        <Link
+          to={`/hero/${id}`}
+          className="hero-card__btn-learn-more"
+          aria-label={`Learn more about ${name}`}
+        >
           LEARN MORE
         </Link>
       </div>

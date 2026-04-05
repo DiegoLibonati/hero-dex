@@ -108,7 +108,7 @@ const HeroPage = () => {
 
           <button
             onClick={onNavigateBack}
-            aria-label="back"
+            aria-label="Go back to previous page"
             type="button"
             className="hero-page__btn-back"
           >

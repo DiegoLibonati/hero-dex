@@ -66,7 +66,7 @@ const SearchPage = () => {
             onChange={onInputChange}
           />
 
-          <button type="submit" aria-label="search" className="search-page__form-submit">
+          <button type="submit" aria-label="Search for a hero" className="search-page__form-submit">
             Search
           </button>
         </form>

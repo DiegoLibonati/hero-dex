@@ -7,9 +7,9 @@
   top: 0;
   z-index: 99999;
   width: 100%;
-  height: 5rem;
+  height: 3.125rem;
   background-color: var(--color-primary);
-  padding: 0.5rem;
+  padding: 0.3125rem;
 }
 
 .header-wrapper__content {
@@ -23,12 +23,12 @@
 
 .header-wrapper__title {
   text-decoration: none;
-  font-size: 2.5rem;
+  font-size: 1.5625rem;
   color: var(--color-white);
 }
 
 .header-wrapper__btn-manage-icon {
-  font-size: 2.5rem;
+  font-size: 1.5625rem;
   color: var(--color-white);
   cursor: pointer;
 }
@@ -66,27 +66,27 @@
   justify-content: space-evenly;
   flex-flow: column wrap;
   width: 100%;
-  height: 30rem;
+  height: 18.75rem;
 }
 
 .header-wrapper__link {
   text-decoration: none;
-  font-size: 3rem;
+  font-size: 1.875rem;
   color: var(--color-white);
 }
 
 .header-wrapper__username {
-  font-size: 5rem;
+  font-size: 3.125rem;
   color: var(--color-white);
   text-align: center;
 }
 
 .header-wrapper__btn-logout {
   background: none;
-  border: 0.1rem solid var(--color-white);
-  padding: 1rem;
-  font-size: 1.5rem;
-  border-radius: 1rem;
+  border: 0.0625rem solid var(--color-white);
+  padding: 0.625rem;
+  font-size: 0.9375rem;
+  border-radius: 0.625rem;
   color: var(--color-white);
   cursor: pointer;
 }

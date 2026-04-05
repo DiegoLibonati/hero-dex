@@ -8,9 +8,9 @@
 }
 
 .loader-auth-checking__img {
-  width: 25rem;
-  height: 25rem;
+  width: 15.625rem;
+  height: 15.625rem;
   object-fit: cover;
-  box-shadow: rgba(var(--color-black-rgb), 0.45) 0 2.5rem 2rem -2rem;
-  border-radius: 1rem;
+  box-shadow: rgba(var(--color-black-rgb), 0.45) 0 1.5625rem 1.25rem -1.25rem;
+  border-radius: 0.625rem;
 }

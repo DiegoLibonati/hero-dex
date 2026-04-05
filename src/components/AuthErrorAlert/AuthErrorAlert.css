@@ -1,12 +1,12 @@
 .alert-login {
-  margin: 1rem;
+  margin: 0.625rem;
   position: absolute;
   top: 0;
   left: 0;
   background-color: var(--color-white);
-  padding: 1rem;
-  border-radius: 1rem;
-  font-size: 2rem;
+  padding: 0.625rem;
+  border-radius: 0.625rem;
+  font-size: 1.25rem;
   opacity: 0;
 }
 

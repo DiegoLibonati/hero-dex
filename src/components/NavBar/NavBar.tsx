@@ -28,13 +28,13 @@ const NavBar = () => {
   return (
     <header className="header-wrapper">
       <div className="header-wrapper__content">
-        <Link to="/home" aria-label="go to home by title" className="header-wrapper__title">
+        <Link to="/home" aria-label="Go to home page" className="header-wrapper__title">
           HeroesApp
         </Link>
         <button
           type="button"
           onClick={handleClickManageSidebar}
-          aria-label="manage sidebar"
+          aria-label="Toggle navigation menu"
           className="header-wrapper__btn-manage"
         >
           <FaBars id="bars" className="header-wrapper__btn-manage-icon"></FaBars>
@@ -48,23 +48,27 @@ const NavBar = () => {
       >
         <ul className="header-wrapper__nav-list">
           <li className="header-wrapper__nav-list-item">
-            <NavLink className={isActive} to="/home" aria-label="go to home page">
+            <NavLink className={isActive} to="/home" aria-label="Go to home page">
               Home
             </NavLink>
 
             <NavLink
               className={isActive}
               to="/home?q=Marvel%20Comics"
-              aria-label="go to marvel page"
+              aria-label="Go to Marvel Comics page"
             >
               Marvel
             </NavLink>
 
-            <NavLink className={isActive} to="/home?q=DC%20Comics" aria-label="go to dc page">
+            <NavLink
+              className={isActive}
+              to="/home?q=DC%20Comics"
+              aria-label="Go to DC Comics page"
+            >
               DC
             </NavLink>
 
-            <NavLink className={isActive} to="/search" aria-label="go to search page">
+            <NavLink className={isActive} to="/search" aria-label="Go to search page">
               Search
             </NavLink>
           </li>
@@ -74,7 +78,7 @@ const NavBar = () => {
             <button
               type="button"
               onClick={onLogout}
-              aria-label="logout"
+              aria-label="Log out"
               className="header-wrapper__btn-logout"
             >
               Logout
