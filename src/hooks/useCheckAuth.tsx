@@ -1,19 +1,18 @@
 import { useEffect } from "react";
 
-import { UseCheckAuth } from "@src/entities/hooks";
+import { UseCheckAuth } from "@/types/hooks";
 
 import { onAuthStateChanged } from "firebase/auth";
-import { FirebaseAuth } from "@src/firebase/config";
+import { FirebaseAuth } from "@/firebase/config";
 
-import { useAuthContext } from "@src/hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 export const useCheckAuth = (): UseCheckAuth => {
   const { state, dispatch } = useAuthContext();
 
   useEffect(() => {
     onAuthStateChanged(FirebaseAuth, async (user) => {
-      if (!user)
-        return dispatch({ type: "AUTH_LOGOUT", payload: { errorMessage: "" } });
+      if (!user) return dispatch({ type: "AUTH_LOGOUT", payload: { errorMessage: "" } });
 
       const { uid, email, displayName, photoURL } = user;
 

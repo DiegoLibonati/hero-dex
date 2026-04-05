@@ -2,29 +2,25 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 
-import { User } from "@src/entities/app";
-import { FormDataAuth } from "@src/entities/forms";
+import { User } from "@/types/app";
+import { FormDataAuth } from "@/types/forms";
 
-import {
-  loginWithEmailPassword,
-  signInWithGoogle,
-} from "@src/firebase/providers";
+import { loginWithEmailPassword, signInWithGoogle } from "@/firebase/providers";
 
-import { useForm } from "@src/hooks/useForm";
-import { useAuthContext } from "@src/hooks/useAuthContext";
+import { useForm } from "@/hooks/useForm";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
-import "@src/pages/LoginPage/LoginPage.css";
+import "@/pages/LoginPage/LoginPage.css";
 
 const formData: FormDataAuth = {
   email: "",
   password: "",
 };
 
-export const LoginPage = (): JSX.Element => {
+const LoginPage = () => {
   const { state: authState, dispatch: authDispatch } = useAuthContext();
 
-  const { formState, onInputChange, onResetForm } =
-    useForm<FormDataAuth>(formData);
+  const { formState, onInputChange, onResetForm } = useForm<FormDataAuth>(formData);
 
   const isChecking = useMemo(() => {
     if (authState?.logged === "checking") return true;
@@ -46,10 +42,7 @@ export const LoginPage = (): JSX.Element => {
 
     authDispatch({ type: "CHECKING_CREDENTIALS", payload: "checking" });
 
-    const result = await loginWithEmailPassword(
-      formState.email,
-      formState.password
-    );
+    const result = await loginWithEmailPassword(formState.email, formState.password);
 
     if (!result.ok)
       return authDispatch({
@@ -89,62 +82,64 @@ export const LoginPage = (): JSX.Element => {
   };
 
   return (
-    <section className="login-page">
-      <article className="login-page__picture">
-        <img
-          src="https://c.tenor.com/3Im54mMMkiUAAAAC/the-flash-running.gif"
-          alt="gif"
-          className="login-page__img"
-        ></img>
-      </article>
+    <main>
+      <section className="login-page">
+        <article className="login-page__picture">
+          <img
+            src="https://c.tenor.com/3Im54mMMkiUAAAAC/the-flash-running.gif"
+            alt="gif"
+            className="login-page__img"
+          ></img>
+        </article>
 
-      <form onSubmit={onLogin} className="login-page__form">
-        <h2 className="login-page__form-title">
-          Hello, do you want to be a superhero?
-        </h2>
-        <input
-          type="text"
-          placeholder={"Enter your email..."}
-          name="email"
-          className="login-page__form-input"
-          value={formState.email}
-          onChange={onInputChange}
-        ></input>
-        <input
-          type="password"
-          placeholder={"Enter your password..."}
-          name="password"
-          className="login-page__form-input"
-          value={formState.password}
-          onChange={onInputChange}
-        ></input>
-        <button
-          type="submit"
-          className="login-page__form-submit"
-          disabled={isChecking}
-          aria-label="simple login"
-        >
-          Login
-        </button>
-        {!isChecking && (
-          <Link
-            to="/auth/register"
+        <form onSubmit={onLogin} className="login-page__form">
+          <h2 className="login-page__form-title">Hello, do you want to be a superhero?</h2>
+          <input
+            type="text"
+            placeholder={"Enter your email..."}
+            name="email"
+            className="login-page__form-input"
+            value={formState.email}
+            onChange={onInputChange}
+          ></input>
+          <input
+            type="password"
+            placeholder={"Enter your password..."}
+            name="password"
+            className="login-page__form-input"
+            value={formState.password}
+            onChange={onInputChange}
+          ></input>
+          <button
+            type="submit"
             className="login-page__form-submit"
-            aria-label="go to register page"
+            disabled={isChecking}
+            aria-label="simple login"
           >
-            Register
-          </Link>
-        )}
-        <button
-          type="button"
-          className="login-page__form-submit"
-          aria-label="login with google"
-          onClick={onGoogleSignIn}
-          disabled={isChecking}
-        >
-          <FaGoogle></FaGoogle>
-        </button>
-      </form>
-    </section>
+            Login
+          </button>
+          {!isChecking && (
+            <Link
+              to="/register"
+              className="login-page__form-submit"
+              aria-label="go to register page"
+            >
+              Register
+            </Link>
+          )}
+          <button
+            type="button"
+            className="login-page__form-submit"
+            aria-label="login with google"
+            onClick={onGoogleSignIn}
+            disabled={isChecking}
+          >
+            <FaGoogle></FaGoogle>
+          </button>
+        </form>
+      </section>
+    </main>
   );
 };
+
+export default LoginPage;

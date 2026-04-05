@@ -1,8 +1,8 @@
 import { useContext } from "react";
 
-import { UseHeroesContext } from "@src/entities/hooks";
+import { UseHeroesContext } from "@/types/hooks";
 
-import { HeroesContext } from "@src/contexts/HeroesContext/HeroesContext";
+import { HeroesContext } from "@/contexts/HeroesContext/HeroesContext";
 
 export const useHeroesContext = (): UseHeroesContext => {
   const context = useContext(HeroesContext);

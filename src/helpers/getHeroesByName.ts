@@ -1,4 +1,4 @@
-import { Hero } from "@src/entities/app";
+import { Hero } from "@/types/app";
 
 export const getHeroesByName = (name: string = "", heroes: Hero[]): Hero[] => {
   name = name.toLowerCase().trim();

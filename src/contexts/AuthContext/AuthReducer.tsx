@@ -1,16 +1,7 @@
-import { AuthReducer as AuthReducerT } from "@src/entities/contexts";
-import { AuthState } from "@src/entities/states";
+import { AuthReducer as AuthReducerT } from "@/types/reducers";
+import { AuthState } from "@/types/states";
 
-export const initialState: AuthState = {
-  logged: "checking",
-  uid: "",
-  email: "",
-  displayName: "",
-  photoURL: "",
-  errorMessage: "",
-};
-
-export const AuthReducer = (state: AuthState, action: AuthReducerT) => {
+export const AuthReducer = (state: AuthState, action: AuthReducerT): AuthState => {
   switch (action.type) {
     case "AUTH_LOGIN":
       return {

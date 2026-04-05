@@ -2,13 +2,13 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 
-import { logoutFirebase } from "@src/firebase/providers";
+import { logoutFirebase } from "@/firebase/providers";
 
-import { useAuthContext } from "@src/hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
-import "@src/components/NavBar/NavBar.css";
+import "@/components/NavBar/NavBar.css";
 
-export const NavBar = (): JSX.Element => {
+const NavBar = () => {
   const [sidebar, setSidebar] = useState<boolean>(false);
 
   const { state: authState, dispatch: authDispatch } = useAuthContext();
@@ -28,11 +28,7 @@ export const NavBar = (): JSX.Element => {
   return (
     <header className="header-wrapper">
       <div className="header-wrapper__content">
-        <Link
-          to="/heroes/home"
-          aria-label="go to home by title"
-          className="header-wrapper__title"
-        >
+        <Link to="/home" aria-label="go to home by title" className="header-wrapper__title">
           HeroesApp
         </Link>
         <button
@@ -41,59 +37,40 @@ export const NavBar = (): JSX.Element => {
           aria-label="manage sidebar"
           className="header-wrapper__btn-manage"
         >
-          <FaBars
-            id="bars"
-            className="header-wrapper__btn-manage-icon"
-          ></FaBars>
+          <FaBars id="bars" className="header-wrapper__btn-manage-icon"></FaBars>
         </button>
       </div>
 
       <nav
         className={
-          sidebar
-            ? "header-wrapper__nav header-wrapper__nav--open"
-            : "header-wrapper__nav"
+          sidebar ? "header-wrapper__nav header-wrapper__nav--open" : "header-wrapper__nav"
         }
       >
         <ul className="header-wrapper__nav-list">
           <li className="header-wrapper__nav-list-item">
-            <NavLink
-              className={isActive}
-              to="/heroes/home"
-              aria-label="go to home page"
-            >
+            <NavLink className={isActive} to="/home" aria-label="go to home page">
               Home
             </NavLink>
 
             <NavLink
               className={isActive}
-              to="/heroes/home?q=Marvel%20Comics"
+              to="/home?q=Marvel%20Comics"
               aria-label="go to marvel page"
             >
               Marvel
             </NavLink>
 
-            <NavLink
-              className={isActive}
-              to="/heroes/home?q=DC%20Comics"
-              aria-label="go to dc page"
-            >
+            <NavLink className={isActive} to="/home?q=DC%20Comics" aria-label="go to dc page">
               DC
             </NavLink>
 
-            <NavLink
-              className={isActive}
-              to="/heroes/search"
-              aria-label="go to search page"
-            >
+            <NavLink className={isActive} to="/search" aria-label="go to search page">
               Search
             </NavLink>
           </li>
 
           <li className="header-wrapper__nav-list-item">
-            <h2 className="header-wrapper__username">
-              {authState?.displayName}
-            </h2>
+            <h2 className="header-wrapper__username">{authState?.displayName}</h2>
             <button
               type="button"
               onClick={onLogout}
@@ -108,3 +85,5 @@ export const NavBar = (): JSX.Element => {
     </header>
   );
 };
+
+export default NavBar;

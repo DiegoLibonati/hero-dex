@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { Hero } from "@src/entities/app";
-import { HeroListProps } from "@src/entities/props";
+import { Hero } from "@/types/app";
+import { HeroListProps } from "@/types/props";
 
-import { HeroCard } from "@src/components/HeroCard/HeroCard";
+import HeroCard from "@/components/HeroCard/HeroCard";
 
-import "@src/components/HeroList/HeroList.css";
+import "@/components/HeroList/HeroList.css";
 
-export const HeroList = ({ heroes, quantity }: HeroListProps): JSX.Element => {
+const HeroList = ({ heroes, quantity }: HeroListProps) => {
   const [heroesSliced, setHeroesSliced] = useState<Hero[]>([]);
 
   const handleShowMoreHeroes = (): void => {
@@ -52,3 +52,5 @@ export const HeroList = ({ heroes, quantity }: HeroListProps): JSX.Element => {
     </section>
   );
 };
+
+export default HeroList;

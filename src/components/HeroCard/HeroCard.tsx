@@ -1,16 +1,10 @@
 import { Link } from "react-router-dom";
 
-import { HeroCardProps } from "@src/entities/props";
+import { HeroCardProps } from "@/types/props";
 
-import "@src/components/HeroCard/HeroCard.css";
+import "@/components/HeroCard/HeroCard.css";
 
-export const HeroCard = ({
-  id,
-  name,
-  images,
-  slug,
-  biography,
-}: HeroCardProps): JSX.Element => {
+const HeroCard = ({ id, name, images, slug, biography }: HeroCardProps) => {
   const { lg } = images;
   const { fullName, publisher } = biography;
 
@@ -26,14 +20,12 @@ export const HeroCard = ({
         <h4 className="hero-card__publisher">{publisher}</h4>
         <h5 className="hero-card__fullname">{fullName}</h5>
 
-        <Link
-          to={`/heroes/hero/${id}`}
-          className="hero-card__btn-learn-more"
-          aria-label="learn more"
-        >
+        <Link to={`/hero/${id}`} className="hero-card__btn-learn-more" aria-label="learn more">
           LEARN MORE
         </Link>
       </div>
     </li>
   );
 };
+
+export default HeroCard;

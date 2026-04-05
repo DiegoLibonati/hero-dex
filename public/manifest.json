@@ -1,0 +1,21 @@
+{
+  "name": "Heroes APP",
+  "short_name": "Heroes",
+  "description": "I made a web application with React JS with Firebase for user authentication since this application has a login and a register. Also once we log in with an account or with google we can see in the main section different types of heroes and each hero we can see a mini chart with his name, his publisher, a description and a button to access more information about that hero. In addition this APP has a search through the browser bar which will search for the publisher and bring all the heroes of that specific publisher. It also has a search section where we can search by the name of our favorite hero.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { Hero } from "@src/entities/app";
+import { Hero } from "@/types/app";
 
 export const getAllPublishers = (heroes: Hero[]): string[] => {
   const publishers: string[] = [];

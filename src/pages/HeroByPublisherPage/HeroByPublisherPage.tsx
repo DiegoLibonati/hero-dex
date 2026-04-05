@@ -1,17 +1,17 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 
-import { HeroList } from "@src/components/HeroList/HeroList";
-import { Loader } from "@src/components/Loader/Loader";
+import HeroList from "@/components/HeroList/HeroList";
+import Loader from "@/components/Loader/Loader";
 
-import { useHeroesContext } from "@src/hooks/useHeroesContext";
+import { useHeroesContext } from "@/hooks/useHeroesContext";
 
-import { getHeroes } from "@src/api/get/getHeroes";
+import heroeService from "@/services/heroeService";
 
-import "@src/pages/HeroByPublisherPage/HeroByPublisherPage.css";
+import "@/pages/HeroByPublisherPage/HeroByPublisherPage.css";
 
-export const HeroByPublisherPage = (): JSX.Element => {
+const HeroByPublisherPage = () => {
   const [selectPublisher, setSelectPublisher] = useState("ALL");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -26,7 +26,7 @@ export const HeroByPublisherPage = (): JSX.Element => {
 
     setLoading(true);
 
-    const data = await getHeroes();
+    const data = await heroeService.getAll();
 
     heroesDispatch({ type: "SET_HEROES", payload: data });
     heroesDispatch({ type: "SET_PUBLISHER", payload: queryParam });
@@ -45,19 +45,15 @@ export const HeroByPublisherPage = (): JSX.Element => {
     handleGetHeroes();
   }, []);
 
-  const handleSelectOption: React.ChangeEventHandler<HTMLSelectElement> = (
-    e
-  ) => {
+  const handleSelectOption: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     navigate(`?q=${e.target.value}`);
   };
 
   return (
-    <Fragment>
+    <main>
       <section className="index-page">
         <form className="index-page__form">
-          <h2 className="index-page__form-title">
-            SELECT YOUR FAVORITE PUBLISHER
-          </h2>
+          <h2 className="index-page__form-title">SELECT YOUR FAVORITE PUBLISHER</h2>
           <select
             onChange={(e) => handleSelectOption(e)}
             value={selectPublisher}
@@ -67,11 +63,7 @@ export const HeroByPublisherPage = (): JSX.Element => {
               All
             </option>
             {heroesState.publishers.map((publisher) => (
-              <option
-                key={publisher}
-                value={publisher}
-                className="index-page__form-select-option"
-              >
+              <option key={publisher} value={publisher} className="index-page__form-select-option">
                 {publisher}
               </option>
             ))}
@@ -84,6 +76,8 @@ export const HeroByPublisherPage = (): JSX.Element => {
       ) : (
         <HeroList heroes={heroesState.heroes} quantity={10}></HeroList>
       )}
-    </Fragment>
+    </main>
   );
 };
+
+export default HeroByPublisherPage;

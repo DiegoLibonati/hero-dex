@@ -1,6 +1,6 @@
-import "@src/components/CheckingAuth/CheckingAuth.css";
+import "@/components/CheckingAuth/CheckingAuth.css";
 
-export const CheckingAuth = (): JSX.Element => {
+const CheckingAuth = () => {
   return (
     <div className="loader-auth-checking">
       <img
@@ -11,3 +11,5 @@ export const CheckingAuth = (): JSX.Element => {
     </div>
   );
 };
+
+export default CheckingAuth;

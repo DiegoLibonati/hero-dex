@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 
-import { useAuthContext } from "@src/hooks/useAuthContext";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
-import "@src/components/AuthErrorAlert/AuthErrorAlert.css";
+import "@/components/AuthErrorAlert/AuthErrorAlert.css";
 
-export const AuthErrorAlert = (): JSX.Element => {
+const AuthErrorAlert = () => {
   const { state: authState, dispatch: authDispatch } = useAuthContext();
 
   useEffect(() => {
@@ -18,10 +18,10 @@ export const AuthErrorAlert = (): JSX.Element => {
   }, [authState?.errorMessage]);
 
   return (
-    <div
-      className={`alert-login ${authState?.errorMessage && "alert-login--open"}`}
-    >
+    <div className={`alert-login ${authState?.errorMessage && "alert-login--open"}`}>
       {authState?.errorMessage}
     </div>
   );
 };
+
+export default AuthErrorAlert;

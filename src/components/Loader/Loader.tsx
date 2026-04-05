@@ -1,6 +1,6 @@
-import "@src/components/Loader/Loader.css";
+import "@/components/Loader/Loader.css";
 
-export const Loader = (): JSX.Element => {
+const Loader = () => {
   return (
     <div className="loader-wrapper">
       <div className="loader-wrapper__lds-ellipsis">
@@ -12,3 +12,5 @@ export const Loader = (): JSX.Element => {
     </div>
   );
 };
+
+export default Loader;

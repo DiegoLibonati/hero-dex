@@ -1,9 +1,6 @@
-import { Hero } from "@src/entities/app";
+import { Hero } from "@/types/app";
 
-export const getHeroesByPublishers = (
-  publisher: string,
-  heroes: Hero[]
-): Hero[] => {
+export const getHeroesByPublishers = (publisher: string, heroes: Hero[]): Hero[] => {
   const publisherLower = publisher.toLowerCase();
 
   if (publisherLower === "all" || !publisherLower) return heroes;

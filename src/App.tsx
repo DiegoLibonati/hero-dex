@@ -1,19 +1,17 @@
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
-import { AuthErrorAlert } from "@src/components/AuthErrorAlert/AuthErrorAlert";
+import { AuthProvider } from "@/contexts/AuthContext/AuthProvider";
 
-import { AuthProvider } from "@src/contexts/AuthContext/AuthContext";
+import { HeroesRouter } from "@/router/HeroesRouter";
 
-import { AppRouter } from "@src/router/AppRouter";
-
-export const App = (): JSX.Element => {
+const App = () => {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <AppRouter></AppRouter>
-      </BrowserRouter>
-
-      <AuthErrorAlert></AuthErrorAlert>
+      <HashRouter>
+        <HeroesRouter></HeroesRouter>
+      </HashRouter>
     </AuthProvider>
   );
 };
+
+export default App;

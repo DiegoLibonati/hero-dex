@@ -1,40 +1,28 @@
-import { HeroesReducer as HeroesReducerT } from "@src/entities/contexts";
-import { HeroesState } from "@src/entities/states";
+import { HeroesReducer as HeroesReducerT } from "@/types/reducers";
+import { HeroesState } from "@/types/states";
 
-import { getAllPublishers } from "@src/helpers/getAllPublishers";
-import { getHeroesByName } from "@src/helpers/getHeroesByName";
-import { getHeroesByPublishers } from "@src/helpers/getHeroesByPublishers";
+import { getAllPublishers } from "@/helpers/getAllPublishers";
+import { getHeroesByName } from "@/helpers/getHeroesByName";
+import { getHeroesByPublishers } from "@/helpers/getHeroesByPublishers";
 
-export const initialState: HeroesState = {
-  heroes: [],
-  heroesCopy: [],
-  publishers: [],
-};
-
-export const HeroesReducer = (state: HeroesState, action: HeroesReducerT) => {
+export const HeroesReducer = (state: HeroesState, action: HeroesReducerT): HeroesState => {
   switch (action.type) {
     case "SET_HEROES":
-      const heroes = action.payload;
-
       return {
         ...state,
-        heroes: heroes,
-        heroesCopy: heroes,
-        publishers: getAllPublishers(heroes),
+        heroes: action.payload,
+        heroesCopy: action.payload,
+        publishers: getAllPublishers(action.payload),
       };
 
     case "SET_PUBLISHER":
-      const publisher = action.payload;
-
       return {
         ...state,
-        heroes: getHeroesByPublishers(publisher, state.heroesCopy),
+        heroes: getHeroesByPublishers(action.payload, state.heroesCopy),
       };
 
     case "SET_HEROES_BY_NAME":
-      const heroName = action.payload;
-
-      return { ...state, heroes: getHeroesByName(heroName, state.heroesCopy) };
+      return { ...state, heroes: getHeroesByName(action.payload, state.heroesCopy) };
 
     default:
       throw new Error("Unknown action: " + (action as HeroesReducerT)?.type);
