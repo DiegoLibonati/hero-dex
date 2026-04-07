@@ -14,7 +14,7 @@ const renderComponent = (): RenderComponent => {
 describe("CheckingAuth", () => {
   it("should render the checking auth container", () => {
     const { container } = renderComponent();
-    expect(container.querySelector<HTMLElement>(".loader-auth-checking")).toBeInTheDocument();
+    expect(container.querySelector<HTMLDivElement>(".loader-auth-checking")).toBeInTheDocument();
   });
 
   it("should render the loading gif", () => {

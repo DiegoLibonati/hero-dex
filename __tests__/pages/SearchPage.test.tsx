@@ -54,14 +54,14 @@ describe("SearchPage", () => {
 
   it("should show the initial 'Search a hero' label when query is empty", () => {
     const { container } = renderPage();
-    const label = container.querySelector<HTMLElement>(".search-page__search-label");
+    const label = container.querySelector<HTMLDivElement>(".search-page__search-label");
     expect(label).toBeInTheDocument();
     expect(label).not.toHaveStyle({ display: "none" });
   });
 
   it("should hide the initial label when a query is present", () => {
     const { container } = renderPage("A-Bomb", [mockHeroeOne]);
-    const label = container.querySelector<HTMLElement>(".search-page__search-label");
+    const label = container.querySelector<HTMLDivElement>(".search-page__search-label");
     expect(label).toHaveStyle({ display: "none" });
   });
 

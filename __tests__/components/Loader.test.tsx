@@ -14,12 +14,12 @@ const renderComponent = (): RenderComponent => {
 describe("Loader", () => {
   it("should render the loader wrapper", () => {
     const { container } = renderComponent();
-    expect(container.querySelector<HTMLElement>(".loader-wrapper")).toBeInTheDocument();
+    expect(container.querySelector<HTMLDivElement>(".loader-wrapper")).toBeInTheDocument();
   });
 
   it("should render four animated dots inside the ellipsis", () => {
     const { container } = renderComponent();
-    const ellipsis = container.querySelector<HTMLElement>(".loader-wrapper__lds-ellipsis");
+    const ellipsis = container.querySelector<HTMLDivElement>(".loader-wrapper__lds-ellipsis");
     expect(ellipsis?.children).toHaveLength(4);
   });
 

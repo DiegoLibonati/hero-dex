@@ -5,6 +5,10 @@ import { TextDecoder, TextEncoder } from "util";
 import { mockEnvs } from "@tests/__mocks__/envs.mock";
 
 const mockFetch = jest.fn();
+const mockSignInWithGoogle = jest.fn();
+const mockRegisterUserWithEmail = jest.fn();
+const mockLoginWithEmailPassword = jest.fn();
+const mockLogoutFirebase = jest.fn();
 
 Object.assign(globalThis, { TextEncoder, TextDecoder });
 
@@ -19,8 +23,8 @@ jest.mock("@/firebase/config", () => ({
 }));
 
 jest.mock("@/firebase/providers", () => ({
-  signInWithGoogle: jest.fn(),
-  registerUserWithEmail: jest.fn(),
-  loginWithEmailPassword: jest.fn(),
-  logoutFirebase: jest.fn(),
+  signInWithGoogle: mockSignInWithGoogle,
+  registerUserWithEmail: mockRegisterUserWithEmail,
+  loginWithEmailPassword: mockLoginWithEmailPassword,
+  logoutFirebase: mockLogoutFirebase,
 }));

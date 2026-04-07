@@ -36,15 +36,17 @@ describe("AuthErrorAlert", () => {
 
   it("should not have the open class when there is no error message", () => {
     const { container } = renderComponent();
-    expect(container.querySelector<HTMLElement>(".alert-login")).toBeInTheDocument();
-    expect(container.querySelector<HTMLElement>(".alert-login")).not.toHaveClass(
+    expect(container.querySelector<HTMLDivElement>(".alert-login")).toBeInTheDocument();
+    expect(container.querySelector<HTMLDivElement>(".alert-login")).not.toHaveClass(
       "alert-login--open"
     );
   });
 
   it("should have the open class and display the error message when one is set", () => {
     const { container } = renderComponent("Invalid credentials");
-    expect(container.querySelector<HTMLElement>(".alert-login")).toHaveClass("alert-login--open");
+    expect(container.querySelector<HTMLDivElement>(".alert-login")).toHaveClass(
+      "alert-login--open"
+    );
     expect(screen.getByText("Invalid credentials")).toBeInTheDocument();
   });
 
