@@ -7,7 +7,7 @@ import { getHeroById } from "@/helpers/getHeroById";
 
 import { useHeroesContext } from "@/hooks/useHeroesContext";
 
-import heroeService from "@/services/heroeService";
+import heroService from "@/services/heroService";
 
 import "@/pages/HeroPage/HeroPage.css";
 
@@ -21,7 +21,7 @@ const HeroPage = (): JSX.Element => {
   );
 
   const handleGetHeroes = async (): Promise<void> => {
-    const data = await heroeService.getAll();
+    const data = await heroService.getAll();
 
     heroesDispatch({ type: "SET_HEROES", payload: data });
   };
@@ -36,7 +36,9 @@ const HeroPage = (): JSX.Element => {
     void handleGetHeroes();
   }, []);
 
-  if (!hero && heroesState.heroesCopy.length) void navigate("/home");
+  useEffect(() => {
+    if (!hero && heroesState.heroesCopy.length) void navigate("/home");
+  }, [hero, heroesState.heroesCopy.length]);
 
   return (
     <main>

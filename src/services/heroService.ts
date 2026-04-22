@@ -4,7 +4,7 @@ import type { Hero } from "@/types/app";
 
 import { apiHeroes } from "@/services/axios";
 
-const heroeService = {
+const heroService = {
   getAll: async (): Promise<Hero[]> => {
     try {
       const request = await apiHeroes.get("/api/all.json", {
@@ -20,4 +20,4 @@ const heroeService = {
   },
 };
 
-export default heroeService;
+export default heroService;

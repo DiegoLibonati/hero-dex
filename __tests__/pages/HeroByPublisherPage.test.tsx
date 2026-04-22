@@ -1,92 +1,93 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+
+import type { RenderResult } from "@testing-library/react";
 
 import HeroByPublisherPage from "@/pages/HeroByPublisherPage/HeroByPublisherPage";
 
-import { useHeroesContext } from "@/hooks/useHeroesContext";
+import { HeroesProvider } from "@/contexts/HeroesContext/HeroesProvider";
 
-import heroeService from "@/services/heroeService";
+import heroService from "@/services/heroService";
 
 import { mockHeroes } from "@tests/__mocks__/heroes.mock";
 
-interface RenderPage {
-  container: HTMLElement;
-}
+const mockGetAll = heroService.getAll as jest.Mock;
 
-const mockHeroesDispatch = jest.fn();
+jest.mock("@/services/heroService", () => ({
+  __esModule: true,
+  default: {
+    getAll: jest.fn(),
+  },
+}));
 
-jest.mock("@/hooks/useHeroesContext");
-jest.mock("@/services/heroeService");
-
-const renderPage = (query = ""): RenderPage => {
-  (useHeroesContext as jest.Mock).mockReturnValue({
-    state: {
-      heroes: mockHeroes,
-      heroesCopy: mockHeroes,
-      publishers: ["Marvel Comics", "Dark Horse Comics", "DC Comics"],
-    },
-    dispatch: mockHeroesDispatch,
-  });
-  (heroeService.getAll as jest.Mock).mockResolvedValue(mockHeroes);
-
-  const { container } = render(
-    <MemoryRouter initialEntries={[`/home${query ? `?q=${query}` : ""}`]}>
-      <HeroByPublisherPage />
-    </MemoryRouter>
+const renderPage = (initialRoute = "/home"): RenderResult =>
+  render(
+    <HeroesProvider>
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <Routes>
+          <Route path="/home" element={<HeroByPublisherPage />} />
+        </Routes>
+      </MemoryRouter>
+    </HeroesProvider>
   );
 
-  return { container };
-};
-
 describe("HeroByPublisherPage", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
+  beforeEach(() => {
+    mockGetAll.mockResolvedValue(mockHeroes);
   });
 
-  it("should render the publisher select", async () => {
-    renderPage();
-    await waitFor(() => {
-      expect(heroeService.getAll).toHaveBeenCalledTimes(1);
-    });
-    expect(screen.getByRole("combobox")).toBeInTheDocument();
-  });
-
-  it("should render publisher options populated from context state", async () => {
-    renderPage();
-    await waitFor(() => {
-      expect(heroeService.getAll).toHaveBeenCalledTimes(1);
-    });
-    expect(screen.getByRole("option", { name: "Marvel Comics" })).toBeInTheDocument();
-    expect(screen.getByRole("option", { name: "DC Comics" })).toBeInTheDocument();
-  });
-
-  it("should call heroeService.getAll on mount", async () => {
-    renderPage();
-    await waitFor(() => {
-      expect(heroeService.getAll).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  it("should dispatch SET_HEROES and SET_PUBLISHER after fetching", async () => {
-    renderPage();
-    await waitFor(() => {
-      expect(mockHeroesDispatch).toHaveBeenCalledWith({
-        type: "SET_HEROES",
-        payload: mockHeroes,
+  describe("rendering", () => {
+    it("should render the publisher select with the default All option", async () => {
+      renderPage();
+      expect(screen.getByRole("combobox")).toBeInTheDocument();
+      expect(screen.getByRole("option", { name: "All" })).toBeInTheDocument();
+      await waitFor(() => {
+        expect(mockGetAll).toHaveBeenCalled();
       });
-      expect(mockHeroesDispatch).toHaveBeenCalledWith({
-        type: "SET_PUBLISHER",
-        payload: "",
+    });
+
+    it("should render the publisher options after heroes load", async () => {
+      renderPage();
+      await waitFor(() => {
+        expect(screen.getByRole("option", { name: "Marvel Comics" })).toBeInTheDocument();
+        expect(screen.getByRole("option", { name: "Dark Horse Comics" })).toBeInTheDocument();
+        expect(screen.getByRole("option", { name: "DC Comics" })).toBeInTheDocument();
+      });
+    });
+
+    it("should render hero cards after heroes load", async () => {
+      renderPage();
+      expect(await screen.findByText("A-Bomb")).toBeInTheDocument();
+      expect(await screen.findByText("Abe Sapien")).toBeInTheDocument();
+    });
+
+    it("should reflect the query param publisher in the select value", async () => {
+      renderPage("/home?q=Marvel%20Comics");
+      await waitFor(() => {
+        expect(screen.getByRole("combobox")).toHaveValue("Marvel Comics");
       });
     });
   });
 
-  it("should dispatch SET_PUBLISHER with the query value when a query is in the URL", async () => {
-    renderPage("Marvel%20Comics");
-    await waitFor(() => {
-      expect(mockHeroesDispatch).toHaveBeenCalledWith({
-        type: "SET_PUBLISHER",
-        payload: "Marvel Comics",
+  describe("behavior", () => {
+    it("should navigate to the selected publisher when the select changes", async () => {
+      const user = userEvent.setup();
+      renderPage();
+      await waitFor(() => {
+        expect(screen.getByRole("option", { name: "Marvel Comics" })).toBeInTheDocument();
+      });
+      await user.selectOptions(screen.getByRole("combobox"), "Marvel Comics");
+      await waitFor(() => {
+        expect(screen.getByRole("combobox")).toHaveValue("Marvel Comics");
+      });
+    });
+
+    it("should filter heroes by the publisher in the URL query", async () => {
+      renderPage("/home?q=Marvel%20Comics");
+      await waitFor(() => {
+        expect(screen.getByText("A-Bomb")).toBeInTheDocument();
+        expect(screen.queryByText("Abe Sapien")).not.toBeInTheDocument();
       });
     });
   });

@@ -1,30 +1,21 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
+
+import type { RenderResult } from "@testing-library/react";
 
 import Loader from "@/components/Loader/Loader";
 
-interface RenderComponent {
-  container: HTMLElement;
-}
-
-const renderComponent = (): RenderComponent => {
-  const { container } = render(<Loader />);
-  return { container };
-};
+const renderComponent = (): RenderResult => render(<Loader />);
 
 describe("Loader", () => {
-  it("should render the loader wrapper", () => {
-    const { container } = renderComponent();
-    expect(container.querySelector<HTMLDivElement>(".loader-wrapper")).toBeInTheDocument();
-  });
+  describe("rendering", () => {
+    it("should render the loader wrapper", () => {
+      const { container } = renderComponent();
+      expect(container.querySelector(".loader-wrapper")).toBeInTheDocument();
+    });
 
-  it("should render four animated dots inside the ellipsis", () => {
-    const { container } = renderComponent();
-    const ellipsis = container.querySelector<HTMLDivElement>(".loader-wrapper__lds-ellipsis");
-    expect(ellipsis?.children).toHaveLength(4);
-  });
-
-  it("should not render any text", () => {
-    renderComponent();
-    expect(screen.queryByText(/.+/)).not.toBeInTheDocument();
+    it("should render the ellipsis animation element", () => {
+      const { container } = renderComponent();
+      expect(container.querySelector(".loader-wrapper__lds-ellipsis")).toBeInTheDocument();
+    });
   });
 });

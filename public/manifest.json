@@ -1,7 +1,7 @@
 {
-  "name": "Heroes APP",
-  "short_name": "Heroes",
-  "description": "I made a web application with React JS with Firebase for user authentication since this application has a login and a register. Also once we log in with an account or with google we can see in the main section different types of heroes and each hero we can see a mini chart with his name, his publisher, a description and a button to access more information about that hero. In addition this APP has a search through the browser bar which will search for the publisher and bring all the heroes of that specific publisher. It also has a search section where we can search by the name of our favorite hero.",
+  "name": "HeroDex",
+  "short_name": "HeroDex",
+  "description": "HeroDex is a superhero encyclopedia web application that lets you browse, filter, and explore hundreds of characters from the most iconic comic book publishers — Marvel Comics, DC Comics, Dark Horse Comics, and more.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

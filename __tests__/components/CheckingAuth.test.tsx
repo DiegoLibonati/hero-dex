@@ -1,24 +1,25 @@
 import { render, screen } from "@testing-library/react";
 
+import type { RenderResult } from "@testing-library/react";
+
 import CheckingAuth from "@/components/CheckingAuth/CheckingAuth";
 
-interface RenderComponent {
-  container: HTMLElement;
-}
-
-const renderComponent = (): RenderComponent => {
-  const { container } = render(<CheckingAuth />);
-  return { container };
-};
+const renderComponent = (): RenderResult => render(<CheckingAuth />);
 
 describe("CheckingAuth", () => {
-  it("should render the checking auth container", () => {
-    const { container } = renderComponent();
-    expect(container.querySelector<HTMLDivElement>(".loader-auth-checking")).toBeInTheDocument();
-  });
+  describe("rendering", () => {
+    it("should render a loading gif image", () => {
+      renderComponent();
+      expect(screen.getByAltText("gif loading")).toBeInTheDocument();
+    });
 
-  it("should render the loading gif", () => {
-    renderComponent();
-    expect(screen.getByAltText("gif loading")).toBeInTheDocument();
+    it("should render the image with the correct src", () => {
+      renderComponent();
+      const img = screen.getByAltText("gif loading");
+      expect(img).toHaveAttribute(
+        "src",
+        "https://i.pinimg.com/originals/a9/78/09/a97809ed54944ec8bb6e3940cd0bc513.gif"
+      );
+    });
   });
 });

@@ -9,7 +9,7 @@ import Loader from "@/components/Loader/Loader";
 
 import { useHeroesContext } from "@/hooks/useHeroesContext";
 
-import heroeService from "@/services/heroeService";
+import heroService from "@/services/heroService";
 
 import "@/pages/HeroByPublisherPage/HeroByPublisherPage.css";
 
@@ -28,7 +28,7 @@ const HeroByPublisherPage = (): JSX.Element => {
 
     setLoading(true);
 
-    const data = await heroeService.getAll();
+    const data = await heroService.getAll();
 
     heroesDispatch({ type: "SET_HEROES", payload: data });
     heroesDispatch({ type: "SET_PUBLISHER", payload: queryParam });

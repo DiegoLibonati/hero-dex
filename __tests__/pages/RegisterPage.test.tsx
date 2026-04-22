@@ -1,78 +1,132 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
+
+import type { RenderResult } from "@testing-library/react";
+import type { AuthContext as AuthContextT } from "@/types/contexts";
+import type { AuthState } from "@/types/states";
 
 import RegisterPage from "@/pages/RegisterPage/RegisterPage";
 
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { AuthContext } from "@/contexts/AuthContext/AuthContext";
 
 import { registerUserWithEmail } from "@/firebase/providers";
 
-interface RenderPage {
-  container: HTMLElement;
-}
+const mockAuthDispatch = jest.fn();
 
-const mockDispatch = jest.fn();
+jest.mock("@/firebase/providers", () => ({
+  registerUserWithEmail: jest.fn(),
+}));
 
-jest.mock("@/hooks/useAuthContext");
+const createContextValue = (overrides: Partial<AuthState> = {}): AuthContextT => ({
+  state: {
+    logged: "not-authenticated",
+    uid: "",
+    displayName: "",
+    email: "",
+    photoURL: "",
+    errorMessage: "",
+    ...overrides,
+  },
+  dispatch: mockAuthDispatch,
+});
 
-const renderPage = (): RenderPage => {
-  (useAuthContext as jest.Mock).mockReturnValue({
-    state: {
-      logged: "not-authenticated",
-      errorMessage: "",
-      uid: "",
-      email: "",
-      displayName: "",
-      photoURL: "",
-    },
-    dispatch: mockDispatch,
-  });
-
-  const { container } = render(
-    <MemoryRouter>
+const renderPage = (): RenderResult =>
+  render(
+    <AuthContext.Provider value={createContextValue()}>
       <RegisterPage />
-    </MemoryRouter>
+    </AuthContext.Provider>
   );
 
-  return { container };
-};
-
 describe("RegisterPage", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it("should render the username, email and password inputs", () => {
-    renderPage();
-    expect(screen.getByPlaceholderText(/enter one username/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/enter one email/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/enter one password/i)).toBeInTheDocument();
-  });
-
-  it("should render the create account button", () => {
-    renderPage();
-    expect(screen.getByRole("button", { name: /create account/i })).toBeInTheDocument();
-  });
-
-  it("should call registerUserWithEmail with the entered credentials on submit", async () => {
-    const user = userEvent.setup();
-    (registerUserWithEmail as jest.Mock).mockResolvedValueOnce({
-      ok: true,
-      uid: "uid-1",
-      displayName: "newuser",
-      email: "new@test.com",
-      photoURL: "",
+  describe("rendering", () => {
+    it("should render the username input", () => {
+      renderPage();
+      expect(screen.getByPlaceholderText("Enter one username...")).toBeInTheDocument();
     });
-    renderPage();
 
-    await user.type(screen.getByPlaceholderText(/enter one username/i), "newuser");
-    await user.type(screen.getByPlaceholderText(/enter one email/i), "new@test.com");
-    await user.type(screen.getByPlaceholderText(/enter one password/i), "pass123");
-    await user.click(screen.getByRole("button", { name: /create account/i }));
+    it("should render the email input", () => {
+      renderPage();
+      expect(screen.getByPlaceholderText("Enter one email...")).toBeInTheDocument();
+    });
 
-    await waitFor(() => {
-      expect(registerUserWithEmail).toHaveBeenCalledWith("new@test.com", "pass123", "newuser");
+    it("should render the password input", () => {
+      renderPage();
+      expect(screen.getByPlaceholderText("Enter one password...")).toBeInTheDocument();
+    });
+
+    it("should render the register submit button", () => {
+      renderPage();
+      expect(screen.getByRole("button", { name: "Create account" })).toBeInTheDocument();
+    });
+  });
+
+  describe("behavior", () => {
+    it("should call registerUserWithEmail with the entered credentials on submit", async () => {
+      const user = userEvent.setup();
+      (registerUserWithEmail as jest.Mock).mockResolvedValue({
+        ok: true,
+        uid: "uid-1",
+        displayName: "newuser",
+        email: "new@test.com",
+        photoURL: "",
+      });
+      renderPage();
+      await user.type(screen.getByPlaceholderText("Enter one username..."), "newuser");
+      await user.type(screen.getByPlaceholderText("Enter one email..."), "new@test.com");
+      await user.type(screen.getByPlaceholderText("Enter one password..."), "pass1234");
+      await user.click(screen.getByRole("button", { name: "Create account" }));
+      await waitFor(() => {
+        expect(registerUserWithEmail).toHaveBeenCalledWith("new@test.com", "pass1234", "newuser");
+      });
+    });
+
+    it("should dispatch AUTH_LOGIN on successful registration", async () => {
+      const user = userEvent.setup();
+      (registerUserWithEmail as jest.Mock).mockResolvedValue({
+        ok: true,
+        uid: "uid-1",
+        displayName: "newuser",
+        email: "new@test.com",
+        photoURL: "",
+      });
+      renderPage();
+      await user.type(screen.getByPlaceholderText("Enter one username..."), "newuser");
+      await user.type(screen.getByPlaceholderText("Enter one email..."), "new@test.com");
+      await user.type(screen.getByPlaceholderText("Enter one password..."), "pass1234");
+      await user.click(screen.getByRole("button", { name: "Create account" }));
+      await waitFor(() => {
+        expect(mockAuthDispatch).toHaveBeenCalledWith(
+          expect.objectContaining({ type: "AUTH_LOGIN" })
+        );
+      });
+    });
+
+    it("should dispatch AUTH_LOGOUT when registration fails", async () => {
+      const user = userEvent.setup();
+      (registerUserWithEmail as jest.Mock).mockResolvedValue({
+        ok: false,
+        errorMessage: "Email already in use",
+      });
+      renderPage();
+      await user.type(screen.getByPlaceholderText("Enter one username..."), "newuser");
+      await user.type(screen.getByPlaceholderText("Enter one email..."), "taken@test.com");
+      await user.type(screen.getByPlaceholderText("Enter one password..."), "pass1234");
+      await user.click(screen.getByRole("button", { name: "Create account" }));
+      await waitFor(() => {
+        expect(mockAuthDispatch).toHaveBeenCalledWith(
+          expect.objectContaining({ type: "AUTH_LOGOUT" })
+        );
+      });
+    });
+
+    it("should not call registerUserWithEmail when any field is empty", async () => {
+      const user = userEvent.setup();
+      renderPage();
+      await user.type(screen.getByPlaceholderText("Enter one username..."), "newuser");
+      await user.click(screen.getByRole("button", { name: "Create account" }));
+      await waitFor(() => {
+        expect(registerUserWithEmail).not.toHaveBeenCalled();
+      });
     });
   });
 });

@@ -9,7 +9,7 @@ import HeroCard from "@/components/HeroCard/HeroCard";
 import { useHeroesContext } from "@/hooks/useHeroesContext";
 import { useForm } from "@/hooks/useForm";
 
-import heroeService from "@/services/heroeService";
+import heroService from "@/services/heroService";
 
 import "@/pages/SearchPage/SearchPage.css";
 
@@ -36,7 +36,7 @@ const SearchPage = (): JSX.Element => {
   const handleGetHeroes = async (): Promise<void> => {
     const heroName = q as string;
 
-    const data = await heroeService.getAll();
+    const data = await heroService.getAll();
 
     heroesDispatch({ type: "SET_HEROES", payload: data });
     heroesDispatch({ type: "SET_HEROES_BY_NAME", payload: heroName });

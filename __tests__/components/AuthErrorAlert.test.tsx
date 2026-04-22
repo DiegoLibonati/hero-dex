@@ -1,62 +1,89 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
+
+import type { RenderResult } from "@testing-library/react";
+import type { AuthContext as AuthContextT } from "@/types/contexts";
+import type { AuthState } from "@/types/states";
 
 import AuthErrorAlert from "@/components/AuthErrorAlert/AuthErrorAlert";
 
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { AuthContext } from "@/contexts/AuthContext/AuthContext";
 
-interface RenderComponent {
-  container: HTMLElement;
-}
+const mockAuthDispatch = jest.fn();
 
-const mockDispatch = jest.fn();
+const createContextValue = (overrides: Partial<AuthState> = {}): AuthContextT => ({
+  state: {
+    logged: "authenticated",
+    uid: "test-uid",
+    displayName: "Test User",
+    email: "test@test.com",
+    photoURL: "",
+    errorMessage: "",
+    ...overrides,
+  },
+  dispatch: mockAuthDispatch,
+});
 
-jest.mock("@/hooks/useAuthContext");
-
-const renderComponent = (errorMessage = ""): RenderComponent => {
-  (useAuthContext as jest.Mock).mockReturnValue({
-    state: {
-      logged: "not-authenticated",
-      errorMessage,
-      uid: "",
-      email: "",
-      displayName: "",
-      photoURL: "",
-    },
-    dispatch: mockDispatch,
-  });
-
-  const { container } = render(<AuthErrorAlert />);
-  return { container };
-};
+const renderComponent = (errorMessage = ""): RenderResult =>
+  render(
+    <AuthContext.Provider value={createContextValue({ errorMessage })}>
+      <AuthErrorAlert />
+    </AuthContext.Provider>
+  );
 
 describe("AuthErrorAlert", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
+  describe("rendering", () => {
+    it("should render without the open modifier class when there is no error message", () => {
+      const { container } = renderComponent();
+      expect(container.querySelector(".alert-login--open")).not.toBeInTheDocument();
+    });
+
+    it("should render with the open modifier class when there is an error message", () => {
+      const { container } = renderComponent("Something went wrong");
+      expect(container.querySelector(".alert-login--open")).toBeInTheDocument();
+    });
+
+    it("should display the error message text", () => {
+      renderComponent("Invalid credentials");
+      expect(screen.getByText("Invalid credentials")).toBeInTheDocument();
+    });
+
+    it("should not display text when there is no error message", () => {
+      const { container } = renderComponent();
+      expect(container.querySelector(".alert-login")?.textContent).toBe("");
+    });
   });
 
-  it("should not have the open class when there is no error message", () => {
-    const { container } = renderComponent();
-    expect(container.querySelector<HTMLDivElement>(".alert-login")).toBeInTheDocument();
-    expect(container.querySelector<HTMLDivElement>(".alert-login")).not.toHaveClass(
-      "alert-login--open"
-    );
-  });
+  describe("auto-clear behavior", () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
 
-  it("should have the open class and display the error message when one is set", () => {
-    const { container } = renderComponent("Invalid credentials");
-    expect(container.querySelector<HTMLDivElement>(".alert-login")).toHaveClass(
-      "alert-login--open"
-    );
-    expect(screen.getByText("Invalid credentials")).toBeInTheDocument();
-  });
+    afterEach(() => {
+      jest.useRealTimers();
+    });
 
-  it("should dispatch CLEAR_ERROR_MESSAGE after 2 seconds", () => {
-    jest.useFakeTimers();
-    renderComponent("Some error");
+    it("should dispatch CLEAR_ERROR_MESSAGE after 2 seconds", () => {
+      renderComponent("Error occurred");
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
+      expect(mockAuthDispatch).toHaveBeenCalledWith({ type: "CLEAR_ERROR_MESSAGE" });
+    });
 
-    jest.advanceTimersByTime(2000);
+    it("should not dispatch CLEAR_ERROR_MESSAGE before 2 seconds have passed", () => {
+      renderComponent("Error occurred");
+      act(() => {
+        jest.advanceTimersByTime(1999);
+      });
+      expect(mockAuthDispatch).not.toHaveBeenCalledWith({ type: "CLEAR_ERROR_MESSAGE" });
+    });
 
-    expect(mockDispatch).toHaveBeenCalledWith({ type: "CLEAR_ERROR_MESSAGE" });
-    jest.useRealTimers();
+    it("should not set a timer when there is no error message", () => {
+      renderComponent();
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
+      expect(mockAuthDispatch).not.toHaveBeenCalled();
+    });
   });
 });

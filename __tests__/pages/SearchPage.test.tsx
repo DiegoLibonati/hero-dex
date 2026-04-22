@@ -1,95 +1,126 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 
-import type { Hero } from "@/types/app";
+import type { RenderResult } from "@testing-library/react";
 
 import SearchPage from "@/pages/SearchPage/SearchPage";
 
-import { useHeroesContext } from "@/hooks/useHeroesContext";
+import { HeroesProvider } from "@/contexts/HeroesContext/HeroesProvider";
 
-import heroeService from "@/services/heroeService";
+import heroService from "@/services/heroService";
 
-import { mockHeroes, mockHeroeOne } from "@tests/__mocks__/heroes.mock";
+import { mockHeroes } from "@tests/__mocks__/heroes.mock";
 
-interface RenderPage {
-  container: HTMLElement;
-}
+const mockGetAll = heroService.getAll as jest.Mock;
 
-const mockHeroesDispatch = jest.fn();
+jest.mock("@/services/heroService", () => ({
+  __esModule: true,
+  default: {
+    getAll: jest.fn(),
+  },
+}));
 
-jest.mock("@/hooks/useHeroesContext");
-jest.mock("@/services/heroeService");
-
-const renderPage = (query = "", heroes: Hero[] = []): RenderPage => {
-  (useHeroesContext as jest.Mock).mockReturnValue({
-    state: {
-      heroes,
-      heroesCopy: mockHeroes,
-      publishers: [],
-    },
-    dispatch: mockHeroesDispatch,
-  });
-  (heroeService.getAll as jest.Mock).mockResolvedValue(mockHeroes);
-
-  const { container } = render(
-    <MemoryRouter initialEntries={[`/search${query ? `?q=${encodeURIComponent(query)}` : ""}`]}>
-      <SearchPage />
-    </MemoryRouter>
+const renderPage = (initialRoute = "/search"): RenderResult =>
+  render(
+    <HeroesProvider>
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <Routes>
+          <Route path="/search" element={<SearchPage />} />
+        </Routes>
+      </MemoryRouter>
+    </HeroesProvider>
   );
 
-  return { container };
-};
-
 describe("SearchPage", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
+  beforeEach(() => {
+    mockGetAll.mockResolvedValue(mockHeroes);
   });
 
-  it("should render the search input and button", () => {
-    renderPage();
-    expect(screen.getByPlaceholderText(/search a hero/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /search for a hero/i })).toBeInTheDocument();
-  });
+  describe("rendering", () => {
+    it("should render the search input", async () => {
+      renderPage();
+      expect(screen.getByPlaceholderText("Search a hero")).toBeInTheDocument();
+      await waitFor(() => {
+        expect(mockGetAll).toHaveBeenCalled();
+      });
+    });
 
-  it("should show the initial 'Search a hero' label when query is empty", () => {
-    const { container } = renderPage();
-    const label = container.querySelector<HTMLDivElement>(".search-page__search-label");
-    expect(label).toBeInTheDocument();
-    expect(label).not.toHaveStyle({ display: "none" });
-  });
+    it("should render the search button", async () => {
+      renderPage();
+      expect(screen.getByRole("button", { name: "Search for a hero" })).toBeInTheDocument();
+      await waitFor(() => {
+        expect(mockGetAll).toHaveBeenCalled();
+      });
+    });
 
-  it("should hide the initial label when a query is present", () => {
-    const { container } = renderPage("A-Bomb", [mockHeroeOne]);
-    const label = container.querySelector<HTMLDivElement>(".search-page__search-label");
-    expect(label).toHaveStyle({ display: "none" });
-  });
+    it("should render the page title", async () => {
+      renderPage();
+      expect(
+        screen.getByRole("heading", { name: "Search your favorite HERO" })
+      ).toBeInTheDocument();
+      await waitFor(() => {
+        expect(mockGetAll).toHaveBeenCalled();
+      });
+    });
 
-  it("should show 'No hero with' message when the query has no results", async () => {
-    renderPage("nonexistent", []);
-    await waitFor(() => {
-      expect(screen.getByText(/no hero with/i)).toBeInTheDocument();
+    it("should show the default search label when there is no query", async () => {
+      renderPage("/search");
+      expect(screen.getByText("Search a hero")).toBeInTheDocument();
+      await waitFor(() => {
+        expect(mockGetAll).toHaveBeenCalled();
+      });
+    });
+
+    it("should hide the default label and show hero results when query matches heroes", async () => {
+      renderPage("/search?q=A-Bomb");
+      await waitFor(() => {
+        expect(screen.getByText("A-Bomb")).toBeInTheDocument();
+      });
+    });
+
+    it("should show the not-found message when the query has no results", async () => {
+      renderPage("/search?q=nonexistenthero");
+      await waitFor(() => {
+        expect(screen.getByText(/nonexistenthero/)).toBeInTheDocument();
+      });
     });
   });
 
-  it("should display hero cards when the query matches results", async () => {
-    renderPage("A-Bomb", [mockHeroeOne]);
-    await waitFor(() => {
-      expect(screen.getByText(mockHeroeOne.name)).toBeInTheDocument();
+  describe("behavior", () => {
+    it("should show results matching the search term after form submission", async () => {
+      const user = userEvent.setup();
+      renderPage();
+      await waitFor(() => {
+        expect(mockGetAll).toHaveBeenCalled();
+      });
+      const input = screen.getByPlaceholderText("Search a hero");
+      await user.type(input, "Abin");
+      await user.click(screen.getByRole("button", { name: "Search for a hero" }));
+      await waitFor(() => {
+        expect(screen.getByText("Abin Sur")).toBeInTheDocument();
+      });
     });
-  });
 
-  it("should navigate with query param when the search form is submitted", async () => {
-    const user = userEvent.setup();
-    renderPage();
+    it("should show the not-found message when the search yields no results", async () => {
+      const user = userEvent.setup();
+      renderPage();
+      await waitFor(() => {
+        expect(mockGetAll).toHaveBeenCalled();
+      });
+      const input = screen.getByPlaceholderText("Search a hero");
+      await user.type(input, "zzzunknown");
+      await user.click(screen.getByRole("button", { name: "Search for a hero" }));
+      await waitFor(() => {
+        expect(screen.getByText(/zzzunknown/)).toBeInTheDocument();
+      });
+    });
 
-    await user.type(screen.getByPlaceholderText(/search a hero/i), "Batman");
-    await user.click(screen.getByRole("button", { name: /search for a hero/i }));
-
-    await waitFor(() => {
-      expect(mockHeroesDispatch).toHaveBeenCalledWith({
-        type: "SET_HEROES_BY_NAME",
-        payload: "Batman",
+    it("should pre-fill the search input with the URL query value", async () => {
+      renderPage("/search?q=Batman");
+      expect(screen.getByPlaceholderText("Search a hero")).toHaveValue("Batman");
+      await waitFor(() => {
+        expect(mockGetAll).toHaveBeenCalled();
       });
     });
   });

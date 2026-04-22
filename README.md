@@ -1,4 +1,4 @@
-# HeroesApp
+# HeroDex
 
 ## Educational Purpose
 
@@ -17,7 +17,37 @@ The application will open automatically at `http://localhost:3000`
 
 ## Description
 
-I made a web application with React JS with Firebase for user authentication since this application has a login and a register. Also once we log in with an account or with google we can see in the main section different types of heroes and each hero we can see a mini chart with his name, his publisher, a description and a button to access more information about that hero. In addition this APP has a search through the browser bar which will search for the publisher and bring all the heroes of that specific publisher. It also has a search section where we can search by the name of our favorite hero.
+**HeroDex** is a superhero encyclopedia web application that lets you browse, filter, and explore hundreds of characters from the most iconic comic book publishers — Marvel Comics, DC Comics, Dark Horse Comics, and more.
+
+### Authentication
+
+Before accessing any hero content, users must authenticate. HeroDex supports two sign-in methods: email and password, and Google Sign-In via Firebase Authentication. New users can create an account through the registration form. Once authenticated, the session is persisted so users are not required to log in again on every visit. If authentication fails for any reason, an error alert appears automatically and dismisses itself after a few seconds without any user interaction.
+
+### Home — Browse by Publisher
+
+The main page of the application presents the full hero roster fetched in real time from the [Superhero API](https://akabab.github.io/superhero-api/). Heroes are displayed as cards showing the hero's image, name, slug, publisher, and full name. The list loads incrementally — only a fixed number of cards are shown at first, and a "Show More" button lets users progressively reveal more without leaving the page.
+
+A dropdown selector at the top of the page allows filtering the entire roster by publisher. Selecting "Marvel Comics" instantly narrows the list to Marvel characters only; selecting "DC Comics" shows DC characters; selecting "All" restores the complete roster. The selected publisher is reflected in the URL query string (`?q=Publisher+Name`), so filtered views are bookmarkable and shareable.
+
+### Search — Find by Hero Name
+
+The search page provides a dedicated free-text search experience. Users type any part of a hero's name into the input field and submit the form. The results update immediately to show all matching heroes as cards. If no hero matches the query, a clear "not found" message is displayed. If the search field is empty, a prompt guides the user to enter a name. The search term is also kept in the URL (`?q=name`), so results pages can be bookmarked or shared directly.
+
+### Hero Detail Page
+
+Each hero card contains a "Learn More" link that navigates to a dedicated detail page for that character. The detail page presents the full data set available for the hero, organized into the following sections:
+
+- **PowerStats** — Intelligence, Strength, Speed, Durability, Power, and Combat ratings.
+- **Appearance** — Gender, Race, Height, Weight, Eye color, and Hair color.
+- **Biography** — Full name, Alter egos, Aliases, Place of birth, First appearance, Publisher, and Alignment (good/bad/neutral).
+- **Work** — Occupation and base of operations.
+- **Connections** — Group affiliations and known relatives.
+
+Both a large background image and a smaller portrait of the hero are displayed on this page. A "Back" button allows returning to the previous page without losing the current filter or search context. If a hero ID in the URL does not match any character in the dataset, the application redirects automatically to the home page.
+
+### Navigation
+
+A persistent navigation bar is available across all authenticated pages. It provides direct links to the Home page, the Marvel Comics filter, the DC Comics filter, and the Search page. The bar also displays the logged-in user's display name and a logout button. On smaller screens the navigation collapses into a sidebar that can be toggled with a menu button.
 
 ## Technologies used
 
@@ -74,11 +104,7 @@ I made a web application with React JS with Firebase for user authentication sin
 
 ## Portfolio Link
 
-[`https://www.diegolibonati.com.ar/#/project/HeroesApp`](https://www.diegolibonati.com.ar/#/project/HeroesApp)
-
-## Video
-
-https://user-images.githubusercontent.com/99032604/199866773-473a153c-375e-4b05-b9d6-d01b0728149b.mp4
+[`https://www.diegolibonati.com.ar/#/project/hero-dex`](https://www.diegolibonati.com.ar/#/project/hero-dex)
 
 ## Testing
 

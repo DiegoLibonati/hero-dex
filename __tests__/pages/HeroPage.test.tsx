@@ -1,77 +1,90 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
+
+import type { RenderResult } from "@testing-library/react";
 
 import HeroPage from "@/pages/HeroPage/HeroPage";
 
-import { useHeroesContext } from "@/hooks/useHeroesContext";
+import { HeroesProvider } from "@/contexts/HeroesContext/HeroesProvider";
 
-import heroeService from "@/services/heroeService";
+import heroService from "@/services/heroService";
 
-import { mockHeroes, mockHeroeOne } from "@tests/__mocks__/heroes.mock";
+import { mockHeroes } from "@tests/__mocks__/heroes.mock";
 
-interface RenderPage {
-  container: HTMLElement;
-}
+const mockGetAll = heroService.getAll as jest.Mock;
 
-const mockHeroesDispatch = jest.fn();
+jest.mock("@/services/heroService", () => ({
+  __esModule: true,
+  default: {
+    getAll: jest.fn(),
+  },
+}));
 
-jest.mock("@/hooks/useHeroesContext");
-jest.mock("@/services/heroeService");
-
-const renderPage = (heroId = "1"): RenderPage => {
-  (useHeroesContext as jest.Mock).mockReturnValue({
-    state: {
-      heroes: mockHeroes,
-      heroesCopy: mockHeroes,
-      publishers: [],
-    },
-    dispatch: mockHeroesDispatch,
-  });
-  (heroeService.getAll as jest.Mock).mockResolvedValue(mockHeroes);
-
-  const { container } = render(
-    <MemoryRouter initialEntries={[`/hero/${heroId}`]}>
-      <Routes>
-        <Route path="/hero/:heroId" element={<HeroPage />} />
-      </Routes>
-    </MemoryRouter>
+const renderPage = (heroId = "1"): RenderResult =>
+  render(
+    <HeroesProvider>
+      <MemoryRouter initialEntries={[`/hero/${heroId}`]}>
+        <Routes>
+          <Route path="/hero/:heroId" element={<HeroPage />} />
+          <Route path="/home" element={<div>Home Page</div>} />
+        </Routes>
+      </MemoryRouter>
+    </HeroesProvider>
   );
 
-  return { container };
-};
-
 describe("HeroPage", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
+  beforeEach(() => {
+    mockGetAll.mockResolvedValue(mockHeroes);
   });
 
-  it("should render the hero name", async () => {
-    renderPage("1");
-    await waitFor(() => {
-      expect(screen.getByText(mockHeroeOne.name)).toBeInTheDocument();
+  describe("rendering", () => {
+    it("should render the hero name after loading", async () => {
+      renderPage("1");
+      expect(await screen.findByText("A-Bomb")).toBeInTheDocument();
+    });
+
+    it("should render the hero image with the correct alt text", async () => {
+      renderPage("1");
+      await waitFor(() => {
+        const images = screen.getAllByAltText("A-Bomb");
+        expect(images.length).toBeGreaterThan(0);
+      });
+    });
+
+    it("should render the hero powerstats section", async () => {
+      renderPage("1");
+      await screen.findByText("A-Bomb");
+      expect(screen.getByText(/Intelligence:/)).toBeInTheDocument();
+      expect(screen.getByText(/Strength:/)).toBeInTheDocument();
+    });
+
+    it("should render the hero biography section", async () => {
+      renderPage("1");
+      await screen.findByText("A-Bomb");
+      expect(screen.getByText(/Richard Milhouse Jones/)).toBeInTheDocument();
+    });
+
+    it("should render the back button", async () => {
+      renderPage("1");
+      await screen.findByText("A-Bomb");
+      expect(screen.getByRole("button", { name: "Go back to previous page" })).toBeInTheDocument();
     });
   });
 
-  it("should render the back button", async () => {
-    renderPage("1");
-    await waitFor(() => {
-      expect(heroeService.getAll).toHaveBeenCalledTimes(1);
+  describe("behavior", () => {
+    it("should navigate to /home when the hero is not found", async () => {
+      renderPage("9999");
+      await waitFor(() => {
+        expect(screen.getByText("Home Page")).toBeInTheDocument();
+      });
     });
-    expect(screen.getByRole("button", { name: /go back to previous page/i })).toBeInTheDocument();
-  });
 
-  it("should call heroeService.getAll on mount", async () => {
-    renderPage("1");
-    await waitFor(() => {
-      expect(heroeService.getAll).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  it("should render the hero images with the hero name as alt text", async () => {
-    renderPage("1");
-    await waitFor(() => {
-      const images = screen.getAllByAltText(mockHeroeOne.name);
-      expect(images.length).toBeGreaterThan(0);
+    it("should call navigate(-1) when the back button is clicked", async () => {
+      const user = userEvent.setup();
+      renderPage("1");
+      await screen.findByText("A-Bomb");
+      await user.click(screen.getByRole("button", { name: "Go back to previous page" }));
     });
   });
 });

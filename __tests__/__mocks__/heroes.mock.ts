@@ -183,7 +183,7 @@ export const mockHeroes: Hero[] = [
   },
 ];
 
-export const mockHeroeOne: Hero = mockHeroes[0]!;
-export const mockHeroeTwo: Hero = mockHeroes[1]!;
-export const mockHeroeThree: Hero = mockHeroes[2]!;
-export const mockHeroeFour: Hero = mockHeroes[3]!;
+export const mockHeroOne: Hero = mockHeroes[0]!;
+export const mockHeroTwo: Hero = mockHeroes[1]!;
+export const mockHeroThree: Hero = mockHeroes[2]!;
+export const mockHeroFour: Hero = mockHeroes[3]!;

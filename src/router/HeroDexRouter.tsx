@@ -15,7 +15,7 @@ import { PrivateRoute } from "@/router/PrivateRoute";
 
 import { useCheckAuth } from "@/hooks/useCheckAuth";
 
-export const HeroesRouter = (): JSX.Element => {
+export const HeroDexRouter = (): JSX.Element => {
   const logged = useCheckAuth();
 
   if (logged === "checking") return <CheckingAuth></CheckingAuth>;
