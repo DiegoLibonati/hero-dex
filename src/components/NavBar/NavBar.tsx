@@ -31,7 +31,7 @@ const NavBar = (): JSX.Element => {
     <header className="header-wrapper">
       <div className="header-wrapper__content">
         <Link to="/home" aria-label="Go to home page" className="header-wrapper__title">
-          HeroDex
+          Hero Dex
         </Link>
         <button
           type="button"

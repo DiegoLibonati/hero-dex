@@ -1,7 +1,7 @@
 {
-  "name": "HeroDex",
-  "short_name": "HeroDex",
-  "description": "HeroDex is a superhero encyclopedia web application that lets you browse, filter, and explore hundreds of characters from the most iconic comic book publishers — Marvel Comics, DC Comics, Dark Horse Comics, and more.",
+  "name": "Hero Dex",
+  "short_name": "Hero Dex",
+  "description": "Hero Dex is a superhero encyclopedia web application that lets you browse, filter, and explore hundreds of characters from the most iconic comic book publishers — Marvel Comics, DC Comics, Dark Horse Comics, and more.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

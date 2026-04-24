@@ -42,9 +42,9 @@ const renderComponent = (overrides: Partial<AuthState> = {}): RenderResult =>
 
 describe("NavBar", () => {
   describe("rendering", () => {
-    it("should render the HeroDex title link", () => {
+    it("should render the Hero Dex title link", () => {
       renderComponent();
-      expect(screen.getByText("HeroDex")).toBeInTheDocument();
+      expect(screen.getByText("Hero Dex")).toBeInTheDocument();
     });
 
     it("should render the toggle navigation button", () => {

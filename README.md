@@ -1,4 +1,4 @@
-# HeroDex
+# Hero Dex
 
 ## Educational Purpose
 
@@ -17,11 +17,11 @@ The application will open automatically at `http://localhost:3000`
 
 ## Description
 
-**HeroDex** is a superhero encyclopedia web application that lets you browse, filter, and explore hundreds of characters from the most iconic comic book publishers — Marvel Comics, DC Comics, Dark Horse Comics, and more.
+**Hero Dex** is a superhero encyclopedia web application that lets you browse, filter, and explore hundreds of characters from the most iconic comic book publishers — Marvel Comics, DC Comics, Dark Horse Comics, and more.
 
 ### Authentication
 
-Before accessing any hero content, users must authenticate. HeroDex supports two sign-in methods: email and password, and Google Sign-In via Firebase Authentication. New users can create an account through the registration form. Once authenticated, the session is persisted so users are not required to log in again on every visit. If authentication fails for any reason, an error alert appears automatically and dismisses itself after a few seconds without any user interaction.
+Before accessing any hero content, users must authenticate. Hero Dex supports two sign-in methods: email and password, and Google Sign-In via Firebase Authentication. New users can create an account through the registration form. Once authenticated, the session is persisted so users are not required to log in again on every visit. If authentication fails for any reason, an error alert appears automatically and dismisses itself after a few seconds without any user interaction.
 
 ### Home — Browse by Publisher
 
