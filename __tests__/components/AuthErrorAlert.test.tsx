@@ -34,12 +34,12 @@ describe("AuthErrorAlert", () => {
   describe("rendering", () => {
     it("should render without the open modifier class when there is no error message", () => {
       const { container } = renderComponent();
-      expect(container.querySelector(".alert-login--open")).not.toBeInTheDocument();
+      expect(container.querySelector<HTMLDivElement>(".alert-login--open")).not.toBeInTheDocument();
     });
 
     it("should render with the open modifier class when there is an error message", () => {
       const { container } = renderComponent("Something went wrong");
-      expect(container.querySelector(".alert-login--open")).toBeInTheDocument();
+      expect(container.querySelector<HTMLDivElement>(".alert-login--open")).toBeInTheDocument();
     });
 
     it("should display the error message text", () => {
@@ -49,7 +49,7 @@ describe("AuthErrorAlert", () => {
 
     it("should not display text when there is no error message", () => {
       const { container } = renderComponent();
-      expect(container.querySelector(".alert-login")?.textContent).toBe("");
+      expect(container.querySelector<HTMLDivElement>(".alert-login")?.textContent).toBe("");
     });
   });
 

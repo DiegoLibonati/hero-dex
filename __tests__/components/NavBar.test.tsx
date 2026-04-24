@@ -87,7 +87,7 @@ describe("NavBar", () => {
     it("should open the sidebar when the toggle button is clicked", async () => {
       const user = userEvent.setup();
       const { container } = renderComponent();
-      const nav = container.querySelector(".header-wrapper__nav");
+      const nav = container.querySelector<HTMLElement>(".header-wrapper__nav");
       expect(nav).not.toHaveClass("header-wrapper__nav--open");
       await user.click(screen.getByRole("button", { name: "Toggle navigation menu" }));
       expect(nav).toHaveClass("header-wrapper__nav--open");
@@ -97,7 +97,7 @@ describe("NavBar", () => {
       const user = userEvent.setup();
       const { container } = renderComponent();
       const toggle = screen.getByRole("button", { name: "Toggle navigation menu" });
-      const nav = container.querySelector(".header-wrapper__nav");
+      const nav = container.querySelector<HTMLElement>(".header-wrapper__nav");
       await user.click(toggle);
       await user.click(toggle);
       expect(nav).not.toHaveClass("header-wrapper__nav--open");

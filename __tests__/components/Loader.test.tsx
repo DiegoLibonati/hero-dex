@@ -10,12 +10,14 @@ describe("Loader", () => {
   describe("rendering", () => {
     it("should render the loader wrapper", () => {
       const { container } = renderComponent();
-      expect(container.querySelector(".loader-wrapper")).toBeInTheDocument();
+      expect(container.querySelector<HTMLDivElement>(".loader-wrapper")).toBeInTheDocument();
     });
 
     it("should render the ellipsis animation element", () => {
       const { container } = renderComponent();
-      expect(container.querySelector(".loader-wrapper__lds-ellipsis")).toBeInTheDocument();
+      expect(
+        container.querySelector<HTMLDivElement>(".loader-wrapper__lds-ellipsis")
+      ).toBeInTheDocument();
     });
   });
 });
