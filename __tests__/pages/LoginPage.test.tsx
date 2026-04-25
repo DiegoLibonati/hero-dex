@@ -13,6 +13,8 @@ import { AuthContext } from "@/contexts/AuthContext/AuthContext";
 import { loginWithEmailPassword, signInWithGoogle } from "@/firebase/providers";
 
 const mockAuthDispatch = jest.fn();
+const mockLoginWithEmailPassword = jest.mocked(loginWithEmailPassword);
+const mockSignInWithGoogle = jest.mocked(signInWithGoogle);
 
 jest.mock("@/firebase/providers", () => ({
   loginWithEmailPassword: jest.fn(),
@@ -95,7 +97,7 @@ describe("LoginPage", () => {
   describe("behavior", () => {
     it("should call loginWithEmailPassword with the entered credentials on submit", async () => {
       const user = userEvent.setup();
-      (loginWithEmailPassword as jest.Mock).mockResolvedValue({
+      mockLoginWithEmailPassword.mockResolvedValue({
         ok: true,
         uid: "uid-1",
         displayName: "Test User",
@@ -107,13 +109,13 @@ describe("LoginPage", () => {
       await user.type(screen.getByPlaceholderText("Enter your password..."), "password123");
       await user.click(screen.getByRole("button", { name: "Sign in with email and password" }));
       await waitFor(() => {
-        expect(loginWithEmailPassword).toHaveBeenCalledWith("test@test.com", "password123");
+        expect(mockLoginWithEmailPassword).toHaveBeenCalledWith("test@test.com", "password123");
       });
     });
 
     it("should dispatch AUTH_LOGIN on successful login", async () => {
       const user = userEvent.setup();
-      (loginWithEmailPassword as jest.Mock).mockResolvedValue({
+      mockLoginWithEmailPassword.mockResolvedValue({
         ok: true,
         uid: "uid-1",
         displayName: "Test User",
@@ -133,9 +135,10 @@ describe("LoginPage", () => {
 
     it("should dispatch AUTH_LOGOUT when login fails", async () => {
       const user = userEvent.setup();
-      (loginWithEmailPassword as jest.Mock).mockResolvedValue({
+      mockLoginWithEmailPassword.mockResolvedValue({
         ok: false,
         errorMessage: "Invalid credentials",
+        errorCode: "",
       });
       renderPage();
       await user.type(screen.getByPlaceholderText("Enter your email..."), "test@test.com");
@@ -150,7 +153,7 @@ describe("LoginPage", () => {
 
     it("should call signInWithGoogle when the Google button is clicked", async () => {
       const user = userEvent.setup();
-      (signInWithGoogle as jest.Mock).mockResolvedValue({
+      mockSignInWithGoogle.mockResolvedValue({
         ok: true,
         uid: "uid-google",
         displayName: "Google User",
@@ -160,7 +163,7 @@ describe("LoginPage", () => {
       renderPage();
       await user.click(screen.getByRole("button", { name: "Sign in with Google" }));
       await waitFor(() => {
-        expect(signInWithGoogle).toHaveBeenCalledTimes(1);
+        expect(mockSignInWithGoogle).toHaveBeenCalledTimes(1);
       });
     });
 

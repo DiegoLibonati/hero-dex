@@ -12,7 +12,7 @@ import heroService from "@/services/heroService";
 
 import { mockHeroes } from "@tests/__mocks__/heroes.mock";
 
-const mockGetAll = heroService.getAll as jest.Mock;
+const mockGetAll = jest.mocked(heroService.getAll);
 
 jest.mock("@/services/heroService", () => ({
   __esModule: true,
@@ -23,14 +23,14 @@ jest.mock("@/services/heroService", () => ({
 
 const renderPage = (heroId = "1"): RenderResult =>
   render(
-    <HeroesProvider>
-      <MemoryRouter initialEntries={[`/hero/${heroId}`]}>
+    <MemoryRouter initialEntries={[`/hero/${heroId}`]}>
+      <HeroesProvider>
         <Routes>
           <Route path="/hero/:heroId" element={<HeroPage />} />
           <Route path="/home" element={<div>Home Page</div>} />
         </Routes>
-      </MemoryRouter>
-    </HeroesProvider>
+      </HeroesProvider>
+    </MemoryRouter>
   );
 
 describe("HeroPage", () => {

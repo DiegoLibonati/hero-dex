@@ -12,6 +12,7 @@ import { AuthContext } from "@/contexts/AuthContext/AuthContext";
 import { registerUserWithEmail } from "@/firebase/providers";
 
 const mockAuthDispatch = jest.fn();
+const mockRegisterUserWithEmail = jest.mocked(registerUserWithEmail);
 
 jest.mock("@/firebase/providers", () => ({
   registerUserWithEmail: jest.fn(),
@@ -63,7 +64,7 @@ describe("RegisterPage", () => {
   describe("behavior", () => {
     it("should call registerUserWithEmail with the entered credentials on submit", async () => {
       const user = userEvent.setup();
-      (registerUserWithEmail as jest.Mock).mockResolvedValue({
+      mockRegisterUserWithEmail.mockResolvedValue({
         ok: true,
         uid: "uid-1",
         displayName: "newuser",
@@ -76,13 +77,17 @@ describe("RegisterPage", () => {
       await user.type(screen.getByPlaceholderText("Enter one password..."), "pass1234");
       await user.click(screen.getByRole("button", { name: "Create account" }));
       await waitFor(() => {
-        expect(registerUserWithEmail).toHaveBeenCalledWith("new@test.com", "pass1234", "newuser");
+        expect(mockRegisterUserWithEmail).toHaveBeenCalledWith(
+          "new@test.com",
+          "pass1234",
+          "newuser"
+        );
       });
     });
 
     it("should dispatch AUTH_LOGIN on successful registration", async () => {
       const user = userEvent.setup();
-      (registerUserWithEmail as jest.Mock).mockResolvedValue({
+      mockRegisterUserWithEmail.mockResolvedValue({
         ok: true,
         uid: "uid-1",
         displayName: "newuser",
@@ -103,9 +108,10 @@ describe("RegisterPage", () => {
 
     it("should dispatch AUTH_LOGOUT when registration fails", async () => {
       const user = userEvent.setup();
-      (registerUserWithEmail as jest.Mock).mockResolvedValue({
+      mockRegisterUserWithEmail.mockResolvedValue({
         ok: false,
         errorMessage: "Email already in use",
+        errorCode: "",
       });
       renderPage();
       await user.type(screen.getByPlaceholderText("Enter one username..."), "newuser");
@@ -125,7 +131,7 @@ describe("RegisterPage", () => {
       await user.type(screen.getByPlaceholderText("Enter one username..."), "newuser");
       await user.click(screen.getByRole("button", { name: "Create account" }));
       await waitFor(() => {
-        expect(registerUserWithEmail).not.toHaveBeenCalled();
+        expect(mockRegisterUserWithEmail).not.toHaveBeenCalled();
       });
     });
   });

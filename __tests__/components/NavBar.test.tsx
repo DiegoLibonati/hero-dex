@@ -13,6 +13,7 @@ import { AuthContext } from "@/contexts/AuthContext/AuthContext";
 import { logoutFirebase } from "@/firebase/providers";
 
 const mockAuthDispatch = jest.fn();
+const mockLogoutFirebase = jest.mocked(logoutFirebase);
 
 jest.mock("@/firebase/providers", () => ({
   logoutFirebase: jest.fn(),
@@ -105,17 +106,17 @@ describe("NavBar", () => {
 
     it("should call logoutFirebase when the logout button is clicked", async () => {
       const user = userEvent.setup();
-      (logoutFirebase as jest.Mock).mockResolvedValue(undefined);
+      mockLogoutFirebase.mockResolvedValue(undefined);
       renderComponent();
       await user.click(screen.getByRole("button", { name: "Log out" }));
       await waitFor(() => {
-        expect(logoutFirebase).toHaveBeenCalledTimes(1);
+        expect(mockLogoutFirebase).toHaveBeenCalledTimes(1);
       });
     });
 
     it("should dispatch AUTH_LOGOUT after logout", async () => {
       const user = userEvent.setup();
-      (logoutFirebase as jest.Mock).mockResolvedValue(undefined);
+      mockLogoutFirebase.mockResolvedValue(undefined);
       renderComponent();
       await user.click(screen.getByRole("button", { name: "Log out" }));
       await waitFor(() => {
