@@ -7,10 +7,10 @@ import { apiHeroes } from "@/services/axios";
 const heroService = {
   getAll: async (): Promise<Hero[]> => {
     try {
-      const request = await apiHeroes.get("/api/all.json", {
+      const request = await apiHeroes.get<Hero[]>("/api/all.json", {
         method: "GET",
       });
-      return request.data as Hero[];
+      return request.data;
     } catch (e) {
       if (axios.isAxiosError(e)) {
         throw new Error(`HTTP error! status: ${e.response?.status} - ${e.message}`);
