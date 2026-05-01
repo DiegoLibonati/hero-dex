@@ -1,13 +1,14 @@
 import axios from "axios";
 
 import type { Hero } from "@/types/app";
+import type { ResponseDirect } from "@/types/responses";
 
 import { apiHeroes } from "@/services/axios";
 
 const heroService = {
-  getAll: async (): Promise<Hero[]> => {
+  getAll: async (): Promise<ResponseDirect<Hero[]>> => {
     try {
-      const request = await apiHeroes.get<Hero[]>("/api/all.json", {
+      const request = await apiHeroes.get<ResponseDirect<Hero[]>>("/api/all.json", {
         method: "GET",
       });
       return request.data;
