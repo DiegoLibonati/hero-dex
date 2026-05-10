@@ -6,18 +6,11 @@ This project was created primarily for **educational and learning purposes**.
 While it is well-structured and could technically be used in production, it is **not intended for commercialization**.  
 The main goal is to explore and demonstrate best practices, patterns, and technologies in software development.
 
-## Getting Started
-
-1. Clone the repository
-2. Navigate to the project folder
-3. Execute: `npm install`
-4. Execute: `npm run dev`
-
-The application will open automatically at `http://localhost:3000`
-
 ## Description
 
 **Hero Dex** is a superhero encyclopedia web application that lets you browse, filter, and explore hundreds of characters from the most iconic comic book publishers — Marvel Comics, DC Comics, Dark Horse Comics, and more.
+
+The application is structured around an authenticated experience with a roster browser, a free-text search, and per-hero detail pages. The following subsections describe each user-facing flow.
 
 ### Authentication
 
@@ -59,6 +52,8 @@ A persistent navigation bar is available across all authenticated pages. It prov
 6. Firebase
 
 ## Libraries used
+
+The full list of runtime and development dependencies is split below into two blocks, matching the `dependencies` and `devDependencies` entries in `package.json`.
 
 #### Dependencies
 
@@ -103,11 +98,21 @@ A persistent navigation bar is available across all authenticated pages. It prov
 "vite": "^7.1.6"
 ```
 
-## Portfolio Link
+## Getting Started
 
-[`https://www.diegolibonati.com.ar/#/project/hero-dex`](https://www.diegolibonati.com.ar/#/project/hero-dex)
+With the stack above in mind, follow these steps to run the application locally:
+
+1. Clone the repository
+2. Navigate to the project folder
+3. Copy `.env.example` to `.env` and fill in real values (the app will not start without them)
+4. Execute: `npm install`
+5. Execute: `npm run dev`
+
+The application will open automatically at `http://localhost:3000`.
 
 ## Testing
+
+Once the project is running locally, you can execute the test suite at any time.
 
 1. Navigate to the project folder
 2. Execute: `npm test`
@@ -118,7 +123,9 @@ For coverage report:
 npm run test:coverage
 ```
 
-## Security
+## Security Audit
+
+Beyond functional tests, the project ships with two health-check tools to keep dependencies and code quality under control.
 
 ### npm audit
 
@@ -145,3 +152,7 @@ npm run doctor -- --verbose
 ## Known Issues
 
 None at the moment.
+
+## Portfolio link
+
+[`https://www.diegolibonati.com.ar/#/project/hero-dex`](https://www.diegolibonati.com.ar/#/project/hero-dex)
