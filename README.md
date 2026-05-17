@@ -91,10 +91,12 @@ The full list of runtime and development dependencies is split below into two bl
 "jest": "^30.3.0"
 "jest-environment-jsdom": "^30.3.0"
 "lint-staged": "^15.0.0"
+"msw": "2.10.4"
 "prettier": "^3.0.0"
 "ts-jest": "^29.4.6"
 "typescript": "^5.2.2"
 "typescript-eslint": "^8.0.0"
+"undici": "^7.25.0"
 "vite": "^7.1.6"
 ```
 
@@ -121,6 +123,52 @@ For coverage report:
 
 ```bash
 npm run test:coverage
+```
+
+## Continuous Integration
+
+The repository ships with a **GitHub Actions** pipeline defined in [`.github/workflows/ci.yml`](.github/workflows/ci.yml). It runs automatically on every `push` and `pull_request` targeting the `main` branch. The three jobs run sequentially: each one is gated on the previous one succeeding, so a lint failure stops the pipeline before tests run, and a test failure stops it before the production build.
+
+### Pipeline overview
+
+```
+                      ┌─── PR or push to main ───┐
+                      ▼                          ▼
+┌──────────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+│   lint-and-audit     │─▶│     testing      │─▶│      build       │
+│  eslint · tsc check  │  │   jest (jsdom)   │  │  tsc + vite build│
+└──────────────────────┘  └──────────────────┘  └──────────────────┘
+```
+
+### Validation jobs (run on every PR and push)
+
+1. **`lint-and-audit`** — installs dependencies with `npm ci`, runs `npm run lint` (ESLint over `src`) and `npm run type-check` (`tsc -p tsconfig.app.json --noEmit`).
+2. **`testing`** — depends on `lint-and-audit`. Installs dependencies and runs `npm run test`, which executes the full Jest suite (with MSW-mocked network requests) under the `jsdom` environment.
+3. **`build`** — depends on `testing`. Installs dependencies and runs `npm run build`, which type-checks the app (`tsc -p tsconfig.app.json`) and then produces the production Vite bundle into `dist/`.
+
+All three jobs run on `ubuntu-latest`, use the Node version declared in [`.nvmrc`](.nvmrc), and rely on `actions/setup-node`'s `cache: npm` for faster reinstalls between runs.
+
+### Where the build outputs live
+
+| Output                                    | Location                     |
+| ----------------------------------------- | ---------------------------- |
+| Validation logs (lint, type-check, tests) | **Actions** tab on GitHub    |
+| Vite production bundle (`dist/`)          | Ephemeral, inside the runner |
+
+> **Note:** This pipeline only validates the project — it does not publish artifacts or create releases. The `dist/` output produced by the `build` job lives inside the runner and is discarded once the workflow finishes.
+
+### Running the same checks locally
+
+```bash
+# lint-and-audit
+npm run lint
+npm run type-check
+
+# testing
+npm run test
+
+# build
+npm run build
 ```
 
 ## Security Audit

@@ -1,62 +1,62 @@
-import { AxiosError } from "axios";
+import { http, HttpResponse } from "msw";
 
-import { apiHeroes } from "@/services/axios";
 import heroService from "@/services/heroService";
 
 import { mockHeroes } from "@tests/__mocks__/heroes.mock";
-
-const mockGet = jest.mocked(apiHeroes.get);
-
-jest.mock("@/services/axios", () => ({
-  apiHeroes: {
-    get: jest.fn(),
-  },
-}));
-
-const mockAxiosSuccess = (data: unknown): void => {
-  mockGet.mockResolvedValue({ data } as Awaited<ReturnType<typeof apiHeroes.get>>);
-};
-
-const mockAxiosError = (status: number, message: string): void => {
-  mockGet.mockRejectedValue(Object.assign(new AxiosError(message), { response: { status } }));
-};
-
-const mockAxiosNetworkError = (message = "Network error"): void => {
-  mockGet.mockRejectedValue(new Error(message));
-};
+import { mockMswServer } from "@tests/__mocks__/mswServer.mock";
 
 describe("heroService", () => {
   describe("getAll", () => {
     describe("when the request succeeds", () => {
       it("should return an array of heroes", async () => {
-        mockAxiosSuccess(mockHeroes);
         const result = await heroService.getAll();
+
         expect(result).toEqual(mockHeroes);
       });
 
-      it("should call apiHeroes.get with the correct endpoint", async () => {
-        mockAxiosSuccess(mockHeroes);
-        await heroService.getAll();
-        expect(mockGet).toHaveBeenCalledWith("/api/all.json", { method: "GET" });
+      it("should return the same shape as the API payload", async () => {
+        const result = await heroService.getAll();
+
+        expect(Array.isArray(result)).toBe(true);
+        expect(result[0]).toHaveProperty("id");
+        expect(result[0]).toHaveProperty("name");
+        expect(result[0]).toHaveProperty("biography");
       });
     });
 
-    describe("when an axios error occurs", () => {
-      it("should throw an error with the HTTP status and message", async () => {
-        mockAxiosError(500, "Request failed with status code 500");
+    describe("when the API responds with a 500 error", () => {
+      it("should throw an error containing the HTTP status", async () => {
+        mockMswServer.use(
+          http.get("/superhero-api/api/all.json", () => {
+            return new HttpResponse(null, { status: 500 });
+          })
+        );
+
         await expect(heroService.getAll()).rejects.toThrow("HTTP error! status: 500");
       });
+    });
 
-      it("should throw an error containing the axios error message", async () => {
-        mockAxiosError(404, "Not found");
-        await expect(heroService.getAll()).rejects.toThrow("HTTP error! status: 404 - Not found");
+    describe("when the API responds with a 404 error", () => {
+      it("should throw an error containing the HTTP status", async () => {
+        mockMswServer.use(
+          http.get("/superhero-api/api/all.json", () => {
+            return new HttpResponse(null, { status: 404 });
+          })
+        );
+
+        await expect(heroService.getAll()).rejects.toThrow("HTTP error! status: 404");
       });
     });
 
-    describe("when a non-axios error occurs", () => {
-      it("should propagate the original error", async () => {
-        mockAxiosNetworkError("Unexpected failure");
-        await expect(heroService.getAll()).rejects.toThrow("Unexpected failure");
+    describe("when the network request fails", () => {
+      it("should throw an error", async () => {
+        mockMswServer.use(
+          http.get("/superhero-api/api/all.json", () => {
+            return HttpResponse.error();
+          })
+        );
+
+        await expect(heroService.getAll()).rejects.toThrow();
       });
     });
   });
